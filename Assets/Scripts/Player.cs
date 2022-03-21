@@ -28,6 +28,7 @@ public class Player : Entity
         if(Input.GetKeyDown(KeyCode.L))
         {
             Debug.Log("Skip day");
+            // SkipDay()
         }
     }
 }
