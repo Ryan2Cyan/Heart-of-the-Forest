@@ -5,7 +5,7 @@ using TDG.Entity;
 
 public class GameState : MonoBehaviour
 {
-    [SerializeField] private int amountOfEnemies;
+    [SerializeField] private List<Enemy> amountOfEnemies;
     [SerializeField] private Vector3[] enemyPositions;
     [SerializeField] private Vector3[] shopPositions;
     [SerializeField] private int currentWave;
@@ -14,7 +14,7 @@ public class GameState : MonoBehaviour
 
     [SerializeField] private GameObject directionalLight;
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject enemy;
+    [SerializeField] private Enemy enemy;
     [SerializeField] private Transform playerSpawn;
 
     // Start is called before the first frame update
@@ -51,11 +51,9 @@ public class GameState : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            Instantiate(enemy, new Vector3(playerSpawn.position.x + Random.Range(2.0f, 10.0f), playerSpawn.position.y, playerSpawn.position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
+            Instantiate(enemy.gameObject, new Vector3(playerSpawn.position.x + Random.Range(2.0f, 10.0f), playerSpawn.position.y, playerSpawn.position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
+            amountOfEnemies.Add(enemy);
         }
-
-
-        amountOfEnemies++;
     }
 
     public void StartGame()
