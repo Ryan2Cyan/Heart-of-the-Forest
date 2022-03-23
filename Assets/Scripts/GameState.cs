@@ -11,7 +11,6 @@ public class GameState : MonoBehaviour
     [SerializeField] private int currentTime;
 
     [SerializeField] private Light directionalLight;
-    [SerializeField] private LightingPreset preset;
 
     [SerializeField, Range(0, 24)] private float timeOfDay;
 
@@ -40,10 +39,6 @@ public class GameState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(preset == null)
-        {
-            return;
-        }
 
         if(Application.isPlaying)
         {
