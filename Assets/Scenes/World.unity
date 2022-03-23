@@ -868,13 +868,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3778ce9a25fb3244f817a704b613e70e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfEnemies: []
+  listOfEnemies: []
   enemyPositions: []
   shopPositions: []
   currentWave: 0
   currentTime: 0
   directionalLight: {fileID: 0}
-  player: {fileID: 4076707113889138099, guid: 6bdaae8931987a44093a8f642fa04337, type: 3}
+  player: {fileID: 399890604973108643, guid: 6bdaae8931987a44093a8f642fa04337, type: 3}
   enemy: {fileID: 151747853, guid: d1b7611c67711904fb25e0b746b2709d, type: 3}
   playerSpawn: {fileID: 1678152191}
 --- !u!4 &1925036735

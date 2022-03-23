@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using TDG.Entity;
 
-
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
     public NavMeshAgent enemy;
     public Transform player;
