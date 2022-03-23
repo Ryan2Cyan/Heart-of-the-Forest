@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> listOfEnemies;
+    [SerializeField] private List<Enemy> listOfEnemies;
     [SerializeField] private List<Vector3> enemyPositions;
     [SerializeField] private Vector3[] shopPositions;
     [SerializeField] private int currentWave;
     [SerializeField] private int currentTime;
 
-    [SerializeField] private float dayTime = 20.0f;
-    [SerializeField] private float nightTime = 50.0f;
+    [SerializeField] private Light directionalLight;
+    [SerializeField] private LightingPreset preset;
 
+    [SerializeField, Range(0, 24)] private float timeOfDay;
 
-
-    [SerializeField] private GameObject directionalLight;
     [SerializeField] private Player player;
     [SerializeField] private Enemy enemy;
     [SerializeField] private NPC npc;
@@ -36,28 +35,21 @@ public class GameState : MonoBehaviour
 
         // Start game
         StartGame();
-
-
-        // Find the directional light gameobject which we use for the sun and cache it
-        directionalLight = GameObject.Find("Directional Light");
-        if (!directionalLight)
-        {
-            Debug.Log("Couldn't find light in scene");
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if(directionalLight.transform.rotation.x >= 0.98f)
+        if(preset == null)
         {
-            Debug.Log("Nighttime reached");
+            return;
         }
-        else
+
+        if(Application.isPlaying)
         {
-            directionalLight.transform.Rotate(new Vector3(0.1f, 0.0f, 0.0f));
-            //Debug.Log(directionalLight.transform.rotation.x);
+            timeOfDay += Time.deltaTime;
+            timeOfDay %= 24; // Clamp between 0-24
+            UpdateLighting(timeOfDay/24f);
         }
     }
 
@@ -80,7 +72,7 @@ public class GameState : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             // Create a new enemy as a gameobject and instantiate it at a random position using the playerSpawn gameobject
-            GameObject newEnemy = Instantiate(enemy.gameObject, new Vector3(playerSpawn.position.x + Random.Range(2.0f, 10.0f), playerSpawn.position.y, playerSpawn.position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
+            Enemy newEnemy = Instantiate(enemy, new Vector3(playerSpawn.position.x + Random.Range(2.0f, 10.0f), playerSpawn.position.y, playerSpawn.position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
             // Add new enemy to the list of enemies
             listOfEnemies.Add(newEnemy);
             // Using the list of enemies, add their position to the enemy position list
@@ -104,6 +96,49 @@ public class GameState : MonoBehaviour
         if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 50, 100, 50), "Instantiate!"))
         {
             Instantiate(enemy.gameObject, new Vector3(playerSpawn.position.x + Random.Range(2.0f, 10.0f), playerSpawn.position.y, playerSpawn.position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
+        }
+    }
+
+    // This function just checks to see if there's a direcitonal light
+    // If there is no light, it will find the first
+    // directional light and use that
+    private void OnValidate()
+    {
+        if (directionalLight != null)
+        {
+            return;
+        }
+
+        if(RenderSettings.sun!=null)
+        {
+            directionalLight = RenderSettings.sun;
+        }
+        else
+        {
+            Light[] lights = GameObject.FindObjectsOfType<Light>();
+            foreach(Light light in lights)
+            {
+                if(light.type == LightType.Directional)
+                {
+                    directionalLight = light;
+                    return;
+                }
+            }
+        }
+    }
+
+    private void UpdateLighting(float timePercent)
+    {
+        //RenderSettings.ambientLight = preset.AmbientColor.Evaluate(timePercent);
+        // RenderSettings.fogColor = preset.FogColor.Evaluate(timePercent);
+
+        if (directionalLight != null)
+        {
+            {
+                //directionalLight.color = preset.DirectionalColor.Evaluate(timePercent);
+
+                directionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
+            }
         }
     }
 }
