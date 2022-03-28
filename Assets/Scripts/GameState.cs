@@ -6,7 +6,7 @@ public class GameState : MonoBehaviour
 {
     [SerializeField] private List<Enemy> listOfEnemies;
     [SerializeField] private List<Vector3> enemyPositions;
-    [SerializeField] private Vector3[] shopPositions;
+    [SerializeField] private List<Vector3> shopPositions;
     [SerializeField] private int currentWave;
     [SerializeField] private int currentTime;
 
@@ -57,8 +57,8 @@ public class GameState : MonoBehaviour
 
     public void SpawnNPCs()
     {
-        // Instantiate a new player gameobject at the transform-position of the playerspawn gameobject
-        //Instantiate(npc.gameObject, new Vector3(playerSpawn.position.x, playerSpawn.position.y, playerSpawn.position.z), Quaternion.identity);
+        // Instantiate a new npc gameobject at the transform-position of the playerspawn gameobject
+        // Instantiate(npc.gameObject, new Vector3(playerSpawn.position.x, playerSpawn.position.y, playerSpawn.position.z), Quaternion.identity);
     }
 
     public void SpawnEnemies()
@@ -86,6 +86,7 @@ public class GameState : MonoBehaviour
     }
 
 
+    // Currently redundant: just an example button for instantiating new enemies in random positions
     void OnGUI()
     {
         if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 50, 100, 50), "Instantiate!"))
@@ -124,14 +125,10 @@ public class GameState : MonoBehaviour
 
     private void UpdateLighting(float timePercent)
     {
-        //RenderSettings.ambientLight = preset.AmbientColor.Evaluate(timePercent);
-        // RenderSettings.fogColor = preset.FogColor.Evaluate(timePercent);
-
         if (directionalLight != null)
         {
             {
-                //directionalLight.color = preset.DirectionalColor.Evaluate(timePercent);
-
+                // Rotate the directional light to simulate the sun revolving
                 directionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
             }
         }
