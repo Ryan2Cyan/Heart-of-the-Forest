@@ -8,6 +8,8 @@ using System;
 public class Player : Entity
 {
     private float experience;
+    private float expRequiredForLevelUp;
+
     [SerializeField] private Material highlightMaterial;
     [SerializeField] private Slider slider;
 
@@ -18,7 +20,9 @@ public class Player : Entity
         maxHealth = 100;
         currentHealth = maxHealth;
         movementSpeed = 5.0f;
+        experience = 0.0f;
         level = 0;
+        expRequiredForLevelUp = 20.0f;
         classType = "Warrior";
         weapon = new Weapon();
         inventory = new Inventory();
@@ -39,7 +43,21 @@ public class Player : Entity
 
         HighLightInteractables();
 
-        TakeDamage();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(10);
+            slider.value = currentHealth;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack();
+        }
+
+        if (experience > expRequiredForLevelUp)
+        {
+            LevelUp();
+        }
     }
 
     // Currently test code to highlight shopkeeps later
@@ -60,18 +78,15 @@ public class Player : Entity
         Debug.DrawRay(transform.position + new Vector3(0, 1, 0), ray.direction * hit.distance, Color.yellow);
     }
 
-    private void TakeDamage()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            currentHealth -= 10;
-            UpdateHealthBar();
-        }
-    }
-
     private void UpdateHealthBar()
     {
         slider.value = currentHealth;
+    }
+
+    private void LevelUp()
+    {
+        level += 1;
+        expRequiredForLevelUp += expRequiredForLevelUp + 20.0f;
     }
 
 }

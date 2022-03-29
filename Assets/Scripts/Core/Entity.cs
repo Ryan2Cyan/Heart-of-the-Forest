@@ -17,15 +17,20 @@ namespace TDG.Entity
 
         public virtual void Attack()
         {
-
+            Debug.Log(entityName + " tried to attack!");
         }
         public virtual void Move()
         {
 
         }
-        public virtual void Die()
+        public virtual void OnDeath()
         {
+            Destroy(gameObject);
+        }
 
+        public virtual void TakeDamage(int damage)
+        {
+            currentHealth -= damage;
         }
     }
 }
