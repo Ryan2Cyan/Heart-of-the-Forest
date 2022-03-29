@@ -12,7 +12,7 @@ public class Player : Entity
 
     [SerializeField] private Material highlightMaterial;
     [SerializeField] private Slider slider;
-    [SerializeField] private Canvas canvas;
+    [SerializeField] private Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +27,8 @@ public class Player : Entity
         classType = "Warrior";
         weapon = new Weapon();
         inventory = new Inventory();
+
+        animator = gameObject.GetComponentInChildren<Animator>();
 
         slider = GameObject.Find("Health bar").GetComponent<Slider>();
         slider.value = maxHealth;
@@ -46,12 +48,13 @@ public class Player : Entity
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TakeDamage(10);
-            slider.value = currentHealth;
+            UpdateHealthBar();
         }
 
         if (Input.GetMouseButtonDown(0))
         {
             Attack();
+            
         }
 
         if (experience > expRequiredForLevelUp)
@@ -92,6 +95,21 @@ public class Player : Entity
     {
         level += 1;
         expRequiredForLevelUp += expRequiredForLevelUp + 20.0f;
+    }
+
+    public override void Attack()
+    {
+        Debug.Log(entityName + " tried to attack!");
+
+        StartCoroutine(AttackCooldown());
+
+    }
+
+    IEnumerator AttackCooldown()
+    {
+        animator.SetBool("AttackWithSword", true);
+        yield return new WaitForSeconds(0.2f);
+        animator.SetBool("AttackWithSword", false);
     }
 
     public override void OnDeath() 
