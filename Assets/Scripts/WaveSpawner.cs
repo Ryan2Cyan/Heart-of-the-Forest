@@ -24,7 +24,7 @@ public class WaveSpawner : MonoBehaviour
     void Update()
     {
         // Check if the time of day is night
-        if(gameStateScript.GetTimeOfDay() >= 12)
+        if(gameStateScript.isDay)
         {
            if(!spawned)
            {
