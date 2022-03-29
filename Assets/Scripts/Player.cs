@@ -12,6 +12,7 @@ public class Player : Entity
 
     [SerializeField] private Material highlightMaterial;
     [SerializeField] private Slider slider;
+    [SerializeField] private Canvas canvas;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,6 @@ public class Player : Entity
 
         slider = GameObject.Find("Health bar").GetComponent<Slider>();
         slider.value = maxHealth;
-        
     }
 
     // Update is called once per frame
@@ -57,6 +57,11 @@ public class Player : Entity
         if (experience > expRequiredForLevelUp)
         {
             LevelUp();
+        }
+
+        if (currentHealth <= 0)
+        {
+            OnDeath();
         }
     }
 
@@ -89,4 +94,11 @@ public class Player : Entity
         expRequiredForLevelUp += expRequiredForLevelUp + 20.0f;
     }
 
+    public override void OnDeath() 
+    {
+        Debug.Log("ded");
+
+        // Find deathcanvas and activate it
+        gameObject.transform.GetChild(1).gameObject.SetActive(true);
+    }
 }
