@@ -39,7 +39,7 @@ public class Player : Entity
     {
         Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, ray.direction, out hit))
+        if(Physics.Raycast(transform.position + new Vector3(0,1,0), ray.direction, out hit))
         {
             var selection = hit.transform;
             var selectionRenderer = selection.GetComponent<Renderer>();
@@ -49,6 +49,6 @@ public class Player : Entity
             }
         }
 
-        Debug.DrawRay(transform.position, ray.direction * hit.distance, Color.yellow);
+        Debug.DrawRay(transform.position + new Vector3(0, 1, 0), ray.direction * hit.distance, Color.yellow);
     }
 }
