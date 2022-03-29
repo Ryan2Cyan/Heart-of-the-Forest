@@ -24,8 +24,8 @@ public class Player : Entity
         inventory = new Inventory();
 
         slider = GameObject.Find("Health bar").GetComponent<Slider>();
-
         slider.value = maxHealth;
+        
     }
 
     // Update is called once per frame
