@@ -43,7 +43,7 @@ public class Player : Entity
         {
             var selection = hit.transform;
             var selectionRenderer = selection.GetComponent<Renderer>();
-            if( selectionRenderer != null)
+            if( selectionRenderer != null && hit.collider.gameObject.tag == "Selectable")
             {
                 selectionRenderer.material = highlightMaterial;
             }
