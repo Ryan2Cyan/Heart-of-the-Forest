@@ -27,6 +27,6 @@ public class Enemy : Entity
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("In range of player, launch attack script here and change to idle animation");
+        Debug.Log("In range of player, launch attack script here and change to attack animation");
     }
 }

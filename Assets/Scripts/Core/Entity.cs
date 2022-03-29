@@ -7,7 +7,8 @@ namespace TDG.Entity
     public abstract class Entity : MonoBehaviour
     {
         [SerializeField] protected string entityName;
-        [SerializeField] protected int health;
+        [SerializeField] protected int currentHealth;
+        [SerializeField] protected int maxHealth;
         [SerializeField] protected float movementSpeed;
         [SerializeField] protected int level;
         [SerializeField] protected string classType;
