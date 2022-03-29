@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameState : MonoBehaviour
 {
@@ -7,79 +10,73 @@ public class GameState : MonoBehaviour
     [SerializeField] private List<Vector3> shopPositions;
     [SerializeField] private int currentWave;
     [SerializeField] private int currentTime;
-
+    [SerializeField] private int totalEnemies;
+    
     [SerializeField] private Light directionalLight;
 
     [SerializeField, Range(0, 24)] private float timeOfDay;
+    [SerializeField] private bool isDay;
 
     [SerializeField] private Player player;
     [SerializeField] private Enemy enemy;
     [SerializeField] private NPC npc;
     [SerializeField] private Transform playerSpawn;
 
-    // Start is called before the first frame update
-    void Start()
+   
+    private void Start()
     {
+        totalEnemies = 3;
+        isDay = false;
 
-        // Very first thing is to load the players in
-        LoadPlayers();
-
-        // Second spawn NPCs
-        SpawnNPCs();
-
-        // Spawn enemies - probably to be changed later
-        SpawnEnemies();
-
-        // Start game
+        LoadPlayers(player.transform);
+        SpawnEnemies(totalEnemies, player.transform, ref listOfEnemies);
+        
         StartGame();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-        if(Application.isPlaying)
+    private void Update()
+    {
+        if (Application.isPlaying)
         {
-            timeOfDay += Time.deltaTime;
-            timeOfDay %= 24; // Clamp between 0-24
-            UpdateLighting(timeOfDay/24f);
+            UpdateLighting(isDay, ref directionalLight);
         }
     }
 
-    public void LoadPlayers()
+    
+    private static void LoadPlayers(Transform arg)
     {
-
-        // Instantiate a new player gameobject at the transform-position of the playerspawn gameobject
-        Instantiate(player.gameObject, new Vector3(playerSpawn.position.x, playerSpawn.position.y, playerSpawn.position.z), Quaternion.identity);
+        var position = arg.position;
+        Instantiate(arg.gameObject, new Vector3(position.x, position.y, position.z), Quaternion.identity);
     }
 
-    public void SpawnNPCs()
+    private void SpawnNpcs(Transform arg)
     {
-        // Instantiate a new npc gameobject at the transform-position of the playerspawn gameobject
-        // Instantiate(npc.gameObject, new Vector3(playerSpawn.position.x, playerSpawn.position.y, playerSpawn.position.z), Quaternion.identity);
+        var position = arg.position;
+        Instantiate(npc.gameObject, new Vector3(position.x, position.y, position.z), Quaternion.identity);
     }
 
-    public void SpawnEnemies()
+    // Spawn specified amount of enemies, add to enemies list:
+    private void SpawnEnemies(int numOfEnemies, Transform spawnPoint, ref List<Enemy> enemyList)
     {
-        // Spawn three enemies for a test
-        for (int i = 0; i < 3; i++)
+        for (var i = 0; i < numOfEnemies; i++)
         {
-            // Create a new enemy as a gameobject and instantiate it at a random position using the playerSpawn gameobject
-            Enemy newEnemy = Instantiate(enemy, new Vector3(playerSpawn.position.x + Random.Range(2.0f, 10.0f), playerSpawn.position.y, playerSpawn.position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
-            // Add new enemy to the list of enemies
-            listOfEnemies.Add(newEnemy);
-            // Using the list of enemies, add their position to the enemy position list
-            enemyPositions.Add(listOfEnemies[i].transform.position);
+            // TODO: Implement enemy spawning system (potentially at defined positions or in a circle around the map:
+            var position = spawnPoint.position;
+            var newEnemy = Instantiate(enemy, new Vector3(position.x + Random.Range(2.0f, 10.0f), 
+                position.y, position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
+          
+            enemyList.Add(newEnemy);
+            enemyPositions.Add(enemyList[i].transform.position);
         }
     }
-
-    public void StartGame()
+    
+    private void StartGame()
     {
-        // Test to display amount of enemies and their positions
         Debug.Log("Enemy position count: " + listOfEnemies.Count);
-        for (int i = 0; i < listOfEnemies.Count; i++)
+        for (var i = 0; i < listOfEnemies.Count; i++)
         {
-            Debug.Log("Enemy position 1: " + enemyPositions[i]);
+            Debug.Log("Enemy position" + i + ": " + enemyPositions[i]);
         }
     }
 
@@ -89,46 +86,27 @@ public class GameState : MonoBehaviour
     {
         if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 50, 100, 50), "Instantiate!"))
         {
-            Instantiate(enemy.gameObject, new Vector3(playerSpawn.position.x + Random.Range(2.0f, 10.0f), playerSpawn.position.y, playerSpawn.position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
+            var position = playerSpawn.position;
+            Instantiate(enemy.gameObject, new Vector3(position.x + Random.Range(2.0f, 10.0f), 
+                position.y, position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
         }
     }
-
-    // This function just checks to see if there's a direcitonal light
-    // If there is no light, it will find the first
-    // directional light and use that
-    private void OnValidate()
+    
+    
+    // Check if light is valid - if true: set time based on bool:
+    private static void UpdateLighting(bool isDayArg, ref Light lightArg)
     {
-        if (directionalLight != null)
+        if (!lightArg)
         {
-            return;
+            lightArg = RenderSettings.sun;
+            if(!lightArg) throw new Exception("Could not instantiate directional Light");
         }
-
-        if(RenderSettings.sun!=null)
-        {
-            directionalLight = RenderSettings.sun;
-        }
-        else
-        {
-            Light[] lights = GameObject.FindObjectsOfType<Light>();
-            foreach(Light light in lights)
-            {
-                if(light.type == LightType.Directional)
-                {
-                    directionalLight = light;
-                    return;
-                }
-            }
-        }
-    }
-
-    private void UpdateLighting(float timePercent)
-    {
-        if (directionalLight != null)
-        {
-            {
-                // Rotate the directional light to simulate the sun revolving
-                directionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
-            }
-        }
+        // Change time of day based on bool:
+        var timeArg = (isDayArg ? 13.0f : 0.0f) / 24f;
+        
+        // Rotate the directional light:
+        lightArg.transform.localRotation = Quaternion.Euler
+            (new Vector3((timeArg * 360f) - 90f, 170f, 0));
+         
     }
 }
