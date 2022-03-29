@@ -8,8 +8,6 @@ namespace TDG.Entity
     {
         [SerializeField] protected string entityName;
         [SerializeField] protected int health;
-        [SerializeField] protected bool playableCharacter;
-        [SerializeField] protected bool friendlyCharacter;
         [SerializeField] protected float movementSpeed;
         [SerializeField] protected int level;
         [SerializeField] protected string classType;

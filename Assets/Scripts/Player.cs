@@ -12,8 +12,6 @@ public class Player : Entity
     {
         entityName = "Jargleblarg The Great";
         health = 100;
-        playableCharacter = true;
-        friendlyCharacter = true;
         movementSpeed = 5.0f;
         level = 0;
         classType = "Warrior";
