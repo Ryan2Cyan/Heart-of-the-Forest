@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TDG.Entity;
+using System;
 
 public class Player : Entity
 {
     private float experience;
+    [SerializeField] private Material highlightMaterial;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +29,24 @@ public class Player : Entity
         {
             Debug.Log("Skip day");
             // SkipDay()
+        }
+
+        HighLightInteractables();
+    }
+
+    // Currently test code to highlight shopkeeps later
+    private void HighLightInteractables()
+    {
+        var ray = GetComponentInChildren<Camera>().ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit))
+        {
+            var selection = hit.transform;
+            var selectionRenderer = selection.GetComponent<Renderer>();
+            if( selectionRenderer != null)
+            {
+                selectionRenderer.material = highlightMaterial;
+            }
         }
     }
 }

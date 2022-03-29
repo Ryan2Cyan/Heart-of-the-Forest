@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq; // this is used for finding the last element of a List
 
 public class GameState : MonoBehaviour
 {
@@ -11,13 +12,13 @@ public class GameState : MonoBehaviour
     [SerializeField] private int currentTime;
 
     [SerializeField] private Light directionalLight;
-
     [SerializeField, Range(0, 24)] private float timeOfDay;
 
     [SerializeField] private Player player;
+    [SerializeField] private Transform playerSpawn;
     [SerializeField] private Enemy enemy;
     [SerializeField] private NPC npc;
-    [SerializeField] private Transform playerSpawn;
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,11 +30,10 @@ public class GameState : MonoBehaviour
         // Second spawn NPCs
         SpawnNPCs();
 
-        // Spawn enemies - probably to be changed later
-        SpawnEnemies();
-
         // Start game
         StartGame();
+
+        timeOfDay = 10f;
     }
 
     // Update is called once per frame
@@ -42,6 +42,7 @@ public class GameState : MonoBehaviour
 
         if(Application.isPlaying)
         {
+            
             timeOfDay += Time.deltaTime;
             timeOfDay %= 24; // Clamp between 0-24
             UpdateLighting(timeOfDay/24f);
@@ -61,20 +62,6 @@ public class GameState : MonoBehaviour
         //Instantiate(npc.gameObject, new Vector3(playerSpawn.position.x, playerSpawn.position.y, playerSpawn.position.z), Quaternion.identity);
     }
 
-    public void SpawnEnemies()
-    {
-        // Spawn three enemies for a test
-        for (int i = 0; i < 3; i++)
-        {
-            // Create a new enemy as a gameobject and instantiate it at a random position using the playerSpawn gameobject
-            Enemy newEnemy = Instantiate(enemy, new Vector3(playerSpawn.position.x + Random.Range(2.0f, 10.0f), playerSpawn.position.y, playerSpawn.position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
-            // Add new enemy to the list of enemies
-            listOfEnemies.Add(newEnemy);
-            // Using the list of enemies, add their position to the enemy position list
-            enemyPositions.Add(listOfEnemies[i].transform.position);
-        }
-    }
-
     public void StartGame()
     {
         // Test to display amount of enemies and their positions
@@ -85,16 +72,7 @@ public class GameState : MonoBehaviour
         }
     }
 
-
-    void OnGUI()
-    {
-        if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 50, 100, 50), "Instantiate!"))
-        {
-            Instantiate(enemy.gameObject, new Vector3(playerSpawn.position.x + Random.Range(2.0f, 10.0f), playerSpawn.position.y, playerSpawn.position.z + Random.Range(2.0f, 10.0f)), Quaternion.identity);
-        }
-    }
-
-    // This function just checks to see if there's a direcitonal light
+    // This function just checks to see if there's a directional light
     // If there is no light, it will find the first
     // directional light and use that
     private void OnValidate()
@@ -124,16 +102,33 @@ public class GameState : MonoBehaviour
 
     private void UpdateLighting(float timePercent)
     {
-        //RenderSettings.ambientLight = preset.AmbientColor.Evaluate(timePercent);
-        // RenderSettings.fogColor = preset.FogColor.Evaluate(timePercent);
-
         if (directionalLight != null)
         {
             {
-                //directionalLight.color = preset.DirectionalColor.Evaluate(timePercent);
-
+                // Rotate light at the % of the current time of day
                 directionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
             }
         }
     }
+
+    public float GetTimeOfDay()
+    {
+        return timeOfDay;
+    }
+
+    public void AddEnemy(Enemy newEnemy)
+    {
+        // Add new enemy to the list of enemies
+        listOfEnemies.Add(newEnemy);
+        // Using the list of enemies, add their position to the enemy position list
+        enemyPositions.Add(newEnemy.transform.position);
+
+        //Debug.Log(enemyPositions.Last());
+    }
+
+    public void RemoveEnemy(Enemy newEnemy)
+    {
+
+    }
+
 }

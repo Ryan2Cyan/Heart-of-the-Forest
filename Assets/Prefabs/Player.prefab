@@ -446,3 +446,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3457c2c091efe498e8d6877bb699f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityName: 
+  health: 0
+  movementSpeed: 0
+  level: 0
+  classType: 
+  weapon: {fileID: 0}
+  inventory: {fileID: 0}
+  highlightMaterial: {fileID: 2100000, guid: ffba8bc734e1e1c4c85956b436739b3e, type: 2}

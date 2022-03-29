@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 23258112}
   - component: {fileID: 23258111}
   - component: {fileID: 23258110}
+  - component: {fileID: 23258113}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -206,6 +207,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!45 &23258113
+Skybox:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23258109}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 0}
 --- !u!1 &532081580
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +231,7 @@ GameObject:
   - component: {fileID: 532081582}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -334,7 +344,7 @@ GameObject:
   - component: {fileID: 751830075}
   m_Layer: 0
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -524,7 +534,7 @@ GameObject:
   - component: {fileID: 1122350645}
   m_Layer: 0
   m_Name: Cube (3)
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -940,7 +950,6 @@ MonoBehaviour:
   currentWave: 0
   currentTime: 0
   directionalLight: {fileID: 1532066804}
-  preset: {fileID: 11400000, guid: 32db4d9a05d904c43af367ef9df50325, type: 2}
   timeOfDay: 0
   player: {fileID: 399890604973108643, guid: 6bdaae8931987a44093a8f642fa04337, type: 3}
   enemy: {fileID: 151747853, guid: d1b7611c67711904fb25e0b746b2709d, type: 3}
