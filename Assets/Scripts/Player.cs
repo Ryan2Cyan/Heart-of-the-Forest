@@ -37,9 +37,9 @@ public class Player : Entity
     // Currently test code to highlight shopkeeps later
     private void HighLightInteractables()
     {
-        var ray = GetComponentInChildren<Camera>().ScreenPointToRay(Input.mousePosition);
+        Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit))
+        if(Physics.Raycast(transform.position, ray.direction, out hit))
         {
             var selection = hit.transform;
             var selectionRenderer = selection.GetComponent<Renderer>();
@@ -48,5 +48,7 @@ public class Player : Entity
                 selectionRenderer.material = highlightMaterial;
             }
         }
+
+        Debug.DrawRay(transform.position, ray.direction * hit.distance, Color.yellow);
     }
 }
