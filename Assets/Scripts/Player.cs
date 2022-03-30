@@ -103,7 +103,7 @@ public class Player : Entity
     public override void Attack()
     {
         Debug.Log(entityName + " tried to attack!");
-        weapon.src.PlayOneShot(weapon.clip);
+       
         StartCoroutine(AttackCooldown());
 
     }
@@ -111,6 +111,7 @@ public class Player : Entity
     IEnumerator AttackCooldown()
     {
         animator.SetBool("AttackWithSword", true);
+        weapon.src.PlayOneShot(weapon.clip);
         yield return new WaitForSeconds(0.2f);
         animator.SetBool("AttackWithSword", false);
     }
