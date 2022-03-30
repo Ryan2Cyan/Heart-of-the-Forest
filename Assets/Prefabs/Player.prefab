@@ -46,6 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8fb8eb012dbd2429dc0d263dc01b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  src: {fileID: 4076707113891994707}
+  clip: {fileID: 8300000, guid: 43e9f05f1f627d34ab43b1794ec9fcef, type: 3}
 --- !u!95 &1298135930
 Animator:
   serializedVersion: 3
@@ -559,7 +562,7 @@ MonoBehaviour:
   movementSpeed: 0
   level: 0
   classType: 
-  weapon: {fileID: 0}
+  weapon: {fileID: 1298135929}
   inventory: {fileID: 0}
   highlightMaterial: {fileID: 2100000, guid: ffba8bc734e1e1c4c85956b436739b3e, type: 2}
   slider: {fileID: 0}

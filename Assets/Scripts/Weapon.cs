@@ -7,6 +7,9 @@ public class Weapon : Item
 {
     private string weaponType;
     private int attackSpeed;
+    public int damage;
+    public AudioSource src;
+    public AudioClip clip;
 
     private void UpgradeWeapon()
     {

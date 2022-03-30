@@ -25,8 +25,6 @@ public class Player : Entity
         level = 0;
         expRequiredForLevelUp = 20.0f;
         classType = "Warrior";
-        weapon = new Weapon();
-        inventory = new Inventory();
 
         animator = gameObject.GetComponentInChildren<Animator>();
 
@@ -48,7 +46,6 @@ public class Player : Entity
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TakeDamage(10);
-            UpdateHealthBar();
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -66,6 +63,12 @@ public class Player : Entity
         {
             OnDeath();
         }
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        UpdateHealthBar();
     }
 
     // Currently test code to highlight shopkeeps later
@@ -100,7 +103,7 @@ public class Player : Entity
     public override void Attack()
     {
         Debug.Log(entityName + " tried to attack!");
-
+        weapon.src.PlayOneShot(weapon.clip);
         StartCoroutine(AttackCooldown());
 
     }
@@ -114,8 +117,6 @@ public class Player : Entity
 
     public override void OnDeath() 
     {
-        Debug.Log("ded");
-
         // Find deathcanvas and activate it
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
     }
