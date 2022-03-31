@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1298135928}
   - component: {fileID: 1298135929}
   - component: {fileID: 1298135930}
+  - component: {fileID: 6295185376558093506}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -46,7 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8fb8eb012dbd2429dc0d263dc01b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  weaponType: 
+  attackSpeed: 0.3
+  damage: 10
   src: {fileID: 4076707113891994707}
   clip: {fileID: 8300000, guid: 43e9f05f1f627d34ab43b1794ec9fcef, type: 3}
 --- !u!95 &1298135930
@@ -68,6 +71,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &6295185376558093506
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298135927}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: -1, z: 1}
 --- !u!1 &1597399823
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +562,7 @@ MonoBehaviour:
   classType: 
   weapon: {fileID: 1298135929}
   inventory: {fileID: 0}
+  gameState: {fileID: 0}
   highlightMaterial: {fileID: 2100000, guid: ffba8bc734e1e1c4c85956b436739b3e, type: 2}
   slider: {fileID: 0}
   animator: {fileID: 0}

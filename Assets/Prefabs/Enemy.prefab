@@ -142,7 +142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8fb8eb012dbd2429dc0d263dc01b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  weaponType: 
+  attackSpeed: 0
+  damage: 2
+  src: {fileID: 0}
+  clip: {fileID: 0}
 --- !u!95 &8078782242934650196
 Animator:
   serializedVersion: 3
@@ -275,7 +279,7 @@ GameObject:
   - component: {fileID: 135728804679788404}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

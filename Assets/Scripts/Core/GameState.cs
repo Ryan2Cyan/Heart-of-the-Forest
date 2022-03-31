@@ -26,13 +26,11 @@ public class GameState : MonoBehaviour
    
     private void Start()
     {
-        isDay = false;
+        isDay = true;
 
         LoadPlayers(player.transform);
 
         StartGame();
-
-        timeOfDay = 10f;
     }
 
 
@@ -105,6 +103,18 @@ public class GameState : MonoBehaviour
     public void RemoveEnemy(Enemy newEnemy)
     {
 
+    }
+
+    public void SetTime(string time)
+    {
+        if(time == "Day")
+        {
+            isDay = true;
+        }
+        if(time == "Night")
+        {
+            isDay = false;
+        }
     }
 
 }

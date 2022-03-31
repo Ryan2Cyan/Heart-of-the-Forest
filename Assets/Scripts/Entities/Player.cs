@@ -7,6 +7,8 @@ using System;
 
 public class Player : Entity
 {
+    [SerializeField] GameState gameState;
+
     private float experience;
     private float expRequiredForLevelUp;
 
@@ -25,11 +27,14 @@ public class Player : Entity
         level = 0;
         expRequiredForLevelUp = 20.0f;
         classType = "Warrior";
+        weapon.attackSpeed = 0.3f;
 
         animator = gameObject.GetComponentInChildren<Animator>();
 
         slider = GameObject.Find("Health bar").GetComponent<Slider>();
         slider.value = maxHealth;
+
+        gameState = FindObjectOfType<GameState>();
     }
 
     // Update is called once per frame
@@ -37,8 +42,8 @@ public class Player : Entity
     {
         if(Input.GetKeyDown(KeyCode.L))
         {
-            Debug.Log("Skip day");
-            // SkipDay()
+            // Not sure why this doesn't work
+            gameState.SetTime("Night");
         }
 
         HighLightInteractables();
@@ -51,7 +56,6 @@ public class Player : Entity
         if (Input.GetMouseButtonDown(0))
         {
             Attack();
-            
         }
 
         if (experience > expRequiredForLevelUp)
@@ -103,22 +107,28 @@ public class Player : Entity
     public override void Attack()
     {
         Debug.Log(entityName + " tried to attack!");
-       
         StartCoroutine(AttackCooldown());
-
     }
 
     IEnumerator AttackCooldown()
     {
         animator.SetBool("AttackWithSword", true);
         weapon.src.PlayOneShot(weapon.clip);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(weapon.attackSpeed);
         animator.SetBool("AttackWithSword", false);
     }
 
     public override void OnDeath() 
     {
-        // Find deathcanvas and activate it
+        // Find deathcanvas and activate it - probably do some extra death stuff here later
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (animator.GetBool("AttackWithSword") == true && other.tag == "Enemy")
+        {
+            Debug.Log("Deal enemy damage here");
+        }
     }
 }
