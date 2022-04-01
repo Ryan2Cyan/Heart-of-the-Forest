@@ -17,7 +17,7 @@ public class WaveSpawner : MonoBehaviour
     {
         gameStateScript = FindObjectOfType<GameState>();
 
-        amountOfEnemiesToSpawn = 1;
+        amountOfEnemiesToSpawn = 10;
     }
 
     // Update is called once per frame
