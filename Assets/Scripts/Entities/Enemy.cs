@@ -12,6 +12,12 @@ public class Enemy : Entity
     // Start is called before the first frame update
     void Start()
     {
+        entityName = "Goblin";
+        maxHealth = 10;
+        currentHealth = maxHealth;
+        movementSpeed = 5.0f;
+        classType = "gawblin";
+        weapon.attackSpeed = 0.3f;
 
         SphereCollider sphereCollider = this.GetComponent<SphereCollider>();
 
@@ -24,6 +30,11 @@ public class Enemy : Entity
     void Update()
     {
         enemy.SetDestination(player.transform.position);
+
+        if(currentHealth <= 0)
+        {
+            OnDeath();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -36,4 +47,5 @@ public class Enemy : Entity
         Debug.Log(entityName + " tried to attack!");
         player.GetComponent<Player>().TakeDamage(weapon.damage);
     }
+
 }

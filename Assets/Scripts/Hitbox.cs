@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Hitbox : MonoBehaviour
 {
+    [SerializeField] Weapon weapon;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Enemy")
         {
-            Debug.Log(other + "Was hit");
+            other.GetComponent<Enemy>().TakeDamage(10);
         }
     }
 }

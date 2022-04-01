@@ -65,6 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c7714d78bb648489149337f27f76c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weapon: {fileID: 1298135929}
 --- !u!95 &1298135930
 Animator:
   serializedVersion: 3

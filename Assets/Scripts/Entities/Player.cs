@@ -131,4 +131,6 @@ public class Player : Entity
         // Find deathcanvas and activate it - probably do some extra death stuff here later
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
     }
+
+    
 }
