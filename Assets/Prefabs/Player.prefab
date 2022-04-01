@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1298135928}
   - component: {fileID: 1298135929}
+  - component: {fileID: 1290370277040362420}
   - component: {fileID: 1298135930}
   - component: {fileID: 6295185376558093506}
   m_Layer: 0
@@ -52,6 +53,18 @@ MonoBehaviour:
   damage: 10
   src: {fileID: 4076707113891994707}
   clip: {fileID: 8300000, guid: 43e9f05f1f627d34ab43b1794ec9fcef, type: 3}
+--- !u!114 &1290370277040362420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298135927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c7714d78bb648489149337f27f76c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &1298135930
 Animator:
   serializedVersion: 3
@@ -79,7 +92,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298135927}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 2}
@@ -566,6 +579,8 @@ MonoBehaviour:
   highlightMaterial: {fileID: 2100000, guid: ffba8bc734e1e1c4c85956b436739b3e, type: 2}
   slider: {fileID: 0}
   animator: {fileID: 0}
+  boxCollider: {fileID: 6295185376558093506}
+  attacking: 0
 --- !u!143 &4076707113885249651
 CharacterController:
   m_ObjectHideFlags: 0

@@ -16,6 +16,9 @@ public class Player : Entity
     [SerializeField] private Slider slider;
     [SerializeField] private Animator animator;
 
+    [SerializeField] private BoxCollider boxCollider;
+    [SerializeField] private bool attacking;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -113,22 +116,19 @@ public class Player : Entity
     IEnumerator AttackCooldown()
     {
         animator.SetBool("AttackWithSword", true);
+
+        boxCollider.enabled = true;
+
         weapon.src.PlayOneShot(weapon.clip);
         yield return new WaitForSeconds(weapon.attackSpeed);
         animator.SetBool("AttackWithSword", false);
+
+        boxCollider.enabled = false;
     }
 
     public override void OnDeath() 
     {
         // Find deathcanvas and activate it - probably do some extra death stuff here later
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (animator.GetBool("AttackWithSword") == true && other.tag == "Enemy")
-        {
-            Debug.Log("Deal enemy damage here");
-        }
     }
 }
