@@ -5,16 +5,17 @@ using TDG.Items;
 
 public class Inventory : MonoBehaviour
 {
-    private Item[] items;
+    [SerializeField] private List<Item> items;
     private string itemType;
-
-    public Item GetItem(Item item)
+    //Dictionary<string, Item> itemNamesToItem = inventoryx.Player.items.ToDictionary(i => i.itemName, i => i);
+    public Item GetItem(string item)
     {
-        return item;
+        Item test = GetComponent<Item>();
+        return test;
     }
 
-    public Item PutItem(Item item)
+    public void InsertItem(Item item)
     {
-        return item;
+        items.Add(item);
     }
 }

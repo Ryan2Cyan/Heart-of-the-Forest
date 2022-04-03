@@ -48,4 +48,6 @@ public class Enemy : Entity
         player.GetComponent<Player>().TakeDamage(weapon.damage);
     }
 
+
+
 }

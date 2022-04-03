@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TDG.Entity;
+using TDG.Items;
 using System;
 
 public class Player : Entity
@@ -65,6 +66,7 @@ public class Player : Entity
         {
             OnDeath();
         }
+
     }
 
     public override void TakeDamage(int damage)
@@ -82,13 +84,30 @@ public class Player : Entity
         {
             var selection = hit.transform;
             var selectionRenderer = selection.GetComponent<Renderer>();
-            if( selectionRenderer != null && hit.collider.gameObject.tag == "Selectable")
+            if (selectionRenderer != null && hit.collider.gameObject.tag == "Selectable")
             {
                 selectionRenderer.material = highlightMaterial;
             }
-        }
 
+
+            // If a ray is hitting and highlighting something, and the player presses E
+            // then if the interactable is a shopkeep, open the shop inventory
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (hit.collider.gameObject.tag == "Selectable")
+                {
+                    Shopkeep shopInteract = hit.collider.gameObject.GetComponent<Shopkeep>();
+                }
+            }
+
+        }
         Debug.DrawRay(transform.position + new Vector3(0, 1, 0), ray.direction * hit.distance, Color.yellow);
+    }
+
+    IEnumerator SelectionTimer()
+    {
+
+        yield return new WaitForEndOfFrame();
     }
 
     private void UpdateHealthBar()
