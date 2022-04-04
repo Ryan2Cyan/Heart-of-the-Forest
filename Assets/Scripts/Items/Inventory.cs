@@ -5,17 +5,39 @@ using TDG.Items;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private List<Item> items;
-    private string itemType;
-    //Dictionary<string, Item> itemNamesToItem = inventoryx.Player.items.ToDictionary(i => i.itemName, i => i);
-    public Item GetItem(string item)
+    public ItemType itemType;
+    public int maxStack = 3;
+    public int currentStack = 0;
+    public bool isFull
+
     {
-        Item test = GetComponent<Item>();
-        return test;
+        get
+        {
+            return currentStack >= maxStack;
+        }
+    }
+    public Inventory[] slots;
+
+    public void AddItem(ItemType thisType)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].itemType == ItemType.Empty)
+            {
+                slots[i].itemType = thisType;
+                slots[i].currentStack = 1;
+                return;
+            }
+            if (slots[i].itemType == thisType && !slots[i].isFull)
+            {
+                slots[i].currentStack++;
+                return;
+            }
+        }
     }
 
-    public void InsertItem(Item item)
+    public ItemType GetItemType(int slot)
     {
-        items.Add(item);
+        return slots[slot].itemType;
     }
 }

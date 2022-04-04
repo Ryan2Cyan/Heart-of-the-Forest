@@ -39,6 +39,15 @@ public class Player : Entity
         slider.value = maxHealth;
 
         gameState = FindObjectOfType<GameState>();
+
+        // Make sure inventory is referenced
+        inventory = gameObject.GetComponentInChildren<Inventory>();
+
+        inventory.AddItem(ItemType.Potion);
+
+        // This doesn't work
+        // Debug.Log("Player inv 1" + inventory.GetItemType(0));
+        
     }
 
     // Update is called once per frame

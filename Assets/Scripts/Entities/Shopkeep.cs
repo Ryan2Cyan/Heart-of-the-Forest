@@ -29,12 +29,11 @@ public class Shopkeep : NPC
         }
     }
 
-    public Item BuyItem(Item choice, int amount)
+    public ItemType BuyItem(ItemType choice, int amount)
     {
-        // fix dis
-        Item item = shopInventory.GetItem(choice.ToString());
 
-        return item;
+
+        return choice;
     }
 
 }
