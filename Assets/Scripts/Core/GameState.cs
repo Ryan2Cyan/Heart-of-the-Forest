@@ -26,14 +26,11 @@ public class GameState : MonoBehaviour
    
     private void Start()
     {
-        totalEnemies = 3;
-        isDay = false;
+        isDay = true;
 
         LoadPlayers(player.transform);
 
         StartGame();
-
-        timeOfDay = 10f;
     }
 
 
@@ -43,6 +40,8 @@ public class GameState : MonoBehaviour
         {
             UpdateLighting(isDay, ref directionalLight);
         }
+
+        totalEnemies = listOfEnemies.Count();
     }
 
     
@@ -98,12 +97,24 @@ public class GameState : MonoBehaviour
         // Using the list of enemies, add their position to the enemy position list
         enemyPositions.Add(newEnemy.transform.position);
 
-        //Debug.Log(enemyPositions.Last());
+        Debug.Log(enemyPositions.Last());
     }
 
     public void RemoveEnemy(Enemy newEnemy)
     {
 
+    }
+
+    public void SetTime(string time)
+    {
+        if(time == "Day")
+        {
+            isDay = true;
+        }
+        if(time == "Night")
+        {
+            isDay = false;
+        }
     }
 
 }

@@ -17,14 +17,14 @@ public class WaveSpawner : MonoBehaviour
     {
         gameStateScript = FindObjectOfType<GameState>();
 
-        amountOfEnemiesToSpawn = 20;
+        amountOfEnemiesToSpawn = 10;
     }
 
     // Update is called once per frame
     void Update()
     {
         // Check if the time of day is night
-        if(gameStateScript.isDay)
+        if(gameStateScript.isDay == false)
         {
            if(!spawned)
            {

@@ -5,8 +5,11 @@ using TDG.Items;
 
 public class Weapon : Item
 {
-    private string weaponType;
-    private int attackSpeed;
+    public string weaponType;
+    public float attackSpeed;
+    public int damage;
+    public AudioSource src;
+    public AudioClip clip;
 
     private void UpgradeWeapon()
     {
