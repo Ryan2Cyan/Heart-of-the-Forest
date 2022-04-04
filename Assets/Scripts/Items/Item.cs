@@ -8,21 +8,16 @@ namespace TDG.Items
     {
         private int price;
         private string effect;
-        private string itemType;
 
-        public virtual bool EquipItem(Item chosenItem)
-        {
-            return chosenItem;
-        }
+        
+    }
 
-        public virtual void DropItem()
-        {
-
-        }
-
-        public virtual string GetItemType()
-        {
-            return itemType;
-        }
+    public enum ItemType
+    {
+        Empty,
+        Potion,
+        Weapon,
+        Armour,
+        Misc,
     }
 }
