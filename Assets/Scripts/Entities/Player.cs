@@ -19,6 +19,7 @@ public class Player : Entity
 
     [SerializeField] private BoxCollider boxCollider;
     [SerializeField] private bool attacking;
+    private float inputDelay;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +33,6 @@ public class Player : Entity
         expRequiredForLevelUp = 20.0f;
         classType = "Warrior";
         weapon.attackSpeed = 0.3f;
-
         animator = gameObject.GetComponentInChildren<Animator>();
 
         slider = GameObject.Find("Health bar").GetComponent<Slider>();
@@ -44,12 +44,13 @@ public class Player : Entity
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.L))
+       
+        // Toggle night and day:
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            // Not sure why this doesn't work
-            gameState.SetTime("Night");
+            gameState.ToggleDay();
         }
-
+        
         HighLightInteractables();
 
         if (Input.GetMouseButtonDown(0))
@@ -68,7 +69,7 @@ public class Player : Entity
         }
 
     }
-
+    
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);

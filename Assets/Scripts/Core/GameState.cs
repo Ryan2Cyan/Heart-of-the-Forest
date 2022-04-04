@@ -40,7 +40,6 @@ public class GameState : MonoBehaviour
         {
             UpdateLighting(isDay, ref directionalLight);
         }
-
         totalEnemies = listOfEnemies.Count();
     }
 
@@ -48,6 +47,7 @@ public class GameState : MonoBehaviour
     private static void LoadPlayers(Transform arg)
     {
         var position = arg.position;
+        Debug.Log("Player Spawned.");
         Instantiate(arg.gameObject, new Vector3(position.x, position.y, position.z), Quaternion.identity);
     }
 
@@ -92,29 +92,18 @@ public class GameState : MonoBehaviour
 
     public void AddEnemy(Enemy newEnemy)
     {
-        // Add new enemy to the list of enemies
         listOfEnemies.Add(newEnemy);
-        // Using the list of enemies, add their position to the enemy position list
         enemyPositions.Add(newEnemy.transform.position);
-
         Debug.Log(enemyPositions.Last());
     }
 
+    public void ToggleDay()
+    {
+        isDay = !isDay;
+    }
     public void RemoveEnemy(Enemy newEnemy)
     {
 
-    }
-
-    public void SetTime(string time)
-    {
-        if(time == "Day")
-        {
-            isDay = true;
-        }
-        if(time == "Night")
-        {
-            isDay = false;
-        }
     }
 
 }
