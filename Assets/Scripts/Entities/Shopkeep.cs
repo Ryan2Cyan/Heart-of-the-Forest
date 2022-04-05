@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Items;
 using UnityEngine;
 using TDG.Entity;
-using TDG.Items;
 
 public class Shopkeep : NPC
 {

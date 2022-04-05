@@ -20,7 +20,6 @@ public class Hitbox : MonoBehaviour
 
                 FirstCollider.GetComponent<Enemy>().TakeDamage(weapon.damage);
             }
-
         }
     }
 

@@ -1,43 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
+using Items;
 using UnityEngine;
-using TDG.Items;
 
 public class Inventory : MonoBehaviour
 {
-    public ItemType itemType;
-    public int maxStack = 3;
-    public int currentStack = 0;
-    public bool isFull
+    public int maxItems = 3;
+    public List<Item> items;
 
+    public void AddItem(Item arg)
     {
-        get
+        // Check if there is space in inventory:
+        if (items.Count != maxItems)
         {
-            return currentStack >= maxStack;
+            Debug.Log("Items.Count" + items.Count);
+            items.Add(arg);
         }
-    }
-    public Inventory[] slots;
-
-    public void AddItem(ItemType thisType)
-    {
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i].itemType == ItemType.Empty)
-            {
-                slots[i].itemType = thisType;
-                slots[i].currentStack = 1;
-                return;
-            }
-            if (slots[i].itemType == thisType && !slots[i].isFull)
-            {
-                slots[i].currentStack++;
-                return;
-            }
-        }
-    }
-
-    public ItemType GetItemType(int slot)
-    {
-        return slots[slot].itemType;
     }
 }
