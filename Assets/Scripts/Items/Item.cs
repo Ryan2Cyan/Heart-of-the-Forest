@@ -3,22 +3,17 @@ using UnityEngine;
 
 namespace Items
 {
-    public class Item : MonoBehaviour
+    public class Item
     {
-        private string name;
-        private int price;
-        private ItemType type;
+        public string name { get; }
+        public int price { get; }
+        public ItemType type { get; }
         
         public Item(string name, ItemType type, int price)
         {
             this.name = name;
             this.price = price;
             this.type = type;
-        }
-        
-        public string GetName()
-        {
-            return name;
         }
     }
     
@@ -27,7 +22,6 @@ namespace Items
         Empty,
         Potion,
         Armour,
-        Weapon,
         Misc
     }
     

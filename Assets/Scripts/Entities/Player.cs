@@ -40,15 +40,6 @@ public class Player : Entity
 
         // Make sure inventory is referenced
         inventory = gameObject.GetComponentInChildren<Inventory>();
-        // var newItem = new Item("Potion", ItemType.Potion, 20);
-        // inventory.items.Add(newItem);
-        // if (inventory.items.Count != 0)
-        // {
-        //     foreach (var item in inventory.items)
-        //     {
-        //         Debug.Log(item.GetName());
-        //     }
-        // }
     }
 
     // Update is called once per frame
@@ -75,11 +66,12 @@ public class Player : Entity
             {
                 Debug.Log("NOT MAX: " + inventory.items.Count);
             }
-       
-            foreach (var item in inventory.items)
+
+            for (var i = 0; i < inventory.items.Count; i++)
             {
-                Debug.Log(potion.GetName());
+                Debug.Log("Item: [" + i + "] " + potion.name + ", " + potion.price + ", " + potion.type);
             }
+
         }
         
         HighLightInteractables();
