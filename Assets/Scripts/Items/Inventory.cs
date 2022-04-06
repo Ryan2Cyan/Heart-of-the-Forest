@@ -5,6 +5,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public int maxItems = 3;
+    public int currentItem = 0;
     public List<Item> items = new List<Item>();
 
     public void AddItem(Item arg)

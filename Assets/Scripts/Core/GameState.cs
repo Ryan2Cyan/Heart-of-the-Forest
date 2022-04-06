@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Entities;
 using Random = UnityEngine.Random;
 
 public class GameState : MonoBehaviour
@@ -101,9 +102,4 @@ public class GameState : MonoBehaviour
     {
         isDay = !isDay;
     }
-    public void RemoveEnemy(Enemy newEnemy)
-    {
-
-    }
-
 }
