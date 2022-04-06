@@ -116,6 +116,7 @@ public class Player : Entity
                     {
                         renderer.material = highlightMaterial;
                     }
+
                     hit.transform.GetComponent<Shopkeep>().SetIsSelected(true);
                 }
             }
