@@ -6,18 +6,18 @@ using Items;
 
 public class Player : Entity
 {
-    [SerializeField] GameState gameState;
+    [SerializeField] private GameState gameState;
 
-    private float experience;
-    private float expRequiredForLevelUp;
+    [SerializeField] private float experience;
+    [SerializeField] private float nextLevelExp;
 
+    private Camera fpsCamera;
+    [SerializeField] private PlayerClass playerClass;
+    [SerializeField] private Inventory inventory;
     [SerializeField] private Material highlightMaterial;
-    [SerializeField] private Slider slider;
+    [SerializeField] private Slider hpBarSlider;
     [SerializeField] private Animator animator;
-
     [SerializeField] private BoxCollider boxCollider;
-    [SerializeField] private bool attacking;
-    private float inputDelay;
 
     // Start is called before the first frame update
     private void Start()
@@ -28,14 +28,16 @@ public class Player : Entity
         movementSpeed = 5.0f;
         experience = 0.0f;
         level = 0;
-        expRequiredForLevelUp = 20.0f;
-        classType = "Warrior";
+        nextLevelExp = 20.0f;
+        fpsCamera = GetComponentInChildren<Camera>();
+        playerClass = PlayerClass.Warrior;
         weapon.attackSpeed = 0.3f;
         animator = gameObject.GetComponentInChildren<Animator>();
 
-        slider = GameObject.Find("Health bar").GetComponent<Slider>();
-        slider.value = maxHealth;
-
+        // Fetch Hp bar [this will need to be changed if we implement multiplayer]:
+        hpBarSlider = GameObject.Find("Health bar").GetComponent<Slider>();
+        hpBarSlider.value = maxHealth;
+        
         gameState = FindObjectOfType<GameState>();
 
         // Make sure inventory is referenced
@@ -45,7 +47,6 @@ public class Player : Entity
     // Update is called once per frame
     void Update()
     {
-       
         // Toggle night and day:
         if (Input.GetKeyDown(KeyCode.L))
         {
@@ -74,14 +75,14 @@ public class Player : Entity
 
         }
         
-        HighLightInteractables();
+        HighlightInteractable();
 
         if (Input.GetMouseButtonDown(0))
         {
             Attack();
         }
 
-        if (experience > expRequiredForLevelUp)
+        if (experience > nextLevelExp)
         {
             LevelUp();
         }
@@ -96,53 +97,35 @@ public class Player : Entity
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        UpdateHealthBar();
+        hpBarSlider.value = currentHealth;
     }
 
-    // Currently test code to highlight shopkeeps later
-    private void HighLightInteractables()
+    // Cast ray from player camera's direction, interactable objects hit by the ray are highlighted:
+    private void HighlightInteractable()
     {
-        Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if(Physics.Raycast(transform.position + new Vector3(0,1,0), ray.direction, out hit))
+        var ray = fpsCamera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), ray.direction, out var hit))
         {
-            var selection = hit.transform;
-            var selectionRenderer = selection.GetComponent<Renderer>();
-            if (selectionRenderer != null && hit.collider.gameObject.tag == "Selectable")
+            // Check if the object is a shop:
+            if (hit.transform.CompareTag("Selectable"))
             {
-                selectionRenderer.material = highlightMaterial;
-            }
-
-
-            // If a ray is hitting and highlighting something, and the player presses E
-            // then if the interactable is a shopkeep, open the shop inventory
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (hit.collider.gameObject.tag == "Selectable")
+                var renderer = hit.transform.GetComponent<Renderer>();
+                if (renderer != null)
                 {
-                    Shopkeep shopInteract = hit.collider.gameObject.GetComponent<Shopkeep>();
+                    if (hit.transform.GetComponent<Shopkeep>().GetIsSelected())
+                    {
+                        renderer.material = highlightMaterial;
+                    }
+                    hit.transform.GetComponent<Shopkeep>().SetIsSelected(true);
                 }
             }
-
         }
-        Debug.DrawRay(transform.position + new Vector3(0, 1, 0), ray.direction * hit.distance, Color.yellow);
-    }
-
-    IEnumerator SelectionTimer()
-    {
-
-        yield return new WaitForEndOfFrame();
-    }
-
-    private void UpdateHealthBar()
-    {
-        slider.value = currentHealth;
     }
 
     private void LevelUp()
     {
         level += 1;
-        expRequiredForLevelUp += expRequiredForLevelUp + 20.0f;
+        nextLevelExp += nextLevelExp + 20.0f;
     }
 
     public override void Attack()
@@ -166,9 +149,12 @@ public class Player : Entity
 
     public override void OnDeath() 
     {
-        // Find deathcanvas and activate it - probably do some extra death stuff here later
+        // Find death canvas and activate it - probably do some extra death stuff here later
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
     }
 
-    
+    private enum PlayerClass
+    {
+        Warrior
+    }
 }

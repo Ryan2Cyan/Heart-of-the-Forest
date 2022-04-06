@@ -1,6 +1,3 @@
-using System;
-using UnityEngine;
-
 namespace Items
 {
     public class Item
@@ -24,5 +21,4 @@ namespace Items
         Armour,
         Misc
     }
-    
 }
