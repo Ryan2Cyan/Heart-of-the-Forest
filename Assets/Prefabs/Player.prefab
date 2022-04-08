@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732359e97360e994a9b5a5fb8bb1e33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
+  maxItems: 3
+  currentItem: 0
 --- !u!1 &1298135927
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,7 +580,7 @@ GameObject:
   - component: {fileID: 8964905149284598795}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -618,15 +619,15 @@ MonoBehaviour:
   maxHealth: 0
   movementSpeed: 0
   level: 0
-  classType: 
   weapon: {fileID: 1298135929}
-  inventory: {fileID: 315658927}
   gameState: {fileID: 0}
-  highlightMaterial: {fileID: 2100000, guid: ffba8bc734e1e1c4c85956b436739b3e, type: 2}
-  slider: {fileID: 0}
+  experience: 0
+  nextLevelExp: 0
+  playerClass: 0
+  inventory: {fileID: 315658927}
+  hpBarSlider: {fileID: 0}
   animator: {fileID: 0}
   boxCollider: {fileID: 6295185376558093506}
-  attacking: 0
 --- !u!143 &4076707113885249651
 CharacterController:
   m_ObjectHideFlags: 0

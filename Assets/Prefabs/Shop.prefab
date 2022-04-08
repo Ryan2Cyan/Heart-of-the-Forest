@@ -131,7 +131,7 @@ MonoBehaviour:
   maxHealth: 0
   movementSpeed: 0
   level: 0
-  classType: 
   weapon: {fileID: 0}
-  inventory: {fileID: 0}
+  highlightMat: {fileID: 2100000, guid: ffba8bc734e1e1c4c85956b436739b3e, type: 2}
+  player: {fileID: 0}
   gameState: {fileID: 0}

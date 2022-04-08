@@ -6,60 +6,44 @@ using TDG.Entity;
 
 public class Shopkeep : NPC
 {
-    private Inventory shopInventory;
+    [SerializeField] private Material highlightMat;
     private Material defaultMat;
-    private bool accessable;
-    private bool isSelected;
-    private float selectedTime = 0.1f;
+    private Renderer renderer;
+    private bool isAccessable;
+    public Player player;
 
-    [SerializeField] GameState gameState;
+    [SerializeField] private GameState gameState;
 
     private void Start()
     {
-        accessable = true;
         gameState = FindObjectOfType<GameState>();
         defaultMat = transform.GetComponent<Renderer>().material;
+        renderer = transform.GetComponent<Renderer>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 
     private void Update()
     {
-        if (gameState.isDay)
-        {
-            accessable = true;
-        }
-        else
-        {
-            accessable = false;
-        }
+        isAccessable = SelectionCheck();
+    }
 
-        // Return to original material when unselected:
-        if (isSelected)
+    // Checks if the player is currently looking at this shop object:
+    private bool SelectionCheck()
+    {
+        if (player)
         {
-            selectedTime -= Time.deltaTime;
-            if (selectedTime <= 0.0f)
+            if (player.selectedObj.transform == transform)
             {
-                isSelected = false;
-                transform.GetComponent<Renderer>().material = defaultMat;
-                selectedTime = 0.1f;
+                renderer.material = highlightMat;
+                return true;
             }
+
+            renderer.material = defaultMat;
+            return false;
         }
-    }
 
-    public ItemType BuyItem(ItemType choice, int amount)
-    {
-
-
-        return choice;
-    }
-
-    public void SetIsSelected(bool arg)
-    {
-        isSelected = arg;
-    }
-    
-    public bool GetIsSelected()
-    {
-        return isSelected;
+        Debug.Log("Cannot find object with tag 'Player'");
+        return false;
     }
 
 }

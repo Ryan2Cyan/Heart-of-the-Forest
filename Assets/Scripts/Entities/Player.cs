@@ -12,12 +12,15 @@ public class Player : Entity
     [SerializeField] private float nextLevelExp;
 
     private Camera fpsCamera;
+    public RaycastHit selectedObj { get; private set; }
     [SerializeField] private PlayerClass playerClass;
     [SerializeField] private Inventory inventory;
-    [SerializeField] private Material highlightMaterial;
     [SerializeField] private Slider hpBarSlider;
     [SerializeField] private Animator animator;
     [SerializeField] private BoxCollider boxCollider;
+    
+    // Indexes:
+    private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
 
     // Start is called before the first frame update
     private void Start()
@@ -45,7 +48,7 @@ public class Player : Entity
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // Toggle night and day:
         if (Input.GetKeyDown(KeyCode.L))
@@ -79,7 +82,7 @@ public class Player : Entity
 
         if (Input.GetMouseButtonDown(0))
         {
-            Attack();
+            StartCoroutine(AttackCooldown());
         }
 
         if (experience > nextLevelExp)
@@ -94,6 +97,7 @@ public class Player : Entity
 
     }
     
+    // Reduces current HP:
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
@@ -106,44 +110,27 @@ public class Player : Entity
         var ray = fpsCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), ray.direction, out var hit))
         {
-            // Check if the object is a shop:
-            if (hit.transform.CompareTag("Selectable"))
-            {
-                var renderer = hit.transform.GetComponent<Renderer>();
-                if (renderer != null)
-                {
-                    if (hit.transform.GetComponent<Shopkeep>().GetIsSelected())
-                    {
-                        renderer.material = highlightMaterial;
-                    }
-
-                    hit.transform.GetComponent<Shopkeep>().SetIsSelected(true);
-                }
-            }
+            selectedObj = hit;
         }
     }
 
+    // Increase current level and EXP to next level:
     private void LevelUp()
     {
         level += 1;
         nextLevelExp += nextLevelExp + 20.0f;
     }
 
-    public override void Attack()
+    // Processes activated when attacking (including collider and animation):
+    private IEnumerator AttackCooldown()
     {
-        Debug.Log(entityName + " tried to attack!");
-        StartCoroutine(AttackCooldown());
-    }
-
-    IEnumerator AttackCooldown()
-    {
-        animator.SetBool("AttackWithSword", true);
+        animator.SetBool(AttackWithSword, true);
 
         boxCollider.enabled = true;
 
         weapon.src.PlayOneShot(weapon.clip);
         yield return new WaitForSeconds(weapon.attackSpeed);
-        animator.SetBool("AttackWithSword", false);
+        animator.SetBool(AttackWithSword, false);
 
         boxCollider.enabled = false;
     }
