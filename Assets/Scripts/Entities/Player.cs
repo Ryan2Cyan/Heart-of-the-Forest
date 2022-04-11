@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TDG.Entity;
 using Items;
@@ -12,6 +13,9 @@ public class Player : Entity
     [SerializeField] private float nextLevelExp;
 
     private Camera fpsCamera;
+    private const float attackDelay = 0.5f;
+    private float attackTimer;
+    
     public RaycastHit selectedObj { get; private set; }
     [SerializeField] private PlayerClass playerClass;
     [SerializeField] private Inventory inventory;
@@ -28,14 +32,14 @@ public class Player : Entity
         entityName = "Jargleblarg The Great";
         maxHealth = 100;
         currentHealth = maxHealth;
-        movementSpeed = 5.0f;
         experience = 0.0f;
         level = 0;
         nextLevelExp = 20.0f;
         fpsCamera = GetComponentInChildren<Camera>();
         playerClass = PlayerClass.Warrior;
-        weapon.attackSpeed = 0.3f;
+        weapon.attackSpeed = 0.05f;
         animator = gameObject.GetComponentInChildren<Animator>();
+        attackTimer = attackDelay;
 
         // Fetch Hp bar [this will need to be changed if we implement multiplayer]:
         hpBarSlider = GameObject.Find("Health bar").GetComponent<Slider>();
@@ -50,40 +54,14 @@ public class Player : Entity
     // Update is called once per frame
     private void Update()
     {
-        // Toggle night and day:
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            gameState.ToggleDay();
-        }
+        // Check if player has fallen off the world:
+        FallCheck();
         
-        // TEST: Add item to inventory:
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            var potion = new Item("Stinky Potion", ItemType.Potion, 20);
-            inventory.AddItem(potion);
-            
-            if (inventory.items.Count == inventory.maxItems)
-            {
-                Debug.Log("MAX ITEMS: " + inventory.items.Count);
-            }
-            else
-            {
-                Debug.Log("NOT MAX: " + inventory.items.Count);
-            }
-
-            for (var i = 0; i < inventory.items.Count; i++)
-            {
-                Debug.Log("Item: [" + i + "] " + potion.name + ", " + potion.price + ", " + potion.type);
-            }
-
-        }
+        // Process user input:
+        ProcessInput();
         
+        // Check what the player is currently looking at:
         HighlightInteractable();
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(AttackCooldown());
-        }
 
         if (experience > nextLevelExp)
         {
@@ -138,7 +116,51 @@ public class Player : Entity
     public override void OnDeath() 
     {
         // Find death canvas and activate it - probably do some extra death stuff here later
-        gameObject.transform.GetChild(1).gameObject.SetActive(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    
+    // Check if the player has fallen off the world:
+    private void FallCheck()
+    {
+        if(transform.position.y <= -100.0f) OnDeath();
+    }
+
+    private void ProcessInput()
+    {
+        // Toggle night and day:
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            gameState.ToggleDay();
+        }
+        
+        // Attack:
+        attackTimer -= Time.deltaTime;
+        if (Input.GetMouseButtonDown(0) && attackTimer <= 0.0f)
+        {
+            StartCoroutine(AttackCooldown());
+            attackTimer = attackDelay;
+        }
+        
+        // TEST: Add item to inventory:
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            var potion = new Item("Stinky Potion", ItemType.Potion, 20);
+            inventory.AddItem(potion);
+            
+            if (inventory.items.Count == inventory.maxItems)
+            {
+                Debug.Log("MAX ITEMS: " + inventory.items.Count);
+            }
+            else
+            {
+                Debug.Log("NOT MAX: " + inventory.items.Count);
+            }
+
+            for (var i = 0; i < inventory.items.Count; i++)
+            {
+                Debug.Log("Item: [" + i + "] " + potion.name + ", " + potion.price + ", " + potion.type);
+            }
+        }
     }
 
     private enum PlayerClass

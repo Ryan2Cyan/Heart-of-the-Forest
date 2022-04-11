@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Entities;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameState : MonoBehaviour
@@ -21,10 +22,9 @@ public class GameState : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private Transform playerSpawn;
     [SerializeField] private Enemy enemy;
-    [SerializeField] private NPC npc;
 
 
-   
+
     private void Start()
     {
         isDay = true;
@@ -52,11 +52,6 @@ public class GameState : MonoBehaviour
         Instantiate(arg.gameObject, new Vector3(position.x, position.y, position.z), Quaternion.identity);
     }
 
-    private void SpawnNpcs(Transform arg)
-    {
-        var position = arg.position;
-        Instantiate(npc.gameObject, new Vector3(position.x, position.y, position.z), Quaternion.identity);
-    }
 
     
     private void StartGame()

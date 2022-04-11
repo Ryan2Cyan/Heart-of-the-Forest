@@ -401,11 +401,9 @@ MonoBehaviour:
   maxHealth: 0
   movementSpeed: 0
   level: 0
-  classType: 
   weapon: {fileID: 6346224260226283443}
-  inventory: {fileID: 0}
   enemy: {fileID: 7416612453443439326}
-  player: {fileID: 4076707113889138099, guid: 6bdaae8931987a44093a8f642fa04337, type: 3}
+  highlightMat: {fileID: 2100000, guid: bb8001f740c72a34f89bfe1078728174, type: 2}
 --- !u!135 &135728804679788404
 SphereCollider:
   m_ObjectHideFlags: 0

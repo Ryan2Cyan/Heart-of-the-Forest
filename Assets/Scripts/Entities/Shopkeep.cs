@@ -1,19 +1,17 @@
+using TDG.Entity;
 using UnityEngine;
 
 
-public class Shopkeep : NPC
+public class Shopkeep : MonoBehaviour
 {
     [SerializeField] private Material highlightMat;
     private Material defaultMat;
     private Renderer renderer;
-    private bool isAccessable;
-    public Player player;
-
-    [SerializeField] private GameState gameState;
+    private bool isSelected;
+    private Player player;
 
     private void Start()
     {
-        gameState = FindObjectOfType<GameState>();
         defaultMat = transform.GetComponent<Renderer>().material;
         renderer = transform.GetComponent<Renderer>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -21,7 +19,7 @@ public class Shopkeep : NPC
 
     private void Update()
     {
-        isAccessable = SelectionCheck();
+        isSelected = SelectionCheck();
     }
 
     // Checks if the player is currently looking at this shop object:

@@ -10,7 +10,7 @@ public class Hitbox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Enemy")
+        if(other.CompareTag("Enemy") && other.GetComponent<Enemy>().isSelected)
         {
             if(FirstCollider == null)
             {

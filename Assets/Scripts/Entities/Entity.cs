@@ -8,14 +8,9 @@ namespace TDG.Entity
         [SerializeField] protected string entityName;
         [SerializeField] protected int currentHealth;
         [SerializeField] protected int maxHealth;
-        [SerializeField] protected float movementSpeed;
         [SerializeField] protected int level;
         [SerializeField] protected Weapon weapon;
-
-        public virtual void Attack()
-        {
-            Debug.Log(entityName + " tried to attack!");
-        }
+        
         public virtual void OnDeath()
         {
             Destroy(gameObject);
