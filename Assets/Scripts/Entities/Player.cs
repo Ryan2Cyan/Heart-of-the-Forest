@@ -13,7 +13,7 @@ public class Player : Entity
     [SerializeField] private float nextLevelExp;
 
     private Camera fpsCamera;
-    private const float attackDelay = 0.5f;
+    private const float attackDelay = 0.8f;
     private float attackTimer;
     
     public RaycastHit selectedObj { get; private set; }
@@ -37,7 +37,7 @@ public class Player : Entity
         nextLevelExp = 20.0f;
         fpsCamera = GetComponentInChildren<Camera>();
         playerClass = PlayerClass.Warrior;
-        weapon.attackSpeed = 0.05f;
+        weapon.attackSpeed = 0.5f;
         animator = gameObject.GetComponentInChildren<Animator>();
         attackTimer = attackDelay;
 
@@ -74,14 +74,21 @@ public class Player : Entity
         }
 
     }
-    
+
     // Reduces current HP:
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
         hpBarSlider.value = currentHealth;
     }
-
+    
+    // Reset the scene:
+    public override void OnDeath() 
+    {
+        // Find death canvas and activate it - probably do some extra death stuff here later
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    
     // Cast ray from player camera's direction, interactable objects hit by the ray are highlighted:
     private void HighlightInteractable()
     {
@@ -113,12 +120,6 @@ public class Player : Entity
         boxCollider.enabled = false;
     }
 
-    public override void OnDeath() 
-    {
-        // Find death canvas and activate it - probably do some extra death stuff here later
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-    
     // Check if the player has fallen off the world:
     private void FallCheck()
     {

@@ -8,20 +8,18 @@ using Random = UnityEngine.Random;
 
 public class GameState : MonoBehaviour
 {
+    
+    public bool isDay { get; private set; }
+    
     [SerializeField] private List<Enemy> listOfEnemies;
-    [SerializeField] private List<Vector3> enemyPositions;
-    [SerializeField] private List<Vector3> shopPositions;
     [SerializeField] private int currentWave;
     [SerializeField] private int currentTime;
-    [SerializeField] private int totalEnemies;
     
     [SerializeField] private Light directionalLight;
     [SerializeField, Range(0, 24)] private float timeOfDay;
-    [SerializeField] public bool isDay;
 
     [SerializeField] private Player player;
-    [SerializeField] private Transform playerSpawn;
-    [SerializeField] private Enemy enemy;
+    
 
 
 
@@ -30,8 +28,6 @@ public class GameState : MonoBehaviour
         isDay = true;
 
         LoadPlayers(player.transform);
-
-        StartGame();
     }
 
 
@@ -41,9 +37,17 @@ public class GameState : MonoBehaviour
         {
             UpdateLighting(isDay, ref directionalLight);
         }
-        totalEnemies = listOfEnemies.Count();
     }
 
+    public void AddEnemy(Enemy newEnemy)
+    {
+        listOfEnemies.Add(newEnemy);
+    }
+    
+    public void ToggleDay()
+    {
+        isDay = !isDay;
+    }
     
     private static void LoadPlayers(Transform arg)
     {
@@ -53,19 +57,7 @@ public class GameState : MonoBehaviour
     }
 
 
-    
-    private void StartGame()
-
-    {
-        Debug.Log("Enemy position count: " + listOfEnemies.Count);
-        for (var i = 0; i < listOfEnemies.Count; i++)
-        {
-            Debug.Log("Enemy position" + i + ": " + enemyPositions[i]);
-        }
-    }
-    
-    
-// Check if light is valid - if true: set time based on bool:
+    // Check if light is valid - if true: set time based on bool:
     private static void UpdateLighting(bool isDayArg, ref Light lightArg)
     {
         if (!lightArg)
@@ -79,22 +71,5 @@ public class GameState : MonoBehaviour
         // Rotate the directional light:
         lightArg.transform.localRotation = Quaternion.Euler
             (new Vector3((timeArg * 360f) - 90f, 170f, 0));
-    }
-
-    public float GetTimeOfDay()
-    {
-        return timeOfDay;
-    }
-
-    public void AddEnemy(Enemy newEnemy)
-    {
-        listOfEnemies.Add(newEnemy);
-        enemyPositions.Add(newEnemy.transform.position);
-        Debug.Log(enemyPositions.Last());
-    }
-
-    public void ToggleDay()
-    {
-        isDay = !isDay;
     }
 }

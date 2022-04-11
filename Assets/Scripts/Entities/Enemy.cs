@@ -6,16 +6,17 @@ namespace Entities
 {
     public class Enemy : Entity
     {
+        public NavMeshAgent enemyNavMesh;
+        public bool isSelected { get; private set; }
+        
         [SerializeField] private Material highlightMat;
-        public NavMeshAgent enemy;
         private GameObject player;
         private Player playerScript;
-        public bool isSelected { get; private set; }
         private  Renderer renderer;
         private Material defaultMat;
         
         
-        // Start is called before the first frame update
+
         private void Start()
         {
             entityName = "Goblin";
@@ -33,11 +34,10 @@ namespace Entities
             renderer = transform.GetComponent<Renderer>();
             defaultMat = renderer.material;
         }
-
-        // Update is called once per frame
+        
         private void Update()
         {
-            enemy.SetDestination(player.transform.position);
+            enemyNavMesh.SetDestination(player.transform.position);
 
             if(currentHealth <= 0)
             {
@@ -46,10 +46,14 @@ namespace Entities
 
             isSelected = SelectionCheck();
         }
-
+        
+        // Attack player when they enter the collider:
         private void OnTriggerEnter(Collider other)
         {
-            Attack();
+            if (other.gameObject.CompareTag("Player"))
+            {
+                Attack();
+            }
         }
 
         private void Attack()

@@ -399,10 +399,9 @@ MonoBehaviour:
   entityName: 
   currentHealth: 0
   maxHealth: 0
-  movementSpeed: 0
   level: 0
   weapon: {fileID: 6346224260226283443}
-  enemy: {fileID: 7416612453443439326}
+  enemyNavMesh: {fileID: 7416612453443439326}
   highlightMat: {fileID: 2100000, guid: bb8001f740c72a34f89bfe1078728174, type: 2}
 --- !u!135 &135728804679788404
 SphereCollider:
