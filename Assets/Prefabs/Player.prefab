@@ -617,7 +617,6 @@ MonoBehaviour:
   entityName: 
   currentHealth: 0
   maxHealth: 0
-  movementSpeed: 0
   level: 0
   weapon: {fileID: 1298135929}
   gameState: {fileID: 0}

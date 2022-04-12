@@ -6,17 +6,17 @@ namespace Items
     {
         protected string name;
         protected int price;
-        protected ItemType type;
-        public string weaponType;
+        public WeaponType weaponType;
         public float attackSpeed;
         public int damage;
         public AudioSource src;
         public AudioClip clip;
-
-        private void UpgradeWeapon()
-        {
-            //upgrade stuff here maybe
-        }
-
+    }
+    
+    public enum WeaponType
+    {
+        Empty,
+        Sword,
+        Bow
     }
 }
