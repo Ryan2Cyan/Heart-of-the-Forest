@@ -48,7 +48,7 @@ public class Player : Entity
         gameState = FindObjectOfType<GameState>();
 
         // Make sure inventory is referenced
-        inventory = gameObject.GetComponentInChildren<Inventory>();
+        inventory = new Inventory();
     }
 
     // Update is called once per frame
@@ -113,7 +113,7 @@ public class Player : Entity
 
         boxCollider.enabled = true;
 
-        weapon.src.PlayOneShot(weapon.clip);
+        weapon.src.PlayOneShot(weapon.sfx);
         yield return new WaitForSeconds(weapon.attackSpeed);
         animator.SetBool(AttackWithSword, false);
 
@@ -147,18 +147,10 @@ public class Player : Entity
         {
             var potion = new Item("Stinky Potion", ItemType.Potion, 20);
             inventory.AddItem(potion);
-            
-            if (inventory.items.Count == inventory.maxItems)
-            {
-                Debug.Log("MAX ITEMS: " + inventory.items.Count);
-            }
-            else
-            {
-                Debug.Log("NOT MAX: " + inventory.items.Count);
-            }
 
             for (var i = 0; i < inventory.items.Count; i++)
             {
+                Debug.Log("Number of Items: " + inventory.items.Count);
                 Debug.Log("Item: [" + i + "] " + potion.name + ", " + potion.price + ", " + potion.type);
             }
         }

@@ -10,7 +10,7 @@ namespace Items
         public float attackSpeed;
         public int damage;
         public AudioSource src;
-        public AudioClip clip;
+        public AudioClip sfx;
     }
     
     public enum WeaponType

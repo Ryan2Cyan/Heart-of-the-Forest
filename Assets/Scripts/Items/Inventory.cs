@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using Items;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory
 {
-    public int maxItems = 3;
+    private const int maxItems = 3;
     public int currentItem = 0;
-    public List<Item> items = new List<Item>();
+    public readonly List<Item> items = new List<Item>();
 
     public void AddItem(Item arg)
     {
