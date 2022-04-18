@@ -52,7 +52,7 @@ MonoBehaviour:
   attackSpeed: 0.3
   damage: 10
   src: {fileID: 4076707113891994707}
-  sfx: {fileID: 0}
+  sfx: {fileID: 8300000, guid: 43e9f05f1f627d34ab43b1794ec9fcef, type: 3}
 --- !u!114 &1290370277040362420
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ public class GameState : MonoBehaviour
     {
         isDay = true;
 
-        LoadPlayers(player.transform);
+        LoadPlayers(GameObject.Find("PlayerSpawn").transform);
     }
 
 
@@ -49,11 +49,12 @@ public class GameState : MonoBehaviour
         isDay = !isDay;
     }
     
-    private static void LoadPlayers(Transform arg)
+    // Spawn in a player at the given position (A gameobject transform)
+    private void LoadPlayers(Transform arg)
     {
         var position = arg.position;
         Debug.Log("Player Spawned.");
-        Instantiate(arg.gameObject, new Vector3(position.x, position.y, position.z), Quaternion.identity);
+        Instantiate(player, new Vector3(position.x, position.y, position.z), Quaternion.identity);
     }
 
 
