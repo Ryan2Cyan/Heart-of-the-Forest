@@ -8,12 +8,16 @@ public class Shopkeep : MonoBehaviour
     private Material defaultMat;
     private Renderer renderer;
     private bool isSelected;
-    private Player player;
+    [SerializeField] private Player player;
 
     private void Start()
     {
         defaultMat = transform.GetComponent<Renderer>().material;
         renderer = transform.GetComponent<Renderer>();
+
+        // NOTE
+        // Since shopkeeps will spawn before player, this won't find the player
+        // Update this later
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 

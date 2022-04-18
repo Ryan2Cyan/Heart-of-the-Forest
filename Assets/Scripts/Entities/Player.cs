@@ -8,6 +8,7 @@ using Items;
 public class Player : Entity
 {
     [SerializeField] private GameState gameState;
+    private Transform playerSpawn;
 
     [SerializeField] private float experience;
     [SerializeField] private float nextLevelExp;
@@ -49,6 +50,9 @@ public class Player : Entity
 
         // Make sure inventory is referenced
         inventory = new Inventory();
+
+        playerSpawn = GameObject.Find("PlayerSpawn").transform;
+
     }
 
     // Update is called once per frame
