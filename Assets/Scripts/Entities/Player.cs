@@ -113,13 +113,13 @@ public class Player : Entity
     private IEnumerator AttackCooldown()
     {
        
-        animator.SetBool(AttackWithSword0, true);
+        animator.SetBool(AttackWithSword, true);
 
         boxCollider.enabled = true;
 
         weapon.src.PlayOneShot(weapon.sfx);
         yield return new WaitForSeconds(weapon.attackSpeed);
-        animator.SetBool(AttackWithSword0, false);
+        animator.SetBool(AttackWithSword, false);
         boxCollider.enabled = false;
     }
 
