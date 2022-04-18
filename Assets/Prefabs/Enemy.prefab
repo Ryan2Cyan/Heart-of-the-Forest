@@ -142,11 +142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8fb8eb012dbd2429dc0d263dc01b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponType: 
+  weaponType: 0
   attackSpeed: 0
   damage: 2
   src: {fileID: 0}
-  clip: {fileID: 0}
+  sfx: {fileID: 0}
 --- !u!95 &8078782242934650196
 Animator:
   serializedVersion: 3
@@ -403,6 +403,8 @@ MonoBehaviour:
   weapon: {fileID: 6346224260226283443}
   enemyNavMesh: {fileID: 7416612453443439326}
   highlightMat: {fileID: 2100000, guid: bb8001f740c72a34f89bfe1078728174, type: 2}
+  knockBackForce: 4
+  knockBackTime: 0.25
 --- !u!135 &135728804679788404
 SphereCollider:
   m_ObjectHideFlags: 0

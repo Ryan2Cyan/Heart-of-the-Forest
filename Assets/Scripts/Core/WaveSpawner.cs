@@ -16,7 +16,7 @@ namespace Core
         {
             gameStateScript = FindObjectOfType<GameState>();
 
-            enemiesToSpawn = 10;
+            enemiesToSpawn = 20;
         }
     
         private void Update()

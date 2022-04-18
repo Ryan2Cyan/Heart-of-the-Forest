@@ -8,14 +8,14 @@ using Items;
 public class Player : Entity
 {
     [SerializeField] private GameState gameState;
-    private Transform playerSpawn;
 
     [SerializeField] private float experience;
     [SerializeField] private float nextLevelExp;
 
     private Camera fpsCamera;
-    private const float attackDelay = 0.8f;
+    private const float attackDelay = 0.6f;
     private float attackTimer;
+    private bool useAttack0 = false;
     
     public RaycastHit selectedObj { get; private set; }
     [SerializeField] private PlayerClass playerClass;
@@ -26,19 +26,20 @@ public class Player : Entity
     
     // Indexes:
     private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
+    private static readonly int AttackWithSword0 = Animator.StringToHash("AttackWithSword0");
 
     // Start is called before the first frame update
     private void Start()
     {
         entityName = "Jargleblarg The Great";
-        maxHealth = 100;
+        maxHealth = 30;
         currentHealth = maxHealth;
         experience = 0.0f;
         level = 0;
         nextLevelExp = 20.0f;
         fpsCamera = GetComponentInChildren<Camera>();
         playerClass = PlayerClass.Warrior;
-        weapon.attackSpeed = 0.5f;
+        weapon.attackSpeed = 0.6f;
         animator = gameObject.GetComponentInChildren<Animator>();
         attackTimer = attackDelay;
 
@@ -50,8 +51,6 @@ public class Player : Entity
 
         // Make sure inventory is referenced
         inventory = new Inventory();
-
-        playerSpawn = GameObject.Find("PlayerSpawn").transform;
 
     }
 
@@ -87,7 +86,7 @@ public class Player : Entity
     }
     
     // Reset the scene:
-    public override void OnDeath() 
+    protected override void OnDeath() 
     {
         // Find death canvas and activate it - probably do some extra death stuff here later
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -113,14 +112,14 @@ public class Player : Entity
     // Processes activated when attacking (including collider and animation):
     private IEnumerator AttackCooldown()
     {
-        animator.SetBool(AttackWithSword, true);
+       
+        animator.SetBool(AttackWithSword0, true);
 
         boxCollider.enabled = true;
 
         weapon.src.PlayOneShot(weapon.sfx);
         yield return new WaitForSeconds(weapon.attackSpeed);
-        animator.SetBool(AttackWithSword, false);
-
+        animator.SetBool(AttackWithSword0, false);
         boxCollider.enabled = false;
     }
 

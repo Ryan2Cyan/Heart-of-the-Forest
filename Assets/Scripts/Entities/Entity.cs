@@ -10,8 +10,8 @@ namespace TDG.Entity
         [SerializeField] protected int maxHealth;
         [SerializeField] protected int level;
         [SerializeField] protected Weapon weapon;
-        
-        public virtual void OnDeath()
+
+        protected virtual void OnDeath()
         {
             Destroy(gameObject);
         }
