@@ -112,12 +112,13 @@ public class Player : Entity
     // Processes activated when attacking (including collider and animation):
     private IEnumerator AttackCooldown()
     {
+        useAttack0 = !useAttack0;
+        animator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
+
+        boxCollider.enabled = true;
+
         weapon.src.PlayOneShot(weapon.sfx);
         yield return new WaitForSeconds(weapon.attackSpeed);
-
-        animator.SetBool(AttackWithSword, false);
-        boxCollider.enabled = false;
-
         animator.SetBool(AttackWithSword0, false);
         animator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, false);
     }
