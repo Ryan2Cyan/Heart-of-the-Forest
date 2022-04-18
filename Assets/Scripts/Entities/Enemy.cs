@@ -15,12 +15,15 @@ namespace Entities
         private  Renderer renderer;
         private Material defaultMat;
         
+        [SerializeField] private float knockBackForce;
+        [SerializeField] private float knockBackTime;
+        private float knockBackCounter;
         
 
         private void Start()
         {
             entityName = "Goblin";
-            maxHealth = 10;
+            maxHealth = 50;
             currentHealth = maxHealth;
         
             weapon.attackSpeed = 0.3f;
@@ -80,5 +83,13 @@ namespace Entities
             Debug.Log("Cannot find object with tag 'Player'");
             return false;
         }
+        
+        // // Move the enemy back when hit:
+        // public void Knockback(Vector3 dir)
+        // {
+        //     knockBackCounter = knockBackTime;
+        //     var moveDirection = dir * knockBackForce;
+        //     enemyNavMesh.Move(moveDirection);
+        // }
     }
 }

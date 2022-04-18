@@ -30,7 +30,7 @@ public class Player : Entity
     private void Start()
     {
         entityName = "Jargleblarg The Great";
-        maxHealth = 100;
+        maxHealth = 1000;
         currentHealth = maxHealth;
         experience = 0.0f;
         level = 0;
@@ -83,7 +83,7 @@ public class Player : Entity
     }
     
     // Reset the scene:
-    public override void OnDeath() 
+    protected override void OnDeath() 
     {
         // Find death canvas and activate it - probably do some extra death stuff here later
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
