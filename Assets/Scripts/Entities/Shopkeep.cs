@@ -16,7 +16,7 @@ public class Shopkeep : MonoBehaviour
         renderer = transform.GetComponent<Renderer>();
 
         // NOTE
-        // Since shopkeeps will spawn before player, this won't find the player
+        // Since shop keeps will spawn before player, this won't find the player
         // Update this later
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
