@@ -13,7 +13,7 @@ public class Player : Entity
     [SerializeField] private float nextLevelExp;
 
     private Camera fpsCamera;
-    private const float attackDelay = 0.6f;
+    private const float attackDelay = 0.65f;
     private float attackTimer;
     private bool useAttack0 = false;
     
@@ -96,7 +96,7 @@ public class Player : Entity
     private void HighlightInteractable()
     {
         var ray = fpsCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), ray.direction, out var hit))
+        if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), ray.direction, out var hit, 40.0f))
         {
             selectedObj = hit;
         }
@@ -112,15 +112,15 @@ public class Player : Entity
     // Processes activated when attacking (including collider and animation):
     private IEnumerator AttackCooldown()
     {
-       
-        animator.SetBool(AttackWithSword0, true);
+        useAttack0 = !useAttack0;
+        animator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
 
         boxCollider.enabled = true;
 
         weapon.src.PlayOneShot(weapon.sfx);
         yield return new WaitForSeconds(weapon.attackSpeed);
         animator.SetBool(AttackWithSword0, false);
-        boxCollider.enabled = false;
+        animator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, false);
     }
 
     // Check if the player has fallen off the world:
