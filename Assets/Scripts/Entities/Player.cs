@@ -14,8 +14,9 @@ public class Player : Entity
     [SerializeField] private float nextLevelExp;
 
     private Camera fpsCamera;
-    private const float attackDelay = 0.8f;
+    private const float attackDelay = 0.6f;
     private float attackTimer;
+    private bool useAttack0 = false;
     
     public RaycastHit selectedObj { get; private set; }
     [SerializeField] private PlayerClass playerClass;
@@ -26,6 +27,7 @@ public class Player : Entity
     
     // Indexes:
     private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
+    private static readonly int AttackWithSword0 = Animator.StringToHash("AttackWithSword0");
 
     // Start is called before the first frame update
     private void Start()
@@ -38,7 +40,7 @@ public class Player : Entity
         nextLevelExp = 20.0f;
         fpsCamera = GetComponentInChildren<Camera>();
         playerClass = PlayerClass.Warrior;
-        weapon.attackSpeed = 0.5f;
+        weapon.attackSpeed = 0.6f;
         animator = gameObject.GetComponentInChildren<Animator>();
         attackTimer = attackDelay;
 
@@ -113,14 +115,14 @@ public class Player : Entity
     // Processes activated when attacking (including collider and animation):
     private IEnumerator AttackCooldown()
     {
-        animator.SetBool(AttackWithSword, true);
+       
+        animator.SetBool(AttackWithSword0, true);
 
         boxCollider.enabled = true;
 
         weapon.src.PlayOneShot(weapon.sfx);
         yield return new WaitForSeconds(weapon.attackSpeed);
-        animator.SetBool(AttackWithSword, false);
-
+        animator.SetBool(AttackWithSword0, false);
         boxCollider.enabled = false;
     }
 
