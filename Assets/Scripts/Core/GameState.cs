@@ -12,8 +12,8 @@ public class GameState : MonoBehaviour
     public bool isDay { get; private set; }
     
     [SerializeField] private List<Enemy> listOfEnemies;
-    [SerializeField] private int currentWave;
-    [SerializeField] private int currentTime;
+    [SerializeField] public int currentWave;
+    [SerializeField] public int currentTime;
     
     [SerializeField] private Light directionalLight;
     [SerializeField, Range(0, 24)] private float timeOfDay;
@@ -26,6 +26,7 @@ public class GameState : MonoBehaviour
     private void Start()
     {
         isDay = true;
+        currentWave = 0;
 
         LoadPlayers(GameObject.Find("PlayerSpawn").transform);
     }
@@ -47,6 +48,7 @@ public class GameState : MonoBehaviour
     public void ToggleDay()
     {
         isDay = !isDay;
+        currentWave += 1;
     }
     
     // Spawn in a player at the given position (A gameobject transform)

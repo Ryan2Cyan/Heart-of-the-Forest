@@ -16,7 +16,7 @@ namespace Core
         {
             gameStateScript = FindObjectOfType<GameState>();
 
-            enemiesToSpawn = 20;
+            enemiesToSpawn =  gameStateScript.currentWave + gameStateScript.currentWave + 1;
         }
     
         private void Update()
@@ -24,7 +24,9 @@ namespace Core
             // Check if the time of day is night
             if(gameStateScript.isDay == false)
             {
-                if(!spawned)
+                enemiesToSpawn = gameStateScript.currentWave + gameStateScript.currentWave + 1;
+
+                if (!spawned)
                 {
                     for(var i = 0; i < enemiesToSpawn; i++)
                     {
@@ -43,6 +45,10 @@ namespace Core
 
                     spawned = true;
                 }
+            }
+            else
+            {
+                spawned = false;
             }
         }
     }
