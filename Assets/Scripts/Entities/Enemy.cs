@@ -27,10 +27,8 @@ namespace Entities
 
         private void Start()
         {
-            entityName = "Skeleton";
             maxHealth = 50;
             currentHealth = maxHealth;
-            weapon.attackSpeed = 3.55f;
             isSelected = false;
             isDead = false;
             var sphereCollider = GetComponent<SphereCollider>();

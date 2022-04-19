@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 0
-  attackSpeed: 0
+  attackSpeed: 3.55
   damage: 2
   src: {fileID: 0}
   sfx: {fileID: 0}
@@ -398,13 +398,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed7f659e8fd78141961ae22bb85be52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityName: 
+  entityName: Skeleton
   currentHealth: 0
   maxHealth: 0
   level: 0
   weapon: {fileID: 6346224260226283443}
   enemyNavMesh: {fileID: 7416612453443439326}
   highlightMat: {fileID: 2100000, guid: bb8001f740c72a34f89bfe1078728174, type: 2}
+  isAttacking: 0
+  isDead: 0
   knockBackForce: 4
   knockBackTime: 0.25
 --- !u!135 &135728804679788404
