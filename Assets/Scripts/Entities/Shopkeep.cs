@@ -32,6 +32,8 @@ public class Shopkeep : MonoBehaviour
     private void Update()
     {
         // isSelected = SelectionCheck();
+        
+        // Check if the player is in range of the shop. Toggle menu by pressing "E":
         if (Input.GetKeyDown(KeyCode.E) && playerCollision && !menuOpen)
         {
             menu.SetActive(true);
@@ -67,6 +69,7 @@ public class Shopkeep : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Display interaction text when close to the shop:
         if (other.gameObject.CompareTag("Player"))
         {
             text.SetActive(true);

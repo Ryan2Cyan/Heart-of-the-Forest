@@ -15,8 +15,9 @@ namespace Items
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag("Enemy") && other.GetComponent<Enemy>().isSelected)
+            if(other.CompareTag("Enemy"))
             {
+                Debug.Log("Deal damage");
                 other.GetComponent<Enemy>().TakeDamage(weapon.damage);
                 
                 // // Calculate the direction between the player and enemy, then knock enemy back:

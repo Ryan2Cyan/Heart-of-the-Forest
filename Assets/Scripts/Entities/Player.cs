@@ -42,6 +42,7 @@ public class Player : Entity
         weapon.attackSpeed = 0.6f;
         animator = gameObject.GetComponentInChildren<Animator>();
         attackTimer = attackDelay;
+        boxCollider.enabled = false;
 
         // Fetch Hp bar [this will need to be changed if we implement multiplayer]:
         hpBarSlider = GameObject.Find("Health bar").GetComponent<Slider>();
@@ -119,6 +120,7 @@ public class Player : Entity
 
         weapon.src.PlayOneShot(weapon.sfx);
         yield return new WaitForSeconds(weapon.attackSpeed);
+        boxCollider.enabled = false;
         animator.SetBool(AttackWithSword0, false);
         animator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, false);
     }
