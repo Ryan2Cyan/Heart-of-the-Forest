@@ -28,7 +28,7 @@ public class GameState : MonoBehaviour
         isDay = true;
         currentWave = 0;
 
-        LoadPlayers(GameObject.Find("PlayerSpawn").transform);
+        //LoadPlayers(GameObject.Find("PlayerSpawn").transform);
     }
 
 
