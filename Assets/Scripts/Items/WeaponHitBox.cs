@@ -18,8 +18,10 @@ namespace Items
             if(other.CompareTag("Enemy"))
             {
                 Debug.Log("Deal damage");
-                other.GetComponent<Enemy>().TakeDamage(weapon.damage);
-                
+                var enemyScript = other.GetComponent<Enemy>();
+                enemyScript.TakeDamage(weapon.damage);
+                enemyScript.isDamaged = true;
+
                 // // Calculate the direction between the player and enemy, then knock enemy back:
                 // var hitDir = -(player.transform.position = other.transform.position).normalized;
                 // other.GetComponent<Enemy>().Knockback(hitDir);

@@ -302,11 +302,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6280554207650633482}
-  - component: {fileID: 6280554207650633483}
-  - component: {fileID: 6280554207650633492}
+  - component: {fileID: 151747853}
   - component: {fileID: 6280554207650633493}
   - component: {fileID: 7416612453443439326}
-  - component: {fileID: 151747853}
   - component: {fileID: 135728804679788404}
   - component: {fileID: -1591606163153468550}
   m_Layer: 0
@@ -331,56 +329,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6280554207650633483
-MeshFilter:
+--- !u!114 &151747853
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6280554207650633495}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &6280554207650633492
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6280554207650633495}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 84363553c82f2fd4f8012999573e1a5c, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ed7f659e8fd78141961ae22bb85be52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityName: Slime
+  currentHealth: 0
+  maxHealth: 0
+  level: 0
+  weapon: {fileID: 6346224260226283443}
+  enemyNavMesh: {fileID: 7416612453443439326}
+  isAttacking: 0
+  isDead: 0
+  isDamaged: 0
+  model: {fileID: 3317478666436727101}
+  damageMat: {fileID: 2100000, guid: 63ab3021a3b546f4fbfdd029305eefeb, type: 2}
+  enemyType: 0
+  knockBackForce: 4
+  knockBackTime: 0.25
 --- !u!65 &6280554207650633493
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -416,29 +390,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &151747853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6280554207650633495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ed7f659e8fd78141961ae22bb85be52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entityName: Slime
-  currentHealth: 0
-  maxHealth: 0
-  level: 0
-  weapon: {fileID: 6346224260226283443}
-  enemyNavMesh: {fileID: 7416612453443439326}
-  highlightMat: {fileID: 2100000, guid: bb8001f740c72a34f89bfe1078728174, type: 2}
-  isAttacking: 0
-  isDead: 0
-  knockBackForce: 4
-  knockBackTime: 0.25
 --- !u!135 &135728804679788404
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -550,6 +501,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 2788943867344286557, guid: f52ffbfb6b89d4e4fb8f66b2a2bef511,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788943867344286557, guid: f52ffbfb6b89d4e4fb8f66b2a2bef511,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788943867344286557, guid: f52ffbfb6b89d4e4fb8f66b2a2bef511,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 10739c90917e8514c86f33395f6163aa, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f52ffbfb6b89d4e4fb8f66b2a2bef511, type: 3}
 --- !u!1 &324036244728684337 stripped
@@ -561,6 +527,12 @@ GameObject:
 --- !u!4 &1095753033038939531 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f52ffbfb6b89d4e4fb8f66b2a2bef511,
+    type: 3}
+  m_PrefabInstance: {fileID: 630043177455886944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3317478666436727101 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2788943867344286557, guid: f52ffbfb6b89d4e4fb8f66b2a2bef511,
     type: 3}
   m_PrefabInstance: {fileID: 630043177455886944}
   m_PrefabAsset: {fileID: 0}

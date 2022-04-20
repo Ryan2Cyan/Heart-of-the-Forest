@@ -9,6 +9,7 @@ namespace Entities
         private Vector3 currentPos;
         private Vector3 lastPos;
         private bool isRunning;
+        
         private static readonly int Running = Animator.StringToHash("running");
         private static readonly int Attack = Animator.StringToHash("attack");
         private static readonly int Death = Animator.StringToHash("death");

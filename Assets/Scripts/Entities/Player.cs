@@ -117,10 +117,10 @@ public class Player : Entity
         animator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
 
         boxCollider.enabled = true;
-
         weapon.src.PlayOneShot(weapon.sfx);
-        yield return new WaitForSeconds(weapon.attackSpeed);
+        yield return new WaitForSeconds(0.05f);
         boxCollider.enabled = false;
+        yield return new WaitForSeconds(weapon.attackSpeed);
         animator.SetBool(AttackWithSword0, false);
         animator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, false);
     }
