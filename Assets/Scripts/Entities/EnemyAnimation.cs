@@ -33,15 +33,18 @@ namespace Entities
             // Set animator variables:
             if (parentScript.isDead)
             {
+                parentScript.isAttacking = false;
                 animator.SetBool(Running, false);
                 animator.SetBool(Attack, false);
                 animator.SetBool(Death, true);
             }
             if (parentScript.isAttacking)
             {
-                animator.SetBool(Running, false);
                 animator.SetBool(Attack, true);
-                parentScript.isAttacking = false;
+            }
+            if (!parentScript.isAttacking)
+            {
+                animator.SetBool(Attack, false);
             }
             animator.SetBool(Running, isRunning);
         }

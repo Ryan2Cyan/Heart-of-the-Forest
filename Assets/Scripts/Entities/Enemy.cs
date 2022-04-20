@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using TDG.Entity;
 using UnityEngine;
 using UnityEngine.AI;
@@ -48,6 +49,7 @@ namespace Entities
         
         private void Update()
         {
+            Debug.Log(isAttacking);
             if (!isDead)
             {
                 //Debug.Log(isAttacking);
@@ -72,7 +74,6 @@ namespace Entities
                     isDead = true;
                     enemyNavMesh.enabled = false;
                     model.material = deathMat;
-                    gameObject.GetComponent<BoxCollider>().enabled = false;
                     gameObject.GetComponent<SphereCollider>().enabled = false;
                     gameObject.GetComponent<NavMeshAgent>().enabled = false;
                     enabled = false;
@@ -84,7 +85,6 @@ namespace Entities
         {
             Debug.Log(entityName + " tried to attack!");
             player.GetComponent<Player>().TakeDamage(weapon.damage);
-            isAttacking = true;
         }
 
         // Check if the enemy has collided with the player:
@@ -97,7 +97,23 @@ namespace Entities
                 attackTimer = weapon.attackSpeed;
             }
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                isAttacking = true;
+            }
+        } 
         
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                isAttacking = false;
+            }
+        }
+
 
         // Checks if the player is currently looking at this shop object:
         // private bool SelectionCheck()

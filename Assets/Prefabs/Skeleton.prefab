@@ -272,7 +272,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6280554207650633482}
   - component: {fileID: 151747853}
-  - component: {fileID: 6280554207650633493}
   - component: {fileID: 7416612453443439326}
   - component: {fileID: 135728804679788404}
   - component: {fileID: -1591606163153468550}
@@ -326,19 +325,6 @@ MonoBehaviour:
     type: 3}
   knockBackForce: 4
   knockBackTime: 0.25
---- !u!65 &6280554207650633493
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6280554207650633495}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1.4080935}
-  m_Center: {x: 0, y: 0, z: 0.20404673}
 --- !u!195 &7416612453443439326
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -372,8 +358,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.7952155
-  m_Center: {x: 0, y: 0.79957545, z: 0}
+  m_Radius: 1.6206746
+  m_Center: {x: 0, y: 0.7995753, z: -0.174541}
 --- !u!54 &-1591606163153468550
 Rigidbody:
   m_ObjectHideFlags: 0
