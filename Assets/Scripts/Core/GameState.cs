@@ -69,7 +69,7 @@ public class GameState : MonoBehaviour
             if(!lightArg) throw new Exception("Could not instantiate directional Light");
         }
         // Change time of day based on bool:
-        var timeArg = (isDayArg ? 13.0f : 0.0f) / 24f;
+        float timeArg = (isDayArg ? 13.0f : 0.0f) / 24f;
         
         // Rotate the directional light:
         lightArg.transform.localRotation = Quaternion.Euler

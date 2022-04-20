@@ -39,6 +39,8 @@ public class Shopkeep : MonoBehaviour
             menu.SetActive(true);
             text.SetActive(false);
             menuOpen = true;
+
+            player.UpgradeWeapon();
         }
         else if (Input.GetKeyDown(KeyCode.E) && menuOpen)
         {

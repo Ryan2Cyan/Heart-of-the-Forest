@@ -50,7 +50,7 @@ namespace Entities
         {
             if (!isDead)
             {
-                Debug.Log(isAttacking);
+                //Debug.Log(isAttacking);
                 enemyNavMesh.SetDestination(player.transform.position);
                 
                 // Enemy is damaged:
