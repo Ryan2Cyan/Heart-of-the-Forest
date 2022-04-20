@@ -21,8 +21,10 @@ public class Player : Entity
     [SerializeField] private PlayerClass playerClass;
     [SerializeField] private Inventory inventory;
     [SerializeField] private Slider hpBarSlider;
-    [SerializeField] private Animator animator;
-    [SerializeField] private BoxCollider boxCollider;
+    private Animator weaponAnimator;
+    private BoxCollider weaponBoxCollider;
+
+    [SerializeField] GameObject[] swordPrefab;
     
     // Indexes:
     private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
@@ -31,6 +33,13 @@ public class Player : Entity
     // Start is called before the first frame update
     private void Start()
     {
+        // Grabbing all these components will mean we can upgrade the sword via
+        // scripts instead of assigning them in the inspector
+        weapon = transform.GetChild(0).transform.GetChild(0).GetComponent<Weapon>();
+        weaponAnimator = weapon.gameObject.GetComponent<Animator>();
+        weaponBoxCollider = weapon.gameObject.GetComponent<BoxCollider>();
+
+
         entityName = "Jargleblarg The Great";
         maxHealth = 30;
         currentHealth = maxHealth;
@@ -40,9 +49,9 @@ public class Player : Entity
         fpsCamera = GetComponentInChildren<Camera>();
         playerClass = PlayerClass.Warrior;
         weapon.attackSpeed = 0.6f;
-        animator = gameObject.GetComponentInChildren<Animator>();
+        weaponAnimator = gameObject.GetComponentInChildren<Animator>();
         attackTimer = attackDelay;
-        boxCollider.enabled = false;
+        weaponBoxCollider.enabled = false;
 
         // Fetch Hp bar [this will need to be changed if we implement multiplayer]:
         hpBarSlider = GameObject.Find("Health bar").GetComponent<Slider>();
@@ -52,12 +61,13 @@ public class Player : Entity
 
         // Make sure inventory is referenced
         inventory = new Inventory();
-
     }
 
     // Update is called once per frame
     private void Update()
     {
+        
+
         // Check if player has fallen off the world:
         FallCheck();
         
@@ -76,7 +86,6 @@ public class Player : Entity
         {
             OnDeath();
         }
-
     }
 
     // Reduces current HP:
@@ -114,15 +123,15 @@ public class Player : Entity
     private IEnumerator AttackCooldown()
     {
         useAttack0 = !useAttack0;
-        animator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
+        weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
 
-        boxCollider.enabled = true;
+        weaponBoxCollider.enabled = true;
 
         weapon.src.PlayOneShot(weapon.sfx);
         yield return new WaitForSeconds(weapon.attackSpeed);
-        boxCollider.enabled = false;
-        animator.SetBool(AttackWithSword0, false);
-        animator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, false);
+        weaponBoxCollider.enabled = false;
+        weaponAnimator.SetBool(AttackWithSword0, false);
+        weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, false);
     }
 
     // Check if the player has fallen off the world:
@@ -164,5 +173,30 @@ public class Player : Entity
     private enum PlayerClass
     {
         Warrior
+    }
+
+    public void UpgradeWeapon()
+    {
+        // Update weapon values
+        weapon.attackSpeed = 100;
+        weapon.name = "Bitch Please";
+
+        // Destroy weapon model
+        Destroy(weapon.transform.GetChild(0).gameObject);
+
+        // Add new weapon model
+        var child = Instantiate(swordPrefab[1], transform.position, Quaternion.identity);
+        child.transform.parent = gameObject.transform.GetChild(0).gameObject.transform;
+
+
+        // >> Upgrade weapon via replacement <<
+        //var child = Instantiate(swordPrefab[1], new Vector3(transform.position.x, weapon.transform.position.y, weapon.transform.position.z), Quaternion.identity);
+        //child.transform.parent = gameObject.transform.GetChild(0).gameObject.transform;
+        //Destroy(weapon.gameObject);
+
+        //weapon = transform.GetChild(0).transform.GetChild(0).GetComponent<Weapon>();
+        //weaponAnimator = weapon.gameObject.GetComponent<Animator>();
+        //weaponBoxCollider = weapon.gameObject.GetComponent<BoxCollider>();
+        //weapon.src = GetComponent<AudioSource>();
     }
 }
