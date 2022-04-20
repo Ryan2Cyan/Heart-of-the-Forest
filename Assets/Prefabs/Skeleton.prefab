@@ -315,6 +315,7 @@ MonoBehaviour:
   maxHealth: 0
   level: 0
   weapon: {fileID: 6346224260226283443}
+  enemyType: 0
   enemyNavMesh: {fileID: 7416612453443439326}
   isAttacking: 0
   isDead: 0
@@ -422,32 +423,32 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 847f8760276c9104ca88c989fc7d4876,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.4154294
+      value: 0.3489607
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 847f8760276c9104ca88c989fc7d4876,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4154294
+      value: 0.3489607
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 847f8760276c9104ca88c989fc7d4876,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.4154294
+      value: 0.3489607
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 847f8760276c9104ca88c989fc7d4876,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.016995
+      value: 0.018927
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 847f8760276c9104ca88c989fc7d4876,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.516
+      value: -0.345
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 847f8760276c9104ca88c989fc7d4876,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.01335
+      value: 0.014868
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 847f8760276c9104ca88c989fc7d4876,
         type: 3}

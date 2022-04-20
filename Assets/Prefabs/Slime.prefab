@@ -346,13 +346,14 @@ MonoBehaviour:
   maxHealth: 0
   level: 0
   weapon: {fileID: 6346224260226283443}
+  enemyType: 1
   enemyNavMesh: {fileID: 7416612453443439326}
   isAttacking: 0
   isDead: 0
   isDamaged: 0
   model: {fileID: 3317478666436727101}
   damageMat: {fileID: 2100000, guid: 63ab3021a3b546f4fbfdd029305eefeb, type: 2}
-  enemyType: 0
+  deathMat: {fileID: 0}
   knockBackForce: 4
   knockBackTime: 0.25
 --- !u!65 &6280554207650633493

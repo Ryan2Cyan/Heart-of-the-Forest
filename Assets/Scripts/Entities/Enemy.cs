@@ -12,6 +12,7 @@ namespace Entities
         private GameObject player;
         private Player playerScript;
         // States
+        public EnemyType enemyType;
         public NavMeshAgent enemyNavMesh;
         public bool isAttacking;
         public bool isDead;
@@ -32,6 +33,7 @@ namespace Entities
 
         private void Start()
         {
+            
             maxHealth = 50;
             currentHealth = maxHealth;
             // isSelected = false;
@@ -72,6 +74,7 @@ namespace Entities
                 if (currentHealth <= 0)
                 {
                     isDead = true;
+                    enemyNavMesh.baseOffset = 0.2f;
                     enemyNavMesh.enabled = false;
                     model.material = deathMat;
                     gameObject.GetComponent<SphereCollider>().enabled = false;
@@ -141,5 +144,14 @@ namespace Entities
         //     var moveDirection = dir * knockBackForce;
         //     enemyNavMesh.Move(moveDirection);
         // }
+    }
+
+    public enum EnemyType
+    {
+        Skeleton,
+        Slime,
+        Bat, 
+        Dragon,
+        None
     }
 }
