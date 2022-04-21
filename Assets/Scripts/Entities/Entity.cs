@@ -6,7 +6,7 @@ namespace TDG.Entity
     public abstract class Entity : MonoBehaviour
     {
         protected string entityName;
-        protected int currentHealth;
+        [SerializeField] protected int currentHealth;
         protected int maxHealth;
         protected int level;
         [SerializeField] protected Weapon weapon;
@@ -19,6 +19,7 @@ namespace TDG.Entity
         public virtual void TakeDamage(int damage)
         {
             currentHealth -= damage;
+            Debug.Log(currentHealth);
         }
     }
 }

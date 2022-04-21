@@ -6,7 +6,6 @@ namespace Entities
 {
     public class Enemy : Entity
     {
-
         private GameObject player;
         private Player playerScript;
         // States
@@ -28,6 +27,11 @@ namespace Entities
         [SerializeField] private float knockBackForce;
         [SerializeField] private float knockBackTime;
         private float knockBackCounter;
+        // Buildings:
+        private GameObject armorsmith;
+        private GameObject alchemist;
+        private GameObject blacksmith;
+        private GameObject core;
         
 
         private void Start()
@@ -35,6 +39,10 @@ namespace Entities
             // Fetch components:
             player = GameObject.FindWithTag("Player");
             playerScript = player.GetComponent<Player>();
+            armorsmith = GameObject.Find("Armorsmith");
+            alchemist = GameObject.Find("Alchemist");
+            blacksmith = GameObject.Find("Blacksmith");
+            core = GameObject.Find("Core");
             
             // Set values:
             maxHealth = 50;
@@ -49,7 +57,15 @@ namespace Entities
         {
             if (!isDead) // If alive:
             {
-                enemyNavMesh.SetDestination(player.transform.position);
+                switch (enemyType)
+                {
+                    case EnemyType.BlackSkeleton:
+                        enemyNavMesh.SetDestination(player.transform.position);
+                        break;
+                    case EnemyType.YellowSkeleton:
+                        enemyNavMesh.SetDestination(alchemist.transform.position);
+                        break;
+                }
                 if (isDamaged) // If damaged
                     TakeDamage();
                 if (currentHealth <= 0) // If dead
@@ -58,10 +74,10 @@ namespace Entities
         }
 
         // Enemy deals damage to the player:
-        private void Attack()
+        private void Attack(Entity target)
         {
             Debug.Log(entityName + " tried to attack!");
-            playerScript.TakeDamage(weapon.damage);
+            target.TakeDamage(weapon.damage);
         }
         
 
@@ -71,7 +87,6 @@ namespace Entities
             if(enemyType == EnemyType.Bat)
                 enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.
             playerScript.currentGold += goldDrop;
-            Debug.Log(playerScript.currentGold);
             isDead = true;
             enemyNavMesh.enabled = false;
             model.material = deathMat;
@@ -97,38 +112,78 @@ namespace Entities
         private void OnTriggerStay(Collider other)
         {
             attackTimer -= Time.deltaTime;
-            if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
+            switch (enemyType)
             {
-                Attack();
-                attackTimer = weapon.attackSpeed;
+                case EnemyType.BlackSkeleton:
+                    if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
+                    {
+                        Debug.Log("Attack" + other.gameObject.name);
+                        Attack(other.gameObject.GetComponent<Entity>());
+                        attackTimer = weapon.attackSpeed;
+                    }
+
+                    break;
+                case EnemyType.YellowSkeleton:
+                    if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
+                    {
+                        Debug.Log("Attack" + other.gameObject.name);
+                        Attack(other.gameObject.GetComponent<Entity>());
+                        attackTimer = weapon.attackSpeed;
+                    }
+                    break;
             }
         }
 
         // Check if player collides to attack:
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            switch (enemyType)
             {
-                isAttacking = true;
+                case EnemyType.BlackSkeleton:
+                    if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
+                    {
+                        isAttacking = true;
+                    }
+
+                    break;
+                case EnemyType.YellowSkeleton:
+                    if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
+                    {
+                        isAttacking = true;
+                    }
+                    break;
             }
         } 
         
         // Check if player is not colliding to halt attacking:
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            switch (enemyType)
             {
-                isAttacking = false;
+                case EnemyType.BlackSkeleton:
+                    if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
+                    {
+                        isAttacking = false;
+                    }
+
+                    break;
+                case EnemyType.YellowSkeleton:
+                    if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
+                    {
+                        isAttacking = false;
+                    }
+                    break;
             }
         }
     }
 
     public enum EnemyType
     {
-        Skeleton,
-        Slime,
+        BlackSkeleton,
+        LargeSkeleton,
+        YellowSkeleton,
         Bat, 
-        Dragon,
+        LargeBat,
         None
     }
 }

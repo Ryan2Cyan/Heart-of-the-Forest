@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 135728804679788404}
   - component: {fileID: -1591606163153468550}
   m_Layer: 0
-  m_Name: Skeleton
+  m_Name: Yellow-Skeleton
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -310,8 +310,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed7f659e8fd78141961ae22bb85be52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: 0
   weapon: {fileID: 6346224260226283443}
-  enemyType: 0
+  enemyType: 2
   enemyNavMesh: {fileID: 7416612453443439326}
   isAttacking: 0
   isDead: 0
@@ -496,8 +497,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 4167910553179981948, guid: a8d5b7d23a16cc247adcea4ecf4389c5,
-        type: 3}
+      objectReference: {fileID: 2100000, guid: 82096aab38f01cb40a1cbf8629a810ba, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 847f8760276c9104ca88c989fc7d4876, type: 3}
 --- !u!1 &6668503748436764175 stripped
