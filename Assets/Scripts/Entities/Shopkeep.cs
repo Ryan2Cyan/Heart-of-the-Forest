@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 
 public class Shopkeep : MonoBehaviour
@@ -12,7 +13,7 @@ public class Shopkeep : MonoBehaviour
     private bool isSelected;
     private bool playerCollision;
     private bool menuOpen;
-    [SerializeField] private Player player;
+    [SerializeField] private GameObject player;
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject menu;
 
@@ -20,13 +21,13 @@ public class Shopkeep : MonoBehaviour
     {
         // defaultMat = transform.GetComponent<Renderer>().material;
         // renderer = transform.GetComponent<Renderer>();
-
-        // NOTE
-        // Since shop keeps will spawn before player, this won't find the player
-        // Update this later
+        // Get components:
+        currentCollider = transform.GetComponent<SphereCollider>();
+        player = GameObject.FindWithTag("Player");
+        
+        // Set values:
         menuOpen = false;
         playerCollision = false;
-        currentCollider = transform.GetComponent<SphereCollider>();
     }
 
     private void Update()
@@ -34,16 +35,19 @@ public class Shopkeep : MonoBehaviour
         // isSelected = SelectionCheck();
         
         // Check if the player is in range of the shop. Toggle menu by pressing "E":
-        if (Input.GetKeyDown(KeyCode.E) && playerCollision && !menuOpen)
+        if (Input.GetKeyDown(KeyCode.E) && playerCollision && !menuOpen) // Open menu
         {
+            // Unlock cursor:
+            player.GetComponent<FirstPersonController>().enabled = false; 
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             menu.SetActive(true);
             text.SetActive(false);
             menuOpen = true;
-
-            player.UpgradeWeapon();
         }
-        else if (Input.GetKeyDown(KeyCode.E) && menuOpen)
+        else if (Input.GetKeyDown(KeyCode.E) && menuOpen) // Close menu
         {
+            player.GetComponent<FirstPersonController>().enabled = true; 
             menu.SetActive(false);
             menuOpen = false;
             text.SetActive(true);

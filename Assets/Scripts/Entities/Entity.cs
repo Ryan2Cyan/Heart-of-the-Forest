@@ -5,10 +5,10 @@ namespace TDG.Entity
 {
     public abstract class Entity : MonoBehaviour
     {
-        [SerializeField] protected string entityName;
-        [SerializeField] protected int currentHealth;
-        [SerializeField] protected int maxHealth;
-        [SerializeField] protected int level;
+        protected string entityName;
+        protected int currentHealth;
+        protected int maxHealth;
+        protected int level;
         [SerializeField] protected Weapon weapon;
 
         protected virtual void OnDeath()

@@ -4,28 +4,31 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TDG.Entity;
 using Items;
+using TMPro;
 
 public class Player : Entity
 {
+    // Serialized variables:
     [SerializeField] private GameState gameState;
+    [SerializeField] GameObject[] swordPrefab;
+    [SerializeField] private Inventory inventory;
 
-    [SerializeField] private float experience;
-    [SerializeField] private float nextLevelExp;
-
+    // GUI:
+    private Slider hpBarSlider;
+    private TextMeshProUGUI currentGoldUI;
+    
+    // State variables:
+    public RaycastHit selectedObj { get; private set; }
     private Camera fpsCamera;
+    private float experience;
+    private float nextLevelExp;
     private const float attackDelay = 0.65f;
     private float attackTimer;
-    private bool useAttack0 = false;
-    
-    public RaycastHit selectedObj { get; private set; }
-    [SerializeField] private PlayerClass playerClass;
-    [SerializeField] private Inventory inventory;
-    [SerializeField] private Slider hpBarSlider;
+    private bool useAttack0;
+    public int currentGold;
     private Animator weaponAnimator;
     private BoxCollider weaponBoxCollider;
 
-    [SerializeField] GameObject[] swordPrefab;
-    
     // Indexes:
     private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
     private static readonly int AttackWithSword0 = Animator.StringToHash("AttackWithSword0");
@@ -33,59 +36,43 @@ public class Player : Entity
     // Start is called before the first frame update
     private void Start()
     {
-        // Grabbing all these components will mean we can upgrade the sword via
-        // scripts instead of assigning them in the inspector
+        // Fetch components:
+        gameState = FindObjectOfType<GameState>();
         weapon = transform.GetChild(0).transform.GetChild(0).GetComponent<Weapon>();
         weaponAnimator = weapon.gameObject.GetComponent<Animator>();
         weaponBoxCollider = weapon.gameObject.GetComponent<BoxCollider>();
+        fpsCamera = GetComponentInChildren<Camera>();
+        hpBarSlider = GameObject.Find("Health bar").GetComponent<Slider>();
+        currentGoldUI = GameObject.Find("Player-Gold").GetComponentInChildren<TextMeshProUGUI>();
 
-
+        // Assign values:
         entityName = "Jargleblarg The Great";
         maxHealth = 30;
         currentHealth = maxHealth;
+        currentGold = 0;
+        nextLevelExp = 20.0f;
         experience = 0.0f;
         level = 0;
-        nextLevelExp = 20.0f;
-        fpsCamera = GetComponentInChildren<Camera>();
-        playerClass = PlayerClass.Warrior;
         weapon.attackSpeed = 0.6f;
-        weaponAnimator = gameObject.GetComponentInChildren<Animator>();
         attackTimer = attackDelay;
         weaponBoxCollider.enabled = false;
-
-        // Fetch Hp bar [this will need to be changed if we implement multiplayer]:
-        hpBarSlider = GameObject.Find("Health bar").GetComponent<Slider>();
         hpBarSlider.value = maxHealth;
-        
-        gameState = FindObjectOfType<GameState>();
-
-        // Make sure inventory is referenced
         inventory = new Inventory();
     }
 
-    // Update is called once per frame
+   
     private void Update()
     {
-        
-
-        // Check if player has fallen off the world:
         FallCheck();
-        
-        // Process user input:
         ProcessInput();
-        
-        // Check what the player is currently looking at:
+        AssignGold();
         HighlightInteractable();
 
         if (experience > nextLevelExp)
-        {
             LevelUp();
-        }
-
+        
         if (currentHealth <= 0)
-        {
             OnDeath();
-        }
     }
 
     // Reduces current HP:
@@ -98,11 +85,10 @@ public class Player : Entity
     // Reset the scene:
     protected override void OnDeath() 
     {
-        // Find death canvas and activate it - probably do some extra death stuff here later
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
-    // Cast ray from player camera's direction, interactable objects hit by the ray are highlighted:
+    // Cast ray from player camera's direction, current object (if selectable) is stored:
     private void HighlightInteractable()
     {
         var ray = fpsCamera.ScreenPointToRay(Input.mousePosition);
@@ -145,6 +131,7 @@ public class Player : Entity
         if(transform.position.y <= -100.0f) OnDeath();
     }
 
+    // Process all player input relating to the player:
     private void ProcessInput()
     {
         // Toggle night and day:
@@ -175,33 +162,39 @@ public class Player : Entity
         }
     }
 
+    // Displays (to UI) the players gold:
+    private void AssignGold()
+    {
+        currentGoldUI.text = currentGold.ToString();
+    }
+
+    // public void UpgradeWeapon()
+    // {
+    //     // Update weapon values
+    //     weapon.attackSpeed = 100;
+    //     weapon.name = "Bitch Please";
+    //
+    //     // Destroy weapon model
+    //     Destroy(weapon.transform.GetChild(0).gameObject);
+    //
+    //     // Add new weapon model
+    //     var child = Instantiate(swordPrefab[1], transform.position, Quaternion.identity);
+    //     child.transform.parent = gameObject.transform.GetChild(0).gameObject.transform;
+    //
+    //
+    //     // >> Upgrade weapon via replacement <<
+    //     //var child = Instantiate(swordPrefab[1], new Vector3(transform.position.x, weapon.transform.position.y, weapon.transform.position.z), Quaternion.identity);
+    //     //child.transform.parent = gameObject.transform.GetChild(0).gameObject.transform;
+    //     //Destroy(weapon.gameObject);
+    //
+    //     //weapon = transform.GetChild(0).transform.GetChild(0).GetComponent<Weapon>();
+    //     //weaponAnimator = weapon.gameObject.GetComponent<Animator>();
+    //     //weaponBoxCollider = weapon.gameObject.GetComponent<BoxCollider>();
+    //     //weapon.src = GetComponent<AudioSource>();
+    // }
+    
     private enum PlayerClass
     {
         Warrior
-    }
-
-    public void UpgradeWeapon()
-    {
-        // Update weapon values
-        weapon.attackSpeed = 100;
-        weapon.name = "Bitch Please";
-
-        // Destroy weapon model
-        Destroy(weapon.transform.GetChild(0).gameObject);
-
-        // Add new weapon model
-        var child = Instantiate(swordPrefab[1], transform.position, Quaternion.identity);
-        child.transform.parent = gameObject.transform.GetChild(0).gameObject.transform;
-
-
-        // >> Upgrade weapon via replacement <<
-        //var child = Instantiate(swordPrefab[1], new Vector3(transform.position.x, weapon.transform.position.y, weapon.transform.position.z), Quaternion.identity);
-        //child.transform.parent = gameObject.transform.GetChild(0).gameObject.transform;
-        //Destroy(weapon.gameObject);
-
-        //weapon = transform.GetChild(0).transform.GetChild(0).GetComponent<Weapon>();
-        //weaponAnimator = weapon.gameObject.GetComponent<Animator>();
-        //weaponBoxCollider = weapon.gameObject.GetComponent<BoxCollider>();
-        //weapon.src = GetComponent<AudioSource>();
     }
 }
