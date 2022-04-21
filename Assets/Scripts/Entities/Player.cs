@@ -49,7 +49,7 @@ public class Player : Entity
         entityName = "Jargleblarg The Great";
         maxHealth = 30;
         currentHealth = maxHealth;
-        currentGold = 250;
+        currentGold = 2000;
         nextLevelExp = 20.0f;
         experience = 0.0f;
         level = 0;

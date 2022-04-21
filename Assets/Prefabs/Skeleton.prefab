@@ -310,10 +310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed7f659e8fd78141961ae22bb85be52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityName: Skeleton
-  currentHealth: 0
-  maxHealth: 0
-  level: 0
   weapon: {fileID: 6346224260226283443}
   enemyType: 0
   enemyNavMesh: {fileID: 7416612453443439326}

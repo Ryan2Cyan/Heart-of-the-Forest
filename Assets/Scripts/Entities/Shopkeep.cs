@@ -1,8 +1,10 @@
+using TDG.Entity;
+using TMPro;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 
 
-public class Shopkeep : MonoBehaviour
+public class Shopkeep : Entity
 {
     // [SerializeField] private Material highlightMat;
     // private Material defaultMat;
@@ -17,6 +19,8 @@ public class Shopkeep : MonoBehaviour
     private GameObject lvl3Model;
     private GameObject player;
     private Player playerScript;
+    
+    [SerializeField] private TextMeshProUGUI upgradePrice;
     [SerializeField] private AudioClip nullSfx;
     [SerializeField] private AudioClip purchaseSfx;
     [SerializeField] private AudioSource src;
@@ -46,6 +50,8 @@ public class Shopkeep : MonoBehaviour
         // Set values:
         menuOpen = false;
         playerCollision = false;
+        maxHealth = 1000;
+        currentHealth = maxHealth;
     }
 
     private void Update()
@@ -83,6 +89,7 @@ public class Shopkeep : MonoBehaviour
         {
             if (lvl1Model.activeInHierarchy && playerScript.currentGold >= cost1)
             {
+                upgradePrice.text = cost2.ToString();
                 playerScript.currentGold -= cost1;
                 src.PlayOneShot(purchaseSfx);
                 lvl1Model.SetActive(false);
@@ -90,6 +97,7 @@ public class Shopkeep : MonoBehaviour
             }
             else if (lvl2Model.activeInHierarchy&& playerScript.currentGold >= cost2)
             {
+                upgradePrice.text = "";
                 playerScript.currentGold -= cost2;
                 src.PlayOneShot(purchaseSfx);
                 lvl2Model.SetActive(false);
@@ -97,8 +105,9 @@ public class Shopkeep : MonoBehaviour
             }
             else
                 src.PlayOneShot(nullSfx);
-            
         }
+        else
+            src.PlayOneShot(nullSfx);
     }
     
     // Checks if the player is currently looking at this shop object:
