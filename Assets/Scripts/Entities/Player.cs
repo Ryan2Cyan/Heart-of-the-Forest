@@ -18,7 +18,7 @@ public class Player : Entity
     private TextMeshProUGUI currentGoldUI;
     
     // State variables:
-    public RaycastHit selectedObj { get; private set; }
+    // public RaycastHit selectedObj { get; private set; }
     private Camera fpsCamera;
     private float experience;
     private float nextLevelExp;
@@ -49,7 +49,7 @@ public class Player : Entity
         entityName = "Jargleblarg The Great";
         maxHealth = 30;
         currentHealth = maxHealth;
-        currentGold = 0;
+        currentGold = 250;
         nextLevelExp = 20.0f;
         experience = 0.0f;
         level = 0;
@@ -66,7 +66,7 @@ public class Player : Entity
         FallCheck();
         ProcessInput();
         AssignGold();
-        HighlightInteractable();
+        // HighlightInteractable();
 
         if (experience > nextLevelExp)
             LevelUp();
@@ -89,14 +89,14 @@ public class Player : Entity
     }
     
     // Cast ray from player camera's direction, current object (if selectable) is stored:
-    private void HighlightInteractable()
-    {
-        var ray = fpsCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), ray.direction, out var hit, 40.0f))
-        {
-            selectedObj = hit;
-        }
-    }
+    // private void HighlightInteractable()
+    // {
+    //     var ray = fpsCamera.ScreenPointToRay(Input.mousePosition);
+    //     if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), ray.direction, out var hit, 40.0f))
+    //     {
+    //         selectedObj = hit;
+    //     }
+    // }
 
     // Increase current level and EXP to next level:
     private void LevelUp()
@@ -142,12 +142,15 @@ public class Player : Entity
         
         // Attack:
         attackTimer -= Time.deltaTime;
-        if (Input.GetMouseButtonDown(0) && attackTimer <= 0.0f)
+        if (!Cursor.visible) // Don't process mouse input while in UI Menu
         {
-            StartCoroutine(AttackCooldown());
-            attackTimer = attackDelay;
+            if (Input.GetMouseButtonDown(0) && attackTimer <= 0.0f)
+            {
+                StartCoroutine(AttackCooldown());
+                attackTimer = attackDelay;
+            }
         }
-        
+
         // TEST: Add item to inventory:
         if (Input.GetKeyDown(KeyCode.P))
         {

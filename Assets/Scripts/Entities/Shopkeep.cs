@@ -1,5 +1,3 @@
-using System;
-using TMPro;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 
@@ -13,18 +11,38 @@ public class Shopkeep : MonoBehaviour
     private bool isSelected;
     private bool playerCollision;
     private bool menuOpen;
-    [SerializeField] private GameObject player;
+    private GameObject currentModel;
+    private GameObject lvl1Model;
+    private GameObject lvl2Model;
+    private GameObject lvl3Model;
+    private GameObject player;
+    private Player playerScript;
+    [SerializeField] private AudioClip nullSfx;
+    [SerializeField] private AudioClip purchaseSfx;
+    [SerializeField] private AudioSource src;
+    [SerializeField] private ShopType shopType;
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject menu;
+    
+    
 
     private void Start()
     {
         // defaultMat = transform.GetComponent<Renderer>().material;
         // renderer = transform.GetComponent<Renderer>();
+        
         // Get components:
         currentCollider = transform.GetComponent<SphereCollider>();
         player = GameObject.FindWithTag("Player");
-        
+        playerScript = player.GetComponent<Player>();
+        if (shopType != ShopType.Core)
+        {
+            lvl1Model = transform.GetChild(0).gameObject;
+            lvl2Model = transform.GetChild(1).gameObject;
+            lvl3Model = transform.GetChild(2).gameObject;
+            lvl1Model.SetActive(true);
+        }
+
         // Set values:
         menuOpen = false;
         playerCollision = false;
@@ -54,6 +72,35 @@ public class Shopkeep : MonoBehaviour
         }
     }
 
+    // Switch to next level of shop model:
+    public void Upgrade()
+    {
+        // Costs to upgrade the shops:
+        var cost1 = 250;
+        var cost2 = 500;
+        
+        if (!lvl3Model.activeInHierarchy)
+        {
+            if (lvl1Model.activeInHierarchy && playerScript.currentGold >= cost1)
+            {
+                playerScript.currentGold -= cost1;
+                src.PlayOneShot(purchaseSfx);
+                lvl1Model.SetActive(false);
+                lvl2Model.SetActive(true);
+            }
+            else if (lvl2Model.activeInHierarchy&& playerScript.currentGold >= cost2)
+            {
+                playerScript.currentGold -= cost2;
+                src.PlayOneShot(purchaseSfx);
+                lvl2Model.SetActive(false);
+                lvl3Model.SetActive(true);
+            }
+            else
+                src.PlayOneShot(nullSfx);
+            
+        }
+    }
+    
     // Checks if the player is currently looking at this shop object:
     // private bool SelectionCheck()
     // {
@@ -92,5 +139,14 @@ public class Shopkeep : MonoBehaviour
             menu.SetActive(false);
             menuOpen = false;
         }
+    }
+
+    private enum ShopType
+    {
+        Blacksmith,
+        Armorsmith,
+        Alchemist,
+        Core,
+        None
     }
 }
