@@ -164,6 +164,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: sword
       objectReference: {fileID: 0}
+    - target: {fileID: 2902008074560218088, guid: 2a03bd875afd4c14d8b11fc6ec4b6583,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.3586764
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a03bd875afd4c14d8b11fc6ec4b6583, type: 3}
 --- !u!4 &8850917407135682799 stripped

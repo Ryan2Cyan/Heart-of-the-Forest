@@ -131,7 +131,6 @@ namespace Entities
                 case EnemyType.BlackSkeleton:
                     if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
                     {
-                        Debug.Log("Attack" + other.gameObject.name);
                         Attack(other.gameObject.GetComponent<Entity>());
                         attackTimer = weapon.attackSpeed;
                     }

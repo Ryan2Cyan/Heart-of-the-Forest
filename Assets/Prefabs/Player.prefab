@@ -239,7 +239,6 @@ GameObject:
   - component: {fileID: 399890604973108643}
   - component: {fileID: 4076707113885249651}
   - component: {fileID: 4076707113878417491}
-  - component: {fileID: 4076707113894176467}
   - component: {fileID: 4076707113891994707}
   - component: {fileID: 8964905149284598796}
   - component: {fileID: 8964905149284598795}
@@ -279,19 +278,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3457c2c091efe498e8d6877bb699f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityName: 
   currentHealth: 0
-  maxHealth: 0
-  level: 0
   weapon: {fileID: 0}
   gameState: {fileID: 0}
-  experience: 0
-  nextLevelExp: 0
-  playerClass: 0
-  hpBarSlider: {fileID: 0}
   swordPrefab:
   - {fileID: 4417393688444214713, guid: 62b37c64ac3db0341b5e6498605d1b35, type: 3}
   - {fileID: 4417393688444214713, guid: 52f2964dfdd88ba4f9d0195705b78108, type: 3}
+  attackDelay: 0
+  currentGold: 0
 --- !u!143 &4076707113885249651
 CharacterController:
   m_ObjectHideFlags: 0
@@ -434,22 +428,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
---- !u!54 &4076707113894176467
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4076707113889138099}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!82 &4076707113891994707
 AudioSource:
   m_ObjectHideFlags: 0
@@ -763,10 +741,45 @@ PrefabInstance:
       propertyPath: src
       value: 
       objectReference: {fileID: 4076707113891994707}
+    - target: {fileID: 4417393688444214711, guid: 62b37c64ac3db0341b5e6498605d1b35,
+        type: 3}
+      propertyPath: attackSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4417393688444214713, guid: 62b37c64ac3db0341b5e6498605d1b35,
         type: 3}
       propertyPath: m_Name
       value: Wooden_Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 7642962166556946956, guid: 62b37c64ac3db0341b5e6498605d1b35,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.33246756
+      objectReference: {fileID: 0}
+    - target: {fileID: 7642962166556946956, guid: 62b37c64ac3db0341b5e6498605d1b35,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.8064966
+      objectReference: {fileID: 0}
+    - target: {fileID: 7642962166556946956, guid: 62b37c64ac3db0341b5e6498605d1b35,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 2.4405847
+      objectReference: {fileID: 0}
+    - target: {fileID: 7642962166556946956, guid: 62b37c64ac3db0341b5e6498605d1b35,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.83641356
+      objectReference: {fileID: 0}
+    - target: {fileID: 7642962166556946956, guid: 62b37c64ac3db0341b5e6498605d1b35,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -0.45356205
+      objectReference: {fileID: 0}
+    - target: {fileID: 7642962166556946956, guid: 62b37c64ac3db0341b5e6498605d1b35,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 1.4280574
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62b37c64ac3db0341b5e6498605d1b35, type: 3}
@@ -857,6 +870,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: curuthers
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dcd496fc6433ed1488f0a265f1008161,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1151388028547126963, guid: dcd496fc6433ed1488f0a265f1008161,
         type: 3}

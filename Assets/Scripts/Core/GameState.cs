@@ -21,17 +21,13 @@ public class GameState : MonoBehaviour
     [SerializeField] private Player player;
     
 
-
-
     private void Start()
     {
         isDay = true;
         currentWave = 0;
-
-        //LoadPlayers(GameObject.Find("PlayerSpawn").transform);
+        // LoadPlayers(GameObject.Find("PlayerSpawn").transform);
     }
-
-
+    
     private void Update()
     {
         if (Application.isPlaying)

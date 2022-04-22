@@ -9,7 +9,7 @@ namespace TDG.Entity
         [SerializeField] protected int currentHealth;
         protected int maxHealth;
         protected int level;
-        [SerializeField] protected Weapon weapon;
+        [SerializeField] public Weapon weapon;
 
         protected virtual void OnDeath()
         {

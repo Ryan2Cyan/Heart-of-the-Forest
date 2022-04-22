@@ -22,7 +22,7 @@ public class Player : Entity
     private Camera fpsCamera;
     private float experience;
     private float nextLevelExp;
-    private const float attackDelay = 0.65f;
+    public float attackDelay;
     private float attackTimer;
     private bool useAttack0;
     public int currentGold;
@@ -57,6 +57,7 @@ public class Player : Entity
         attackTimer = attackDelay;
         weaponBoxCollider.enabled = false;
         hpBarSlider.value = maxHealth;
+        attackDelay = 1.0f;
         inventory = new Inventory();
     }
 
