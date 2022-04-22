@@ -179,14 +179,14 @@ namespace Entities
             switch (enemyType)
             {
                 case EnemyType.BlackSkeleton:
-                    if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
+                    if (other.gameObject.CompareTag("Player"))
                     {
                         isAttacking = false;
                     }
 
                     break;
                 case EnemyType.YellowSkeleton:
-                    if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
+                    if (other.gameObject.CompareTag("Building"))
                     {
                         isAttacking = false;
                     }
