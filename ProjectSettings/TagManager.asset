@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Building
   - Core
+  - Music
   layers:
   - Default
   - TransparentFX
