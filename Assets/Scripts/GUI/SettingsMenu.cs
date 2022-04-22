@@ -56,6 +56,7 @@ public class SettingsMenu : MonoBehaviour
         dropdownQuality.value = quality;
         dropdownQuality.RefreshShownValue();
 
+        // Check fullscreen status and apply it to existing checkbox | 0 is false, 1 is true
         int fullscreen = PlayerPrefs.GetInt("fullscreen", 0);
         if(fullscreen == 0)
         {
@@ -65,10 +66,6 @@ public class SettingsMenu : MonoBehaviour
         {
             fullscreenCheckbox.isOn = true;
         }
-
-        Debug.Log("fullscreen at the start is set to " + fullscreen);
-        Debug.Log("fullscreen checkbox is set to " + fullscreenCheckbox.isOn);
-
     }
 
     // Controlled by slider - Sets mixer called "volume" to input slider volume
@@ -109,18 +106,20 @@ public class SettingsMenu : MonoBehaviour
 
         // Save PlayerPrefs
         PlayerPrefs.Save();
-
-        Debug.Log("After updating, playerpref fullscreen thingy is set to " + playerPrefInt);
     }
 
     public void SetResolution(int resolutionIndex)
     {
+        // Select resolution based on input
         Resolution resolution = resolutions[resolutionIndex];
 
+        // Update PlayerPrefs resolution to input
         PlayerPrefs.SetInt("resolution", resolutionIndex);
 
+        // Set screen resolution
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
 
+        // Save PlayerPrefs
         PlayerPrefs.Save();
     }
 }
