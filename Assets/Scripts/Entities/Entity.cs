@@ -19,7 +19,6 @@ namespace TDG.Entity
         public virtual void TakeDamage(int damage)
         {
             currentHealth -= damage;
-            Debug.Log(currentHealth);
         }
     }
 }

@@ -312,6 +312,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   weapon: {fileID: 6346224260226283443}
+  blackSkeleton: {fileID: 6280554207650633495, guid: d1b7611c67711904fb25e0b746b2709d,
+    type: 3}
   enemyType: 2
   enemyNavMesh: {fileID: 7416612453443439326}
   isAttacking: 0

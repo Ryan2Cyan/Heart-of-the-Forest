@@ -8,6 +8,8 @@ namespace Entities
     {
         private GameObject player;
         private Player playerScript;
+
+        [SerializeField] private GameObject blackSkeleton;
         // States
         public EnemyType enemyType;
         public NavMeshAgent enemyNavMesh;
@@ -31,6 +33,7 @@ namespace Entities
         private GameObject armorsmith;
         private GameObject alchemist;
         private GameObject blacksmith;
+        private int buildingTarget;
         private GameObject core;
         
 
@@ -51,6 +54,7 @@ namespace Entities
             isDamaged = false;
             damageCounter = damageTime;
             defaultMat = model.material;
+            buildingTarget = Random.Range(1, 4);
         }
         
         private void Update()
@@ -63,7 +67,18 @@ namespace Entities
                         enemyNavMesh.SetDestination(player.transform.position);
                         break;
                     case EnemyType.YellowSkeleton:
-                        enemyNavMesh.SetDestination(alchemist.transform.position);
+                        switch (buildingTarget)
+                        {
+                            case 1:
+                                enemyNavMesh.SetDestination(alchemist.transform.position);
+                                break;
+                            case 2:
+                                enemyNavMesh.SetDestination(armorsmith.transform.position);
+                                break;
+                            case 3:
+                                enemyNavMesh.SetDestination(blacksmith.transform.position);
+                                break;
+                        }
                         break;
                 }
                 if (isDamaged) // If damaged
@@ -79,7 +94,6 @@ namespace Entities
             Debug.Log(entityName + " tried to attack!");
             target.TakeDamage(weapon.damage);
         }
-        
 
         // Activate on death:
         protected override void OnDeath()
@@ -126,9 +140,14 @@ namespace Entities
                 case EnemyType.YellowSkeleton:
                     if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
                     {
-                        Debug.Log("Attack" + other.gameObject.name);
                         Attack(other.gameObject.GetComponent<Entity>());
                         attackTimer = weapon.attackSpeed;
+                        // If the shop is destroyed, convert yellow skeleton into black skeleton:
+                        if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                        {
+                            Instantiate(blackSkeleton, transform.position, Quaternion.identity);
+                            Destroy(gameObject);
+                        }
                     }
                     break;
             }

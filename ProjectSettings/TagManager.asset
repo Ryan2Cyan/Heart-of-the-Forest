@@ -7,6 +7,8 @@ TagManager:
   - Selectable
   - Canvas
   - Enemy
+  - Building
+  - Core
   layers:
   - Default
   - TransparentFX

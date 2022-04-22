@@ -1,6 +1,7 @@
 using TDG.Entity;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
 
 
@@ -19,8 +20,12 @@ public class Shopkeep : Entity
     private GameObject lvl3Model;
     private GameObject player;
     private Player playerScript;
+    public bool isDead { get; private set; }
     
+    [SerializeField] private Slider hpBarSlider;
     [SerializeField] private TextMeshProUGUI upgradePrice;
+    [SerializeField] private AudioClip repairSfx;
+    [SerializeField] private AudioClip destroySfx;
     [SerializeField] private AudioClip nullSfx;
     [SerializeField] private AudioClip purchaseSfx;
     [SerializeField] private AudioSource src;
@@ -50,14 +55,15 @@ public class Shopkeep : Entity
         // Set values:
         menuOpen = false;
         playerCollision = false;
-        maxHealth = 1000;
+        maxHealth = 100;
         currentHealth = maxHealth;
+        if(hpBarSlider)
+            hpBarSlider.value = maxHealth;
     }
 
     private void Update()
     {
-        // isSelected = SelectionCheck();
-        
+
         // Check if the player is in range of the shop. Toggle menu by pressing "E":
         if (Input.GetKeyDown(KeyCode.E) && playerCollision && !menuOpen) // Open menu
         {
@@ -76,29 +82,34 @@ public class Shopkeep : Entity
             menuOpen = false;
             text.SetActive(true);
         }
+
+        if (currentHealth <= 0 && !isDead)
+        {
+            OnDeath();
+        }
     }
 
     // Switch to next level of shop model:
     public void Upgrade()
     {
         // Costs to upgrade the shops:
-        var cost1 = 250;
-        var cost2 = 500;
+        const int cost0 = 250;
+        const int cost1 = 500;
         
         if (!lvl3Model.activeInHierarchy)
         {
-            if (lvl1Model.activeInHierarchy && playerScript.currentGold >= cost1)
+            if (lvl1Model.activeInHierarchy && playerScript.currentGold >= cost0)
             {
-                upgradePrice.text = cost2.ToString();
-                playerScript.currentGold -= cost1;
+                upgradePrice.text = cost1.ToString();
+                playerScript.currentGold -= cost0;
                 src.PlayOneShot(purchaseSfx);
                 lvl1Model.SetActive(false);
                 lvl2Model.SetActive(true);
             }
-            else if (lvl2Model.activeInHierarchy&& playerScript.currentGold >= cost2)
+            else if (lvl2Model.activeInHierarchy&& playerScript.currentGold >= cost1)
             {
                 upgradePrice.text = "";
-                playerScript.currentGold -= cost2;
+                playerScript.currentGold -= cost1;
                 src.PlayOneShot(purchaseSfx);
                 lvl2Model.SetActive(false);
                 lvl3Model.SetActive(true);
@@ -109,33 +120,54 @@ public class Shopkeep : Entity
         else
             src.PlayOneShot(nullSfx);
     }
+
+    // Repairs the shop, making it accessible for the player once again:
+    public void Repair()
+    {
+        const int cost0 = 100;
+        if (playerScript.currentGold >= cost0 && currentHealth != maxHealth)
+        {
+            src.PlayOneShot(repairSfx);
+            isDead = false;
+            lvl1Model.SetActive(true);
+            playerScript.currentGold -= cost0;
+            currentHealth = maxHealth;
+            hpBarSlider.value = maxHealth;
+        }
+        else
+            src.PlayOneShot(nullSfx);
+    }
     
-    // Checks if the player is currently looking at this shop object:
-    // private bool SelectionCheck()
-    // {
-    //     if (player)
-    //     {
-    //         if (player.selectedObj.transform == transform)
-    //         {
-    //             renderer.material = highlightMat;
-    //             return true;
-    //         }
-    //
-    //         renderer.material = defaultMat;
-    //         return false;
-    //     }
-    //
-    //     Debug.Log("Cannot find object with tag 'Player'");
-    //     return false;
-    // }
+    // Called when shop is destroyed:
+    protected override void OnDeath()
+    {
+        src.PlayOneShot(destroySfx);
+        lvl3Model.SetActive(false);
+        lvl2Model.SetActive(false);
+        lvl1Model.SetActive(false);
+        text.SetActive(false);
+        menu.SetActive(false);
+        isDead = true;
+    }
+    
+    // Reduces current HP:
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        if(hpBarSlider)
+            hpBarSlider.value = currentHealth;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Display interaction text when close to the shop:
-        if (other.gameObject.CompareTag("Player"))
+        if (!isDead)
         {
-            text.SetActive(true);
-            playerCollision = true;
+            // Display interaction text when close to the shop:
+            if (other.gameObject.CompareTag("Player"))
+            {
+                text.SetActive(true);
+                playerCollision = true;
+            }
         }
     }
 
