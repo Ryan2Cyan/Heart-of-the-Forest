@@ -1,3 +1,4 @@
+using Items;
 using TDG.Entity;
 using TMPro;
 using UnityEngine;
@@ -20,9 +21,7 @@ public class Shopkeep : Entity
     private GameObject lvl3Model;
     private GameObject player;
     private Player playerScript;
-    private int rangeLvl;
-    private int damageLvl;
-    private int attackSpeedLvl;
+    private PlayerWeapon playerWeaponScript;
     public bool isDead { get; private set; }
     
     [SerializeField] private Slider hpBarSlider;
@@ -55,6 +54,8 @@ public class Shopkeep : Entity
             lvl1Model.SetActive(true);
         }
 
+        playerWeaponScript = player.transform.GetChild(0).GetChild(0).GetComponent<PlayerWeapon>();
+
         // Set values:
         menuOpen = false;
         playerCollision = false;
@@ -62,9 +63,6 @@ public class Shopkeep : Entity
         currentHealth = maxHealth;
         if(hpBarSlider)
             hpBarSlider.value = maxHealth;
-        rangeLvl = 0;
-        damageLvl = 0;
-        attackSpeedLvl = 0;
     }
 
     private void Update()
@@ -153,64 +151,72 @@ public class Shopkeep : Entity
     // Upgrades a weapon's range:
     public void UpgradeRange()
     {
-        var cost0 = CalcCost(100, 25, rangeLvl);
-        var cost = GameObject.Find("Upgrade-Range-Price");
-        cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + cost0;
-        if (playerScript.currentGold >= cost0)
-        {
-            src.PlayOneShot(purchaseSfx);
-            rangeLvl += 1;
-            playerScript.currentGold -= cost0;
-            var playerSword = player.transform.GetChild(0).GetChild(0);
-            // Elongate sword collider:
-            playerSword.GetComponent<BoxCollider>().size += new Vector3(1.2f, 1.2f, 1.2f);
-            playerSword.GetComponent<BoxCollider>().center += new Vector3(0f, 0f, 0.8f);
-
-            // Elongate sword model:
-            playerSword.GetChild(0).GetChild(1).localScale += new Vector3(0f, 0.5f, 0f);
-            if(rangeLvl > 4)
-                playerSword.GetChild(0).GetChild(1).localPosition += new Vector3(0.0f, 0.015f, 0.0f);
-            cost0 = CalcCost(100, 25, rangeLvl);
-            cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + cost0;
-        }
-        else
-            src.PlayOneShot(nullSfx);
+        GeneralUpgrade(100, 25, ref playerWeaponScript.rangeLvl, "Range");
     }
     
     // Upgrades a weapon's attack speed:
     public void UpgradeAttackSpeed()
     {
-        var cost0 = CalcCost(100, 25, attackSpeedLvl);
-        var cost = GameObject.Find("Upgrade-AttackSpeed-Price");
-        cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + cost0;
-        if (playerScript.currentGold >= cost0)
-        {
-            src.PlayOneShot(purchaseSfx);
-            attackSpeedLvl += 1;
-            playerScript.currentGold -= cost0;
-            playerScript.attackDelay -= 0.07f;
-            playerScript.GetComponent<Entity>().weapon.attackSpeed -= 0.07f;
-            cost0 = CalcCost(100, 25, attackSpeedLvl);
-            cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + cost0;
-        }
-        else
-            src.PlayOneShot(nullSfx);
+        GeneralUpgrade(100, 25, ref playerWeaponScript.attackSpeedLvl, "AttackSpeed");
     }
     
     // Upgrades a weapon's damage:
     public void UpgradeDamage()
     {
-        var cost0 = CalcCost(100, 25, damageLvl);
-        var cost = GameObject.Find("Upgrade-Damage-Price");
-        cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + cost0;
-        if (playerScript.currentGold >= cost0)
+        GeneralUpgrade(100, 25, ref playerWeaponScript.damageLvl, "Damage");
+    }
+
+    // Template for upgrades and stores details of each upgrade:
+    private void GeneralUpgrade(int startCost, int costIncrement, ref int levelToIncrement, string upgradeName)
+    {
+        // Calculate current cost:
+        var cost0 = CalcCost(startCost, costIncrement, levelToIncrement);
+        
+        // Display cost on UI:
+        var cost = GameObject.Find("Upgrade-" + upgradeName + "-Price");
+
+        // Check player can afford upgrade and isn't max level already:
+        if(lvl1Model.activeInHierarchy && levelToIncrement < 3 ||
+           lvl2Model.activeInHierarchy && levelToIncrement < 6 ||
+           lvl3Model.activeInHierarchy && levelToIncrement < 9 &&
+           playerScript.currentGold >= cost0)
         {
-            src.PlayOneShot(purchaseSfx);
-            damageLvl += 1;
-            playerScript.currentGold -= cost0;
-            playerScript.weapon.damage += 20;
-            cost0 = CalcCost(100, 25, damageLvl);
-            cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + cost0;
+                src.PlayOneShot(purchaseSfx);
+                levelToIncrement++;
+                playerWeaponScript.CalcTotalLevel();
+                playerScript.currentGold -= cost0;
+                switch (upgradeName) // Apply upgrade
+                {
+                    case "Damage": // Damage upgrade
+                        playerScript.weapon.damage += 20;
+                        break;
+                    case "AttackSpeed": // Attack speed upgrade
+                        playerScript.attackDelay -= 0.07f;
+                        playerScript.GetComponent<Entity>().weapon.attackSpeed -= 0.07f;
+                        break;
+                    case "Range": // Range upgrade
+                        // Elongate sword collider:
+                        var playerSword = player.transform.GetChild(0).GetChild(0);
+                        playerSword.GetComponent<BoxCollider>().size += new Vector3(1.2f, 1.2f, 1.2f);
+                        playerSword.GetComponent<BoxCollider>().center += new Vector3(0f, 0f, 0.8f);
+
+                        // Elongate sword model:
+                        playerSword.GetChild(0).GetChild(1).localScale += new Vector3(0f, 0.5f, 0f);
+                        if (playerWeaponScript.rangeLvl > 4)
+                            playerSword.GetChild(0).GetChild(1).localPosition +=
+                                new Vector3(0.0f, 0.028f, 0.0f);
+                        break;
+
+                }
+
+                // Recalculate and display new cost:
+                if (levelToIncrement < 9)
+                {
+                    cost0 = CalcCost(100, 25, levelToIncrement);
+                    cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + cost0;
+                }
+                else
+                    cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "MAX";
         }
         else
             src.PlayOneShot(nullSfx);
@@ -250,7 +256,6 @@ public class Shopkeep : Entity
                 result += increment * lvl;
                 break;
         }
-
         return result;
     }
     
