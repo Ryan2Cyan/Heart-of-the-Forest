@@ -3,19 +3,72 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using TMPro;
 
 public class SettingsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;
     [SerializeField] private Slider audioSlider;
+    [SerializeField] private TMP_Dropdown dropdownQuality;
+    [SerializeField] private Toggle fullscreenCheckbox;
+    [SerializeField] private TMP_Dropdown resolutionDropdown;
+
+    Resolution[] resolutions;
 
     private void Start()
     {
-        // Get the saved sound volume, default = 0f
-        float volume = PlayerPrefs.GetFloat("volume", 0f);
+        // Set resolutions array to be what Unity provides 
+        resolutions = Screen.resolutions;
 
-        // Set the audio slider initial value to be player pref value
+        // Clear out any options in the dropdown
+        resolutionDropdown.ClearOptions();
+
+        // Create a list of strings which will be the options
+        List<string> options = new List<string>();
+
+        // Loop through each element in the resolutions array
+        // For each element, create a formatted string that displays res
+        // And then adds it to the options list
+        int currentResolutionIndex = PlayerPrefs.GetInt("resolution", 0);
+        for(int i = 0; i < resolutions.Length; i++)
+        {
+            string option = resolutions[i].width + " x " + resolutions[i].height;
+            options.Add(option);
+
+            if(resolutions[i].width == Screen.currentResolution.width &&
+                resolutions[i].height == Screen.currentResolution.height)
+            {
+                PlayerPrefs.SetInt("resolution", i);
+            }
+        }
+
+        // Once loop is done, add options list to the resolution dropdown
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
+
+        // Get playerpref volume and set slider val to it
+        float volume = PlayerPrefs.GetFloat("volume", 0f);
         audioSlider.value = volume;
+
+        // Get the saved quality and update dropdown
+        int quality = PlayerPrefs.GetInt("quality", 5);
+        dropdownQuality.value = quality;
+        dropdownQuality.RefreshShownValue();
+
+        int fullscreen = PlayerPrefs.GetInt("fullscreen", 0);
+        if(fullscreen == 0)
+        {
+            fullscreenCheckbox.isOn = false;
+        }    
+        else
+        {
+            fullscreenCheckbox.isOn = true;
+        }
+
+        Debug.Log("fullscreen at the start is set to " + fullscreen);
+        Debug.Log("fullscreen checkbox is set to " + fullscreenCheckbox.isOn);
+
     }
 
     // Controlled by slider - Sets mixer called "volume" to input slider volume
@@ -28,6 +81,46 @@ public class SettingsMenu : MonoBehaviour
         PlayerPrefs.SetFloat("volume", volume);
 
         // Save PlayerPrefs
+        PlayerPrefs.Save();
+    }
+
+    public void SetQuality(int qualityIndex)
+    {
+        // Update quality level
+        QualitySettings.SetQualityLevel(qualityIndex);
+
+        // Update PlayerPrefs quality
+        PlayerPrefs.SetInt("quality", qualityIndex);
+
+        // Save PlayerPrefs
+        PlayerPrefs.Save();
+    }
+
+    public void SetFullScreen (bool isFullscreen)
+    {
+        // Update fullscreen
+        Screen.fullScreen = isFullscreen;
+
+        // Convertion of bool to int
+        int playerPrefInt = isFullscreen ? 1 : 0;
+
+        // Update PlayerPrefs fullscreen
+        PlayerPrefs.SetInt("fullscreen", playerPrefInt);
+
+        // Save PlayerPrefs
+        PlayerPrefs.Save();
+
+        Debug.Log("After updating, playerpref fullscreen thingy is set to " + playerPrefInt);
+    }
+
+    public void SetResolution(int resolutionIndex)
+    {
+        Resolution resolution = resolutions[resolutionIndex];
+
+        PlayerPrefs.SetInt("resolution", resolutionIndex);
+
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+
         PlayerPrefs.Save();
     }
 }
