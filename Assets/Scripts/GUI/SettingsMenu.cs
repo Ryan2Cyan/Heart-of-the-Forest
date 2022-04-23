@@ -37,8 +37,8 @@ public class SettingsMenu : MonoBehaviour
             string option = resolutions[i].width + " x " + resolutions[i].height + " " + resolutions[i].refreshRate + "hz";
             options.Add(option);
 
-            if(resolutions[i].width == Screen.currentResolution.width &&
-                resolutions[i].height == Screen.currentResolution.height)
+            if(resolutions[i].width == Screen.width &&
+                resolutions[i].height == Screen.height)
             {
                 PlayerPrefs.SetInt("resolution", i);
             }
@@ -68,9 +68,6 @@ public class SettingsMenu : MonoBehaviour
         {
             fullscreenCheckbox.isOn = true;
         }
-
-        settingsCanvas.SetActive(true);
-        controlsCanvas.SetActive(false);
     }
 
     // Controlled by slider - Sets mixer called "volume" to input slider volume
@@ -140,6 +137,11 @@ public class SettingsMenu : MonoBehaviour
         {
             settingsCanvas.SetActive(false);
             controlsCanvas.SetActive(true);
+        }
+        if(setting == 2)
+        {
+            settingsCanvas.SetActive(false);
+            controlsCanvas.SetActive(false);
         }
     }
 }

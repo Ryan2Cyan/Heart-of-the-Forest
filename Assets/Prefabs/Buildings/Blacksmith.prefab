@@ -48,8 +48,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a5080175027e864986f56c11c18e044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: 0
   weapon: {fileID: 0}
+  hpBarSlider: {fileID: 0}
   upgradePrice: {fileID: 0}
+  repairSfx: {fileID: 0}
+  destroySfx: {fileID: 0}
   nullSfx: {fileID: 8300000, guid: 4cd4e12b09968b64199805892cd04483, type: 3}
   purchaseSfx: {fileID: 8300000, guid: 09c7d6b46dbc5e240a691c8adb990a25, type: 3}
   src: {fileID: 2305087022954529991}
@@ -78,7 +82,8 @@ AudioSource:
   m_GameObject: {fileID: 2305087022954529987}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: fef7aad8df74aca4691dce874332a325,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
