@@ -12,6 +12,8 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private TMP_Dropdown dropdownQuality;
     [SerializeField] private Toggle fullscreenCheckbox;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
+    [SerializeField] private GameObject settingsCanvas;
+    [SerializeField] private GameObject controlsCanvas;
 
     Resolution[] resolutions;
 
@@ -66,6 +68,9 @@ public class SettingsMenu : MonoBehaviour
         {
             fullscreenCheckbox.isOn = true;
         }
+
+        settingsCanvas.SetActive(true);
+        controlsCanvas.SetActive(false);
     }
 
     // Controlled by slider - Sets mixer called "volume" to input slider volume
@@ -121,5 +126,20 @@ public class SettingsMenu : MonoBehaviour
 
         // Save PlayerPrefs
         PlayerPrefs.Save();
+    }
+
+    // Switches between controls and settings
+    public void SwitchSetting(int setting)
+    {
+        if(setting == 0)
+        {
+            settingsCanvas.SetActive(true);
+            controlsCanvas.SetActive(false);
+        }
+        if (setting == 1)
+        {
+            settingsCanvas.SetActive(false);
+            controlsCanvas.SetActive(true);
+        }
     }
 }
