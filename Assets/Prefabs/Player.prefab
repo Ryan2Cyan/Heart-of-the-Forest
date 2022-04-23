@@ -281,6 +281,7 @@ MonoBehaviour:
   currentHealth: 0
   weapon: {fileID: 0}
   gameState: {fileID: 0}
+  settingsMenu: {fileID: 0}
   swordPrefab:
   - {fileID: 4417393688444214713, guid: 62b37c64ac3db0341b5e6498605d1b35, type: 3}
   - {fileID: 4417393688444214713, guid: 52f2964dfdd88ba4f9d0195705b78108, type: 3}
@@ -437,7 +438,8 @@ AudioSource:
   m_GameObject: {fileID: 4076707113889138099}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: fef7aad8df74aca4691dce874332a325,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -689,6 +691,9 @@ MonoBehaviour:
   bladeMat0: {fileID: 0}
   bladeMat1: {fileID: 0}
   bladeMat2: {fileID: 0}
+  rangeLvl: 0
+  damageLvl: 0
+  attackSpeedLvl: 0
 --- !u!1001 &7179682068208255285
 PrefabInstance:
   m_ObjectHideFlags: 0

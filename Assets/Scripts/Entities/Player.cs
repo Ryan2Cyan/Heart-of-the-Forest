@@ -10,6 +10,7 @@ public class Player : Entity
 {
     // Serialized variables:
     [SerializeField] private GameState gameState;
+    [SerializeField] private SettingsMenu settingsMenu;
     [SerializeField] GameObject[] swordPrefab;
     [SerializeField] private Inventory inventory;
 
@@ -26,6 +27,7 @@ public class Player : Entity
     private float attackTimer;
     private bool useAttack0;
     public int currentGold;
+    private bool settingsMenuState;
     private Animator weaponAnimator;
     private BoxCollider weaponBoxCollider;
 
@@ -59,6 +61,7 @@ public class Player : Entity
         hpBarSlider.value = maxHealth;
         attackDelay = 1.0f;
         inventory = new Inventory();
+        settingsMenuState = false;
     }
 
    
@@ -139,6 +142,21 @@ public class Player : Entity
         if (Input.GetKeyDown(KeyCode.L))
         {
             gameState.ToggleDay();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(settingsMenuState == false)
+            {
+                settingsMenu.SwitchSetting(0);
+                settingsMenuState = true;
+            }
+            else
+            {
+                settingsMenu.SwitchSetting(2);
+                settingsMenuState = false;
+            }
+           
         }
         
         // Attack:
