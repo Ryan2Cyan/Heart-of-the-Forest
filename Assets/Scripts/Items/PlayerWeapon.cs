@@ -36,7 +36,6 @@ namespace Items
         public void CalcTotalLevel()
         {
             totalLevel = (rangeLvl + damageLvl + attackSpeedLvl) / 3;
-            Debug.Log(totalLevel);
             if (totalLevel >= 5)
                 bladeRenderer.material = bladeMat1;
             if(totalLevel >= 9)

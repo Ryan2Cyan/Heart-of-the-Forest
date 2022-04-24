@@ -20,6 +20,7 @@ namespace Entities
         private const float damageTime = 0.15f;
         private float damageCounter;
         [SerializeField] private int goldDrop;
+        private const int goldMod = 5;
         // Materials:
         public SkinnedMeshRenderer model;
         private Material defaultMat;
@@ -91,8 +92,16 @@ namespace Entities
         // Enemy deals damage to the player:
         private void Attack(Entity target)
         {
-            Debug.Log(entityName + " tried to attack!");
-            target.TakeDamage(weapon.damage);
+            // If the player's armor resists an attack, the attack misses:
+            var playerResist = 5 * playerScript.resistanceLvl;
+            if (Random.Range(0, 100) >= playerResist)
+            {
+                Debug.Log(entityName + " tried to attack!");
+                target.TakeDamage(weapon.damage);
+            }
+            else
+                Debug.Log(entityName + " missed!");
+            
         }
 
         // Activate on death:
@@ -100,7 +109,7 @@ namespace Entities
         {
             if(enemyType == EnemyType.Bat)
                 enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.
-            playerScript.currentGold += goldDrop;
+            playerScript.currentGold += goldDrop + goldMod * playerScript.goldAccumulationLvl;
             isDead = true;
             enemyNavMesh.enabled = false;
             model.material = deathMat;

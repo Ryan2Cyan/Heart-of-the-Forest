@@ -287,6 +287,10 @@ MonoBehaviour:
   - {fileID: 4417393688444214713, guid: 52f2964dfdd88ba4f9d0195705b78108, type: 3}
   attackDelay: 0
   currentGold: 0
+  jumpHeightLvl: 0
+  speedLvl: 0
+  resistanceLvl: 0
+  goldAccumulationLvl: 0
 --- !u!143 &4076707113885249651
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1055,7 +1059,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: dcd496fc6433ed1488f0a265f1008161,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1151388028547126963, guid: dcd496fc6433ed1488f0a265f1008161,
         type: 3}
