@@ -30,6 +30,10 @@ public class Player : Entity
     private bool settingsMenuState;
     private Animator weaponAnimator;
     private BoxCollider weaponBoxCollider;
+    public int jumpHeightLvl;
+    public int speedLvl;
+    public int resistanceLvl;
+    public int goldAccumulationLvl;
 
     // Indexes:
     private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
@@ -62,6 +66,7 @@ public class Player : Entity
         attackDelay = 1.0f;
         inventory = new Inventory();
         settingsMenuState = false;
+        jumpHeightLvl = 0;
     }
 
    
@@ -92,15 +97,6 @@ public class Player : Entity
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
-    // Cast ray from player camera's direction, current object (if selectable) is stored:
-    // private void HighlightInteractable()
-    // {
-    //     var ray = fpsCamera.ScreenPointToRay(Input.mousePosition);
-    //     if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), ray.direction, out var hit, 40.0f))
-    //     {
-    //         selectedObj = hit;
-    //     }
-    // }
 
     // Increase current level and EXP to next level:
     private void LevelUp()
@@ -189,31 +185,7 @@ public class Player : Entity
     {
         currentGoldUI.text = currentGold.ToString();
     }
-
-    // public void UpgradeWeapon()
-    // {
-    //     // Update weapon values
-    //     weapon.attackSpeed = 100;
-    //     weapon.name = "Bitch Please";
-    //
-    //     // Destroy weapon model
-    //     Destroy(weapon.transform.GetChild(0).gameObject);
-    //
-    //     // Add new weapon model
-    //     var child = Instantiate(swordPrefab[1], transform.position, Quaternion.identity);
-    //     child.transform.parent = gameObject.transform.GetChild(0).gameObject.transform;
-    //
-    //
-    //     // >> Upgrade weapon via replacement <<
-    //     //var child = Instantiate(swordPrefab[1], new Vector3(transform.position.x, weapon.transform.position.y, weapon.transform.position.z), Quaternion.identity);
-    //     //child.transform.parent = gameObject.transform.GetChild(0).gameObject.transform;
-    //     //Destroy(weapon.gameObject);
-    //
-    //     //weapon = transform.GetChild(0).transform.GetChild(0).GetComponent<Weapon>();
-    //     //weaponAnimator = weapon.gameObject.GetComponent<Animator>();
-    //     //weaponBoxCollider = weapon.gameObject.GetComponent<BoxCollider>();
-    //     //weapon.src = GetComponent<AudioSource>();
-    // }
+    
     
     private enum PlayerClass
     {

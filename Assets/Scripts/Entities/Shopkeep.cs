@@ -34,6 +34,7 @@ public class Shopkeep : Entity
     [SerializeField] private ShopType shopType;
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject menu;
+
     
     
 
@@ -67,11 +68,7 @@ public class Shopkeep : Entity
 
     private void Update()
     {
-
-        if (Cursor.visible)
-        {
-            Debug.Log("Visible");
-        }
+        
         // Check if the player is in range of the shop. Toggle menu by pressing "E":
         if (Input.GetKeyDown(KeyCode.E) && playerCollision && !menuOpen) // Open menu
         {
@@ -151,20 +148,73 @@ public class Shopkeep : Entity
     // Upgrades a weapon's range:
     public void UpgradeRange()
     {
-        GeneralUpgrade(100, 25, ref playerWeaponScript.rangeLvl, "Range");
+        WeaponUpgrade(100, 25, ref playerWeaponScript.rangeLvl, "Range");
     }
     
     // Upgrades a weapon's attack speed:
     public void UpgradeAttackSpeed()
     {
-        GeneralUpgrade(100, 25, ref playerWeaponScript.attackSpeedLvl, "AttackSpeed");
+        WeaponUpgrade(100, 25, ref playerWeaponScript.attackSpeedLvl, "AttackSpeed");
     }
     
     // Upgrades a weapon's damage:
     public void UpgradeDamage()
     {
-        GeneralUpgrade(100, 25, ref playerWeaponScript.damageLvl, "Damage");
+        WeaponUpgrade(100, 25, ref playerWeaponScript.damageLvl, "Damage");
     }
+    
+    // Upgrades user's jump height:
+    public void UpgradeJumpHeight()
+    {
+        ArmorUpgrade(
+            100,
+            25,
+            ref playerScript.jumpHeightLvl,
+            "JumpHeight",
+            Resources.Load<Sprite>("Sprites/leggings-tier1"),
+            Resources.Load<Sprite>("Sprites/leggings-tier2")
+        );
+    }
+    
+    // Upgrades how much gold the user gets from enemies:
+    public void UpgradeGoldAccumulation()
+    {
+        ArmorUpgrade(
+            100,
+            25,
+            ref playerScript.goldAccumulationLvl,
+            "GoldAccumulation",
+            Resources.Load<Sprite>("Sprites/helmet-tier1"),
+            Resources.Load<Sprite>("Sprites/helmet-tier2")
+        );
+    }
+    
+    // Upgrades how much damage a player can resist per hit:
+    public void UpgradeResistance()
+    {
+        ArmorUpgrade(
+            100,
+            25,
+            ref playerScript.resistanceLvl,
+            "Resistance",
+            Resources.Load<Sprite>("Sprites/chestpiece-tier1"),
+            Resources.Load<Sprite>("Sprites/chestpiece-tier2")
+        );
+    }
+    
+    // Upgrades user's running and walking speed:
+    public void UpgradeSpeed()
+    {
+        ArmorUpgrade(
+            100,
+            25,
+            ref playerScript.speedLvl,
+            "Speed",
+            Resources.Load<Sprite>("Sprites/boots-tier1"),
+            Resources.Load<Sprite>("Sprites/boots-tier2")
+        );
+    }
+
 
     // Template for upgrades and stores details of each upgrade:
     private void GeneralUpgrade(int startCost, int costIncrement, ref int levelToIncrement, string upgradeName)
@@ -206,7 +256,13 @@ public class Shopkeep : Entity
                             playerSword.GetChild(0).GetChild(1).localPosition +=
                                 new Vector3(0.0f, 0.028f, 0.0f);
                         break;
-
+                    case "JumpHeight":
+                        player.GetComponent<FirstPersonController>().m_JumpSpeed += 1f;
+                        break;
+                    case "Speed":
+                        player.GetComponent<FirstPersonController>().m_RunSpeed += 0.4f;
+                        player.GetComponent<FirstPersonController>().m_WalkSpeed += 0.4f;
+                        break;
                 }
 
                 // Recalculate and display new cost:
@@ -222,6 +278,41 @@ public class Shopkeep : Entity
             src.PlayOneShot(nullSfx);
     }
 
+    // Template for upgrades of Weapons:
+    private void WeaponUpgrade(int startCost, int costIncrement, ref int levelToIncrement, string upgradeName)
+    {
+        GeneralUpgrade(startCost, costIncrement, ref levelToIncrement, upgradeName);
+        // Increment level indicator:
+        GameObject.Find(upgradeName + "-Level-Indicator").transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+            "+" + levelToIncrement;
+    }
+    
+    // Template for upgrades of armor:
+    private void ArmorUpgrade(int startCost, int costIncrement, ref int levelToIncrement, string upgradeName,
+        Sprite upgrade1, Sprite upgrade2)
+    {
+        GeneralUpgrade(startCost, costIncrement, ref levelToIncrement, upgradeName);
+        
+        // Increment level indicator:
+        GameObject.Find(upgradeName + "-Level-Indicator").transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+            "+" + levelToIncrement;
+
+        // Change sprite depending on player level:
+        var button = GameObject.Find("Upgrade-" + upgradeName).GetComponent<Button>();
+        Debug.Log(button.name);
+        if (levelToIncrement > 3)
+        {
+            button.GetComponent<Image>().sprite = upgrade1;
+            Debug.Log(upgrade1);
+        }
+
+        if (levelToIncrement > 6)
+        {
+            button.GetComponent<Image>().sprite = upgrade2;
+            Debug.Log(upgrade2);
+        }
+    }
+    
     // Quick method to calculate the rise in cost of an upgrade:
     private int CalcCost(int startVal, int increment, int lvl)
     {
