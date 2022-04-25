@@ -142,6 +142,7 @@ public class Player : Entity
             if(gameState.isDay)
             {
                 gameState.ToggleDay();
+                gameState.UpdateWaveCount();
             } 
         }
 
@@ -152,11 +153,13 @@ public class Player : Entity
             {
                 settingsMenu.SwitchSetting(0);
                 settingsMenuState = true;
+                Time.timeScale = 0;
             }
             else
             {
                 settingsMenu.SwitchSetting(2);
                 settingsMenuState = false;
+                Time.timeScale = 1;
             }
            
         }

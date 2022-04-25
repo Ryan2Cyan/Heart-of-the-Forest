@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Entities;
-using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
+using TMPro;
 
 public class GameState : MonoBehaviour
 {
@@ -12,9 +11,12 @@ public class GameState : MonoBehaviour
     public bool isDay { get; private set; }
     
     [SerializeField] private List<Enemy> listOfEnemies;
-    [SerializeField] public int currentWave;
-    [SerializeField] public int currentTime;
-    
+    public int currentWave;
+    public int currentTime;
+    public int currentDay;
+    private TMP_Text waveCountUI;
+    private TMP_Text dayCountUI;
+
     [SerializeField] private Light directionalLight;
     [SerializeField, Range(0, 24)] private float timeOfDay;
 
@@ -25,6 +27,12 @@ public class GameState : MonoBehaviour
     {
         isDay = true;
         currentWave = 0;
+        currentDay = 1;
+        waveCountUI = GameObject.Find("WaveCount").GetComponent<TMP_Text>();
+        waveCountUI.text = "WaveCount: " + currentWave;
+
+        dayCountUI = GameObject.Find("DayCount").GetComponent<TMP_Text>();
+        dayCountUI.text = "DayCount: " + currentDay;
         // LoadPlayers(GameObject.Find("PlayerSpawn").transform);
     }
     
@@ -38,6 +46,7 @@ public class GameState : MonoBehaviour
         if(listOfEnemies.Count <= 0)
         {
             isDay = true;
+            currentDay += 1;
         }
     }
 
@@ -56,7 +65,6 @@ public class GameState : MonoBehaviour
     public void ToggleDay()
     {
         isDay = !isDay;
-        currentWave += 1;
     }
     
     // Spawn in a player at the given position (A gameobject transform)
@@ -84,6 +92,10 @@ public class GameState : MonoBehaviour
             (new Vector3((timeArg * 360f) - 90f, 170f, 0));
     }
 
-
+    public void UpdateWaveCount()
+    {
+        currentWave += 1;
+        waveCountUI.text = "WaveCount: " + currentWave;
+    }
 
 }
