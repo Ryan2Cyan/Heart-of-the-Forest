@@ -145,28 +145,40 @@ public class Shopkeep : Entity
             src.PlayOneShot(nullSfx);
     }
     
-    // Upgrades a weapon's range:
-    public void UpgradeRange()
-    {
-        WeaponUpgrade(100, 25, ref playerWeaponScript.rangeLvl, "Range");
-    }
+    // // Upgrades a weapon's range:
+    // public void UpgradeRange()
+    // {
+    //     WeaponUpgrade(100, 25, ref playerWeaponScript.rangeLvl, "Range");
+    // }
     
     // Upgrades a weapon's attack speed:
     public void UpgradeAttackSpeed()
     {
-        WeaponUpgrade(100, 25, ref playerWeaponScript.attackSpeedLvl, "AttackSpeed");
+        UpgradeIncSprites(
+            100, 
+            25, 
+            ref playerWeaponScript.attackSpeedLvl, 
+            "AttackSpeed",
+            Resources.Load<Sprite>("Sprites/hilt-tier1"),
+            Resources.Load<Sprite>("Sprites/hilt-tier2")
+        );
     }
     
-    // Upgrades a weapon's damage:
-    public void UpgradeDamage()
-    {
-        WeaponUpgrade(100, 25, ref playerWeaponScript.damageLvl, "Damage");
-    }
+    // // Upgrades a weapon's damage:
+    // public void UpgradeDamage()
+    // {
+    //     UpgradeIncSprites(
+    //         100, 
+    //         25, 
+    //         ref playerWeaponScript.damageLvl, 
+    //         "Damage");
+    // }
+   
     
     // Upgrades user's jump height:
     public void UpgradeJumpHeight()
     {
-        ArmorUpgrade(
+        UpgradeIncSprites(
             100,
             25,
             ref playerScript.jumpHeightLvl,
@@ -179,7 +191,7 @@ public class Shopkeep : Entity
     // Upgrades how much gold the user gets from enemies:
     public void UpgradeGoldAccumulation()
     {
-        ArmorUpgrade(
+        UpgradeIncSprites(
             100,
             25,
             ref playerScript.goldAccumulationLvl,
@@ -192,7 +204,7 @@ public class Shopkeep : Entity
     // Upgrades how much damage a player can resist per hit:
     public void UpgradeResistance()
     {
-        ArmorUpgrade(
+        UpgradeIncSprites(
             100,
             25,
             ref playerScript.resistanceLvl,
@@ -205,7 +217,7 @@ public class Shopkeep : Entity
     // Upgrades user's running and walking speed:
     public void UpgradeSpeed()
     {
-        ArmorUpgrade(
+        UpgradeIncSprites(
             100,
             25,
             ref playerScript.speedLvl,
@@ -278,17 +290,8 @@ public class Shopkeep : Entity
             src.PlayOneShot(nullSfx);
     }
 
-    // Template for upgrades of Weapons:
-    private void WeaponUpgrade(int startCost, int costIncrement, ref int levelToIncrement, string upgradeName)
-    {
-        GeneralUpgrade(startCost, costIncrement, ref levelToIncrement, upgradeName);
-        // Increment level indicator:
-        GameObject.Find(upgradeName + "-Level-Indicator").transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
-            "+" + levelToIncrement;
-    }
-    
     // Template for upgrades of armor:
-    private void ArmorUpgrade(int startCost, int costIncrement, ref int levelToIncrement, string upgradeName,
+    private void UpgradeIncSprites(int startCost, int costIncrement, ref int levelToIncrement, string upgradeName,
         Sprite upgrade1, Sprite upgrade2)
     {
         GeneralUpgrade(startCost, costIncrement, ref levelToIncrement, upgradeName);
