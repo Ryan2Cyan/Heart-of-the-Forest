@@ -36,6 +36,7 @@ namespace Entities
         private GameObject blacksmith;
         private int buildingTarget;
         private GameObject core;
+        private GameState gameState;
         
 
         private void Start()
@@ -47,6 +48,7 @@ namespace Entities
             alchemist = GameObject.Find("Alchemist");
             blacksmith = GameObject.Find("Blacksmith");
             core = GameObject.Find("Core");
+            gameState = GameObject.Find("GameState").GetComponent<GameState>();
             
             // Set values:
             maxHealth = 50;
@@ -83,9 +85,15 @@ namespace Entities
                         break;
                 }
                 if (isDamaged) // If damaged
+                {
                     TakeDamage();
+                }
+
                 if (currentHealth <= 0) // If dead
+                {
                     OnDeath();
+                    gameState.RemoveEnemy(this);
+                } 
             }
         }
 
@@ -96,12 +104,8 @@ namespace Entities
             var playerResist = 5 * playerScript.resistanceLvl;
             if (Random.Range(0, 100) >= playerResist)
             {
-                Debug.Log(entityName + " tried to attack!");
                 target.TakeDamage(weapon.damage);
             }
-            else
-                Debug.Log(entityName + " missed!");
-            
         }
 
         // Activate on death:
@@ -116,6 +120,7 @@ namespace Entities
             gameObject.GetComponent<SphereCollider>().enabled = false;
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
             enabled = false;
+            
         }
 
         // Change material for brief time when hit:

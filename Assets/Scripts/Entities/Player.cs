@@ -68,6 +68,7 @@ public class Player : Entity
         inventory = new Inventory();
         settingsMenuState = false;
         jumpHeightLvl = 0;
+
     }
 
    
@@ -138,7 +139,10 @@ public class Player : Entity
         // Toggle night and day:
         if (Input.GetKeyDown(KeyCode.L))
         {
-            gameState.ToggleDay();
+            if(gameState.isDay)
+            {
+                gameState.ToggleDay();
+            } 
         }
 
         // Toggle settings menu:
