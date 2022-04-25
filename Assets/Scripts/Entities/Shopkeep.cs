@@ -79,8 +79,10 @@ public class Shopkeep : Entity
             menu.SetActive(true);
             text.SetActive(false);
             menuOpen = true;
+            player.GetComponent<Player>().shopMenuState = true;
+
         }
-        else if (Input.GetKeyDown(KeyCode.E) && menuOpen) // Close menu
+        else if (Input.GetKeyDown(KeyCode.E) && menuOpen || Input.GetKeyDown(KeyCode.Escape) && menuOpen) // Close menu
         {
             player.GetComponent<FirstPersonController>().enabled = true;
             Cursor.lockState = CursorLockMode.Locked;
@@ -88,6 +90,7 @@ public class Shopkeep : Entity
             menu.SetActive(false);
             menuOpen = false;
             text.SetActive(true);
+            player.GetComponent<Player>().shopMenuState = false;
         }
 
         if (currentHealth <= 0 && !isDead)
