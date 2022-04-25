@@ -40,6 +40,8 @@ public class Player : Entity
     public AudioClip takeDamageSound;
     private bool locked = false;
 
+    public GameObject m_GotHitScreen;
+
     // Indexes:
     private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
     private static readonly int AttackWithSword0 = Animator.StringToHash("AttackWithSword0");
@@ -72,8 +74,7 @@ public class Player : Entity
         inventory = new Inventory();
         settingsMenuState = false;
         jumpHeightLvl = 0;
-
-    }
+}
 
    
     private void Update()
@@ -88,13 +89,28 @@ public class Player : Entity
         
         if (currentHealth <= 0)
             OnDeath();
-    }
 
-    // Reduces current HP:
-    public override void TakeDamage(int damage)
+        if (m_GotHitScreen != null)
+        {
+            if (m_GotHitScreen.GetComponent<Image>().color.a > 0)
+            {
+                var color = m_GotHitScreen.GetComponent<Image>().color;
+
+                color.a -= 0.05f;
+
+                m_GotHitScreen.GetComponent<Image>().color = color;
+            }
+        }
+
+
+}
+
+// Reduces current HP:
+public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
         hpBarSlider.value = currentHealth;
+        GotHurt();
         // Play sound when unlocked
         if (locked)
         {}
@@ -106,6 +122,14 @@ public class Player : Entity
             Invoke("SetBoolBack", 0.5f);
         }
     }
+
+    void GotHurt()
+    {
+        var color = m_GotHitScreen.GetComponent<Image>().color;
+        color.a = 0.8f;
+        m_GotHitScreen.GetComponent<Image>().color = color;
+    }
+
     // Set the bool back to play taking hit sounds
     private void SetBoolBack()
     {
