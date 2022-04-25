@@ -30,9 +30,6 @@ public class GameState : MonoBehaviour
         currentDay = 1;
         waveCountUI = GameObject.Find("WaveCount").GetComponent<TMP_Text>();
         waveCountUI.text = "WaveCount: " + currentWave;
-
-        dayCountUI = GameObject.Find("DayCount").GetComponent<TMP_Text>();
-        dayCountUI.text = "DayCount: " + currentDay;
         // LoadPlayers(GameObject.Find("PlayerSpawn").transform);
     }
     
