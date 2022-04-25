@@ -34,11 +34,23 @@ public class GameState : MonoBehaviour
         {
             UpdateLighting(isDay, ref directionalLight);
         }
+
+        if(listOfEnemies.Count <= 0)
+        {
+            isDay = true;
+        }
     }
 
     public void AddEnemy(Enemy newEnemy)
     {
         listOfEnemies.Add(newEnemy);
+        Debug.Log("Amount of enemies: " + listOfEnemies.Count());
+    }
+
+    public void RemoveEnemy(Enemy enemy)
+    {
+        listOfEnemies.Remove(enemy);
+        Debug.Log("Amount of enemies: " + listOfEnemies.Count());
     }
     
     public void ToggleDay()
@@ -71,4 +83,7 @@ public class GameState : MonoBehaviour
         lightArg.transform.localRotation = Quaternion.Euler
             (new Vector3((timeArg * 360f) - 90f, 170f, 0));
     }
+
+
+
 }

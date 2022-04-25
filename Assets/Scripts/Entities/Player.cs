@@ -28,6 +28,7 @@ public class Player : Entity
     private bool useAttack0;
     public int currentGold;
     private bool settingsMenuState;
+    public bool shopMenuState;
     private Animator weaponAnimator;
     private BoxCollider weaponBoxCollider;
     public int jumpHeightLvl;
@@ -53,7 +54,7 @@ public class Player : Entity
 
         // Assign values:
         entityName = "Jargleblarg The Great";
-        maxHealth = 30;
+        maxHealth = 100;
         currentHealth = maxHealth;
         currentGold = 8000;
         nextLevelExp = 20.0f;
@@ -67,6 +68,7 @@ public class Player : Entity
         inventory = new Inventory();
         settingsMenuState = false;
         jumpHeightLvl = 0;
+
     }
 
    
@@ -137,12 +139,16 @@ public class Player : Entity
         // Toggle night and day:
         if (Input.GetKeyDown(KeyCode.L))
         {
-            gameState.ToggleDay();
+            if(gameState.isDay)
+            {
+                gameState.ToggleDay();
+            } 
         }
 
+        // Toggle settings menu:
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(settingsMenuState == false)
+            if(settingsMenuState == false && shopMenuState == false)
             {
                 settingsMenu.SwitchSetting(0);
                 settingsMenuState = true;
@@ -191,4 +197,5 @@ public class Player : Entity
     {
         Warrior
     }
+
 }

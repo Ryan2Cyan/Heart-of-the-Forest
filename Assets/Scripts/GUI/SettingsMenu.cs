@@ -8,12 +8,14 @@ using TMPro;
 public class SettingsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;
+    public bool isEnabled;
     [SerializeField] private Slider audioSlider;
     [SerializeField] private TMP_Dropdown dropdownQuality;
     [SerializeField] private Toggle fullscreenCheckbox;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private GameObject settingsCanvas;
     [SerializeField] private GameObject controlsCanvas;
+    
 
     Resolution[] resolutions;
 
