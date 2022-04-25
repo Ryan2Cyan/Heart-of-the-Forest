@@ -36,6 +36,10 @@ public class Player : Entity
     public int resistanceLvl;
     public int goldAccumulationLvl;
 
+    public AudioSource src;
+    public AudioClip takeDamageSound;
+    private bool locked = false;
+
     // Indexes:
     private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
     private static readonly int AttackWithSword0 = Animator.StringToHash("AttackWithSword0");
@@ -91,8 +95,23 @@ public class Player : Entity
     {
         base.TakeDamage(damage);
         hpBarSlider.value = currentHealth;
+        // Play sound when unlocked
+        if (locked)
+        {}
+        else
+        {
+            src.PlayOneShot(takeDamageSound);
+            // Locked for time in Invoke
+            locked = true;
+            Invoke("SetBoolBack", 0.5f);
+        }
     }
-    
+    // Set the bool back to play taking hit sounds
+    private void SetBoolBack()
+    {
+        locked = false;
+    }
+
     // Reset the scene:
     protected override void OnDeath() 
     {

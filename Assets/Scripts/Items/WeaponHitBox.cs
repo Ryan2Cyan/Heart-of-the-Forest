@@ -10,7 +10,7 @@ namespace Items
 
         public AudioSource src;
         public AudioClip sfx;
-        bool locked = false;
+        private bool locked = false;
 
         private void Start()
         {
