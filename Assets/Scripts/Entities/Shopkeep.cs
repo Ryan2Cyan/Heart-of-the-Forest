@@ -164,15 +164,18 @@ public class Shopkeep : Entity
         );
     }
     
-    // // Upgrades a weapon's damage:
-    // public void UpgradeDamage()
-    // {
-    //     UpgradeIncSprites(
-    //         100, 
-    //         25, 
-    //         ref playerWeaponScript.damageLvl, 
-    //         "Damage");
-    // }
+    // Upgrades a weapon's damage:
+    public void UpgradeDamage()
+    {
+        UpgradeIncSprites(
+            100, 
+            25, 
+            ref playerWeaponScript.damageLvl, 
+            "Damage",
+            Resources.Load<Sprite>("Sprites/blade-tier1"),
+            Resources.Load<Sprite>("Sprites/blade-tier2")
+        );
+    }
    
     
     // Upgrades user's jump height:
