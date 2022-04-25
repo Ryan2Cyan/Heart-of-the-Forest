@@ -148,11 +148,17 @@ public class Shopkeep : Entity
             src.PlayOneShot(nullSfx);
     }
     
-    // // Upgrades a weapon's range:
-    // public void UpgradeRange()
-    // {
-    //     WeaponUpgrade(100, 25, ref playerWeaponScript.rangeLvl, "Range");
-    // }
+    // Upgrades a weapon's range:
+    public void UpgradeRange()
+    {
+        UpgradeIncSprites(
+            100, 
+            25, 
+            ref playerWeaponScript.rangeLvl, 
+            "Range",
+            Resources.Load<Sprite>("Sprites/rangeblade-tier1"),
+            Resources.Load<Sprite>("Sprites/rangeblade-tier2"));
+    }
     
     // Upgrades a weapon's attack speed:
     public void UpgradeAttackSpeed()
