@@ -13,7 +13,6 @@ public class Inventory
         // Check if there is space in inventory:
         if (items.Count != maxItems)
         {
-            Debug.Log("Items.Count" + items.Count);
             items.Add(arg);
         }
     }

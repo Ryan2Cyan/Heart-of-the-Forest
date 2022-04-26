@@ -10,7 +10,6 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class Player : Entity
 {
     // Serialized variables:
-    [SerializeField] private GameState gameState;
     [SerializeField] private SettingsMenu settingsMenu;
     [SerializeField] GameObject[] swordPrefab;
     [SerializeField] private Inventory inventory;
@@ -40,9 +39,8 @@ public class Player : Entity
 
     public AudioSource src;
     public AudioClip takeDamageSound;
+    public AudioClip deathSound;
     private bool locked = false;
-
-    public GameObject m_GotHitScreen;
 
     // Indexes:
     private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
@@ -52,7 +50,6 @@ public class Player : Entity
     private void Start()
     {
         // Fetch components:
-        gameState = FindObjectOfType<GameState>();
         weapon = transform.GetChild(0).transform.GetChild(0).GetComponent<Weapon>();
         weaponAnimator = weapon.gameObject.GetComponent<Animator>();
         weaponBoxCollider = weapon.gameObject.GetComponent<BoxCollider>();
@@ -101,37 +98,29 @@ public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
         hpBarSlider.value = currentHealth;
-        GotHurt();
         // Play sound when unlocked
-        if (locked)
-        {}
-        else
+        if (!locked)
         {
             src.PlayOneShot(takeDamageSound);
             // Locked for time in Invoke
             locked = true;
-            Invoke("SetBoolBack", 0.5f);
+            StartCoroutine(SetBoolBack());
         }
 
         damageFX.color = new Color(1, 0, 0, 0.4f);
     }
 
-    void GotHurt()
-    {
-        var color = m_GotHitScreen.GetComponent<Image>().color;
-        color.a = 0.8f;
-        m_GotHitScreen.GetComponent<Image>().color = color;
-    }
-
     // Set the bool back to play taking hit sounds
-    private void SetBoolBack()
+    IEnumerator SetBoolBack()
     {
+        yield return new WaitForSeconds(0.5f);
         locked = false;
     }
 
     // Reset the scene:
     protected override void OnDeath() 
     {
+        src.PlayOneShot(deathSound);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
@@ -148,10 +137,7 @@ public override void TakeDamage(int damage)
     {
         useAttack0 = !useAttack0;
         weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
-
-
         weaponBoxCollider.enabled = true;
-        weapon.src.PlayOneShot(weapon.sfx);
         
         yield return new WaitForSeconds(0.05f);
         weaponBoxCollider.enabled = false;
@@ -172,16 +158,6 @@ public override void TakeDamage(int damage)
     // Process all player input relating to the player:
     private void ProcessInput()
     {
-        // Toggle night and day:
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            if(gameState.isDay)
-            {
-                gameState.ToggleDay();
-                gameState.UpdateWaveCount();
-            } 
-        }
-
         // Toggle settings menu:
         if(Input.GetKeyDown(KeyCode.Escape))
         {
@@ -192,12 +168,14 @@ public override void TakeDamage(int damage)
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 
+                // Open settings menu and pause game
                 settingsMenu.SwitchSetting(0);
                 settingsMenuState = true;
                 Time.timeScale = 0;
             }
             else
             {
+                // Close all settings menu and unpause game
                 settingsMenu.SwitchSetting(2);
                 settingsMenuState = false;
                 Time.timeScale = 1;

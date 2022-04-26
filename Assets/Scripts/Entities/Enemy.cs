@@ -37,6 +37,8 @@ namespace Entities
         private int buildingTarget;
         private GameObject core;
         private GameState gameState;
+        private AudioSource src;
+        public AudioClip deadSkeletonSound;
         
 
         private void Start()
@@ -49,6 +51,7 @@ namespace Entities
             blacksmith = GameObject.Find("Blacksmith");
             core = GameObject.Find("Core");
             gameState = GameObject.Find("GameState").GetComponent<GameState>();
+            src = GetComponent<AudioSource>();
             
             // Set values:
             maxHealth = 50;
@@ -115,6 +118,7 @@ namespace Entities
                 enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.
             playerScript.currentGold += goldDrop + goldMod * playerScript.goldAccumulationLvl;
             isDead = true;
+            src.PlayOneShot(deadSkeletonSound);
             enemyNavMesh.enabled = false;
             model.material = deathMat;
             gameObject.GetComponent<SphereCollider>().enabled = false;

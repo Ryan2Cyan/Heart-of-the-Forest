@@ -10,9 +10,6 @@ namespace Core
         [SerializeField] private Enemy enemy;
         [SerializeField] private Transform[] spawnPositions;
         [SerializeField] private GameObject centreOfSpawn;
-        private float radius;
-        private float angle;
-        private GameObject spawnPosition;
         [SerializeField] private int enemiesToSpawn;
         private bool spawned;
 
@@ -23,10 +20,6 @@ namespace Core
             gameStateScript = FindObjectOfType<GameState>();
 
             centreOfSpawn = GameObject.Find("CentreOfSpawn");
-
-            spawnPosition = centreOfSpawn;
-
-            enemiesToSpawn = gameStateScript.currentWave + gameStateScript.currentWave + 1;
         }
 
         private void Update()
@@ -34,7 +27,7 @@ namespace Core
             // Check if the time of day is night
             if (gameStateScript.isDay == false)
             {
-                enemiesToSpawn = gameStateScript.currentWave + gameStateScript.currentWave + 100;
+                enemiesToSpawn = gameStateScript.currentWave + gameStateScript.currentWave + 1;
 
                 if (!spawned)
                 {
