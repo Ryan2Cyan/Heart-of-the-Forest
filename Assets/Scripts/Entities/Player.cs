@@ -39,6 +39,7 @@ public class Player : Entity
 
     public AudioSource src;
     public AudioClip takeDamageSound;
+    public AudioClip deathSound;
     private bool locked = false;
 
     // Indexes:
@@ -119,6 +120,7 @@ public override void TakeDamage(int damage)
     // Reset the scene:
     protected override void OnDeath() 
     {
+        src.PlayOneShot(deathSound);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
