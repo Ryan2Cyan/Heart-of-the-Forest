@@ -21,7 +21,10 @@ public class GameState : MonoBehaviour
     [SerializeField, Range(0, 24)] private float timeOfDay;
 
     [SerializeField] private Player player;
-    
+
+    public AudioSource src;
+    public AudioClip nightTransitionSound;
+    public AudioClip dayTransitionSound;
 
     private void Start()
     {
@@ -62,6 +65,14 @@ public class GameState : MonoBehaviour
     public void ToggleDay()
     {
         isDay = !isDay;
+        if (isDay)
+		{
+            src.PlayOneShot(dayTransitionSound);
+		}
+        else
+		{
+            src.PlayOneShot(nightTransitionSound);
+        }
     }
     
     // Spawn in a player at the given position (A gameobject transform)
