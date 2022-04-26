@@ -98,9 +98,7 @@ public override void TakeDamage(int damage)
         base.TakeDamage(damage);
         hpBarSlider.value = currentHealth;
         // Play sound when unlocked
-        if (locked)
-        {}
-        else
+        if (!locked)
         {
             src.PlayOneShot(takeDamageSound);
             // Locked for time in Invoke
