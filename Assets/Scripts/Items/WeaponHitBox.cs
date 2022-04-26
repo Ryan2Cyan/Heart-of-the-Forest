@@ -1,5 +1,6 @@
 using Entities;
 using UnityEngine;
+using System.Collections;
 
 namespace Items
 {
@@ -35,7 +36,7 @@ namespace Items
 				{
                     src.PlayOneShot(sfx);
                     locked = true;
-                    Invoke("SetBoolBack", 0.1f);                  
+                    StartCoroutine(SetBoolBack());                  
                 }
                             
                 // // Calculate the direction between the player and enemy, then knock enemy back:
@@ -44,8 +45,9 @@ namespace Items
             }
         }
 
-        private void SetBoolBack()
+        private IEnumerator SetBoolBack()
 		{
+            yield return new WaitForSeconds(0.1f);
             locked = false;
 		}
     }
