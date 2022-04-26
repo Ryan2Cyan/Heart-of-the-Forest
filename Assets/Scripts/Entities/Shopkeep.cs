@@ -1,3 +1,4 @@
+using System;
 using Items;
 using TDG.Entity;
 using TMPro;
@@ -52,6 +53,7 @@ public class Shopkeep : Entity
             lvl1Model = transform.GetChild(0).gameObject;
             lvl2Model = transform.GetChild(1).gameObject;
             lvl3Model = transform.GetChild(2).gameObject;
+            Debug.Log(lvl3Model.name);
             lvl1Model.SetActive(true);
         }
 
@@ -100,7 +102,7 @@ public class Shopkeep : Entity
     }
 
     // Switch to next level of shop model:
-    public void Upgrade()
+    public void UpgradeShop()
     {
         // Costs to upgrade the shops:
         const int cost0 = 250;
@@ -115,6 +117,9 @@ public class Shopkeep : Entity
                 src.PlayOneShot(purchaseSfx);
                 lvl1Model.SetActive(false);
                 lvl2Model.SetActive(true);
+                
+                // Change Icon:
+                SetIcon(1);
             }
             else if (lvl2Model.activeInHierarchy&& playerScript.currentGold >= cost1)
             {
@@ -123,12 +128,53 @@ public class Shopkeep : Entity
                 src.PlayOneShot(purchaseSfx);
                 lvl2Model.SetActive(false);
                 lvl3Model.SetActive(true);
+                
+                // Change Icon:
+                SetIcon(2);
             }
             else
                 src.PlayOneShot(nullSfx);
         }
         else
             src.PlayOneShot(nullSfx);
+    }
+    
+    // Set a shop's icon depending on its level:
+    private void SetIcon(int level)
+    {
+        switch (shopType)
+        {
+            case ShopType.Blacksmith:
+                if (level == 1)
+                    GameObject.Find("Blacksmith-Icon").GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/blacksmith-icon-tier1");
+                
+                if (level == 2)
+                    GameObject.Find("Blacksmith-Icon").GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/blacksmith-icon-tier2");
+                break;
+            case ShopType.Armorsmith:
+                if (level == 1)
+                    GameObject.Find("Armorsmith-Icon").GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/armorsmith-icon-tier1");
+                
+                if (level == 2)
+                    GameObject.Find("Armorsmith-Icon").GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/armorsmith-icon-tier2");
+                break;
+            case ShopType.Alchemist:
+                if (level == 1)
+                    GameObject.Find("Alchemist-Icon").GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/alchemist-icon-tier1");
+                
+                if (level == 2)
+                    GameObject.Find("Alchemist-Icon").GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/alchemist-icon-tier2");
+                break;
+            default:
+                Debug.Log("Invalid shop type");
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     // Repairs the shop, making it accessible for the player once again:
