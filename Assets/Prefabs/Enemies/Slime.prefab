@@ -341,16 +341,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed7f659e8fd78141961ae22bb85be52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityName: Slime
   currentHealth: 0
-  maxHealth: 0
-  level: 0
   weapon: {fileID: 6346224260226283443}
+  blackSkeleton: {fileID: 0}
   enemyType: 1
   enemyNavMesh: {fileID: 7416612453443439326}
   isAttacking: 0
   isDead: 0
   isDamaged: 0
+  goldDrop: 0
   model: {fileID: 3317478666436727101}
   damageMat: {fileID: 2100000, guid: 63ab3021a3b546f4fbfdd029305eefeb, type: 2}
   deathMat: {fileID: 0}
