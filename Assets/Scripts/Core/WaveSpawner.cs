@@ -25,8 +25,6 @@ namespace Core
             centreOfSpawn = GameObject.Find("CentreOfSpawn");
 
             spawnPosition = centreOfSpawn;
-
-            enemiesToSpawn = gameStateScript.currentWave + gameStateScript.currentWave + 1;
         }
 
         private void Update()
@@ -34,7 +32,7 @@ namespace Core
             // Check if the time of day is night
             if (gameStateScript.isDay == false)
             {
-                enemiesToSpawn = gameStateScript.currentWave + gameStateScript.currentWave + 100;
+                enemiesToSpawn = gameStateScript.currentWave + gameStateScript.currentWave + 1;
 
                 if (!spawned)
                 {

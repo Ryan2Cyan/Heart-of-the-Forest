@@ -45,7 +45,10 @@ public class GameState : MonoBehaviour
 
         if(listOfEnemies.Count <= 0)
         {
-            isDay = true;
+            if(!isDay)
+            {
+                ToggleDay();
+            }
             currentDay += 1;
         }
     }
