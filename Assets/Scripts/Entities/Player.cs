@@ -39,6 +39,7 @@ public class Player : Entity
 
     public AudioSource src;
     public AudioClip takeDamageSound;
+    public AudioClip deathSound;
     private bool locked = false;
 
     // Indexes:
@@ -119,6 +120,7 @@ public override void TakeDamage(int damage)
     // Reset the scene:
     protected override void OnDeath() 
     {
+        src.PlayOneShot(deathSound);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
@@ -136,7 +138,6 @@ public override void TakeDamage(int damage)
         useAttack0 = !useAttack0;
         weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
         weaponBoxCollider.enabled = true;
-        weapon.src.PlayOneShot(weapon.sfx);
         
         yield return new WaitForSeconds(0.05f);
         weaponBoxCollider.enabled = false;

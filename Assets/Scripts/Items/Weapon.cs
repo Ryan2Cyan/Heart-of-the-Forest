@@ -10,8 +10,13 @@ namespace Items
         public int damage;
         public AudioSource src;
         public AudioClip sfx;
+
+        public void PlaySwingSound()
+        {
+            src.PlayOneShot(sfx);
+        }
     }
-    
+
     public enum WeaponType
     {
         Empty,

@@ -26,6 +26,7 @@ public class Shopkeep : Entity
     [SerializeField] private AudioClip destroySfx;
     [SerializeField] private AudioClip nullSfx;
     [SerializeField] private AudioClip purchaseSfx;
+    [SerializeField] private AudioClip UpgradeBuildingSfx;
     [SerializeField] private AudioSource src;
     [SerializeField] private ShopType shopType;
     [SerializeField] private GameObject text;
@@ -113,7 +114,7 @@ public class Shopkeep : Entity
             {
                 upgradePrice.text = cost1.ToString();
                 playerScript.currentGold -= cost0;
-                src.PlayOneShot(purchaseSfx);
+                src.PlayOneShot(UpgradeBuildingSfx);
                 lvl1Model.SetActive(false);
                 lvl2Model.SetActive(true);
                 
@@ -124,7 +125,7 @@ public class Shopkeep : Entity
             {
                 upgradePrice.text = "Max";
                 playerScript.currentGold -= cost1;
-                src.PlayOneShot(purchaseSfx);
+                src.PlayOneShot(UpgradeBuildingSfx);
                 lvl2Model.SetActive(false);
                 lvl3Model.SetActive(true);
                 
