@@ -42,8 +42,6 @@ public class Player : Entity
     public AudioClip takeDamageSound;
     private bool locked = false;
 
-    public GameObject m_GotHitScreen;
-
     // Indexes:
     private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
     private static readonly int AttackWithSword0 = Animator.StringToHash("AttackWithSword0");
