@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
-    //private void Start()
-    //{
-    //    DontDestroyOnLoad(this.gameObject);
-    //}
+    private void Start()
+    {
+        Time.timeScale = 1;
+        //DontDestroyOnLoad(this.gameObject);
+    }
 
     // Loads the next scene
     public void LoadNextScene()
