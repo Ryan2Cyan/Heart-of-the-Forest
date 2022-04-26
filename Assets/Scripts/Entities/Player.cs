@@ -101,7 +101,6 @@ public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
         hpBarSlider.value = currentHealth;
-        GotHurt();
         // Play sound when unlocked
         if (locked)
         {}
@@ -114,13 +113,6 @@ public override void TakeDamage(int damage)
         }
 
         damageFX.color = new Color(1, 0, 0, 0.4f);
-    }
-
-    void GotHurt()
-    {
-        var color = m_GotHitScreen.GetComponent<Image>().color;
-        color.a = 0.8f;
-        m_GotHitScreen.GetComponent<Image>().color = color;
     }
 
     // Set the bool back to play taking hit sounds
