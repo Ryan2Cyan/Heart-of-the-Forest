@@ -9,9 +9,6 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class Shopkeep : Entity
 {
-    // [SerializeField] private Material highlightMat;
-    // private Material defaultMat;
-    // private Renderer renderer;
     private Collider currentCollider;
     private bool isSelected;
     private bool playerCollision;
@@ -23,6 +20,7 @@ public class Shopkeep : Entity
     private GameObject player;
     private Player playerScript;
     private PlayerWeapon playerWeaponScript;
+    private GameState gameState;
     public bool isDead { get; private set; }
     
     [SerializeField] private Slider hpBarSlider;
@@ -56,6 +54,7 @@ public class Shopkeep : Entity
             Debug.Log(lvl3Model.name);
             lvl1Model.SetActive(true);
         }
+        gameState = GameObject.Find("GameState").GetComponent<GameState>();
 
         playerWeaponScript = player.transform.GetChild(0).GetChild(0).GetComponent<PlayerWeapon>();
 
@@ -64,40 +63,47 @@ public class Shopkeep : Entity
         playerCollision = false;
         maxHealth = 100;
         currentHealth = maxHealth;
-        if(hpBarSlider)
+        if (hpBarSlider)
+        {
+            hpBarSlider.maxValue = maxHealth;
             hpBarSlider.value = maxHealth;
+            hpBarSlider.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = currentHealth.ToString();
+        }
     }
 
     private void Update()
     {
-        
-        // Check if the player is in range of the shop. Toggle menu by pressing "E":
-        if (Input.GetKeyDown(KeyCode.E) && playerCollision && !menuOpen) // Open menu
+        if (gameState.isDay)
         {
-            // Unlock cursor:
-            player.GetComponent<FirstPersonController>().enabled = false;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            menu.SetActive(true);
-            text.SetActive(false);
-            menuOpen = true;
-            player.GetComponent<Player>().shopMenuState = true;
+            // Check if the player is in range of the shop. Toggle menu by pressing "E":
+            if (Input.GetKeyDown(KeyCode.E) && playerCollision && !menuOpen) // Open menu
+            {
+                // Unlock cursor:
+                player.GetComponent<FirstPersonController>().enabled = false;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                menu.SetActive(true);
+                text.SetActive(false);
+                menuOpen = true;
+                player.GetComponent<Player>().shopMenuState = true;
 
-        }
-        else if (Input.GetKeyDown(KeyCode.E) && menuOpen || Input.GetKeyDown(KeyCode.Escape) && menuOpen) // Close menu
-        {
-            player.GetComponent<FirstPersonController>().enabled = true;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            menu.SetActive(false);
-            menuOpen = false;
-            text.SetActive(true);
-            player.GetComponent<Player>().shopMenuState = false;
-        }
+            }
+            else if (Input.GetKeyDown(KeyCode.E) && menuOpen ||
+                     Input.GetKeyDown(KeyCode.Escape) && menuOpen) // Close menu
+            {
+                player.GetComponent<FirstPersonController>().enabled = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                menu.SetActive(false);
+                menuOpen = false;
+                text.SetActive(true);
+                player.GetComponent<Player>().shopMenuState = false;
+            }
 
-        if (currentHealth <= 0 && !isDead)
-        {
-            OnDeath();
+            if (currentHealth <= 0 && !isDead)
+            {
+                OnDeath();
+            }
         }
     }
 
@@ -123,7 +129,7 @@ public class Shopkeep : Entity
             }
             else if (lvl2Model.activeInHierarchy&& playerScript.currentGold >= cost1)
             {
-                upgradePrice.text = "";
+                upgradePrice.text = "Max";
                 playerScript.currentGold -= cost1;
                 src.PlayOneShot(purchaseSfx);
                 lvl2Model.SetActive(false);
