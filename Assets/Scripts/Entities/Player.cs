@@ -172,16 +172,6 @@ public override void TakeDamage(int damage)
     // Process all player input relating to the player:
     private void ProcessInput()
     {
-        // Toggle night and day:
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            if(gameState.isDay)
-            {
-                gameState.ToggleDay();
-                gameState.UpdateWaveCount();
-            } 
-        }
-
         // Toggle settings menu:
         if(Input.GetKeyDown(KeyCode.Escape))
         {

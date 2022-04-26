@@ -33,6 +33,7 @@ public class Shopkeep : Entity
     [SerializeField] private ShopType shopType;
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject menu;
+    [SerializeField] private GameObject sign;
 
     
     
@@ -152,30 +153,57 @@ public class Shopkeep : Entity
         {
             case ShopType.Blacksmith:
                 if (level == 1)
+                {
                     GameObject.Find("Blacksmith-Icon").GetComponent<Image>().sprite =
                         Resources.Load<Sprite>("Sprites/blacksmith-icon-tier1");
-                
+                    sign.GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/blacksmith-icon-tier1");
+                }
+
                 if (level == 2)
+                {
                     GameObject.Find("Blacksmith-Icon").GetComponent<Image>().sprite =
                         Resources.Load<Sprite>("Sprites/blacksmith-icon-tier2");
+                    sign.GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/blacksmith-icon-tier2");
+                }
+
                 break;
             case ShopType.Armorsmith:
                 if (level == 1)
+                {
                     GameObject.Find("Armorsmith-Icon").GetComponent<Image>().sprite =
                         Resources.Load<Sprite>("Sprites/armorsmith-icon-tier1");
-                
+                    sign.GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/armorsmith-icon-tier1");
+                }
+
                 if (level == 2)
+                {
                     GameObject.Find("Armorsmith-Icon").GetComponent<Image>().sprite =
                         Resources.Load<Sprite>("Sprites/armorsmith-icon-tier2");
+                    sign.GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/armorsmith-icon-tier2");
+                }
+
                 break;
             case ShopType.Alchemist:
                 if (level == 1)
+                {
                     GameObject.Find("Alchemist-Icon").GetComponent<Image>().sprite =
                         Resources.Load<Sprite>("Sprites/alchemist-icon-tier1");
-                
+                    sign.GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/alchemist-icon-tier1");
+                }
+
                 if (level == 2)
+                {
                     GameObject.Find("Alchemist-Icon").GetComponent<Image>().sprite =
                         Resources.Load<Sprite>("Sprites/alchemist-icon-tier2");
+                    sign.GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/alchemist-icon-tier2");
+                }
+
                 break;
             default:
                 Debug.Log("Invalid shop type");
@@ -210,6 +238,24 @@ public class Shopkeep : Entity
             "Range",
             Resources.Load<Sprite>("Sprites/rangeblade-tier1"),
             Resources.Load<Sprite>("Sprites/rangeblade-tier2"));
+    }
+    
+    // Start next wave:
+    public void StartNextWave()
+    {
+        // Toggle night and day:
+        if(gameState.isDay)
+        {
+            gameState.ToggleDay();
+            gameState.UpdateWaveCount();
+            player.GetComponent<FirstPersonController>().enabled = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            menu.SetActive(false);
+            menuOpen = false;
+            text.SetActive(true);
+            player.GetComponent<Player>().shopMenuState = false;
+        } 
     }
     
     // Upgrades a weapon's attack speed:
