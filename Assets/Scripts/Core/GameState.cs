@@ -50,13 +50,13 @@ public class GameState : MonoBehaviour
     public void AddEnemy(Enemy newEnemy)
     {
         listOfEnemies.Add(newEnemy);
-        Debug.Log("Amount of enemies: " + listOfEnemies.Count());
+        //Debug.Log("Amount of enemies: " + listOfEnemies.Count());
     }
 
     public void RemoveEnemy(Enemy enemy)
     {
         listOfEnemies.Remove(enemy);
-        Debug.Log("Amount of enemies: " + listOfEnemies.Count());
+        //Debug.Log("Amount of enemies: " + listOfEnemies.Count());
     }
     
     public void ToggleDay()
