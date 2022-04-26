@@ -135,8 +135,6 @@ public override void TakeDamage(int damage)
     {
         useAttack0 = !useAttack0;
         weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
-
-
         weaponBoxCollider.enabled = true;
         weapon.src.PlayOneShot(weapon.sfx);
         
@@ -169,12 +167,14 @@ public override void TakeDamage(int damage)
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 
+                // Open settings menu and pause game
                 settingsMenu.SwitchSetting(0);
                 settingsMenuState = true;
                 Time.timeScale = 0;
             }
             else
             {
+                // Close all settings menu and unpause game
                 settingsMenu.SwitchSetting(2);
                 settingsMenuState = false;
                 Time.timeScale = 1;

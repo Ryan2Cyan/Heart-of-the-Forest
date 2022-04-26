@@ -9,11 +9,8 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class Shopkeep : Entity
 {
-    private Collider currentCollider;
-    private bool isSelected;
     private bool playerCollision;
     private bool menuOpen;
-    private GameObject currentModel;
     private GameObject lvl1Model;
     private GameObject lvl2Model;
     private GameObject lvl3Model;
@@ -39,12 +36,8 @@ public class Shopkeep : Entity
     
 
     private void Start()
-    {
-        // defaultMat = transform.GetComponent<Renderer>().material;
-        // renderer = transform.GetComponent<Renderer>();
-        
+    {   
         // Get components:
-        currentCollider = transform.GetComponent<SphereCollider>();
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<Player>();
         if (shopType != ShopType.Core)

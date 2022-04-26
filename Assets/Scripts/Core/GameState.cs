@@ -56,13 +56,11 @@ public class GameState : MonoBehaviour
     public void AddEnemy(Enemy newEnemy)
     {
         listOfEnemies.Add(newEnemy);
-        //Debug.Log("Amount of enemies: " + listOfEnemies.Count());
     }
 
     public void RemoveEnemy(Enemy enemy)
     {
         listOfEnemies.Remove(enemy);
-        //Debug.Log("Amount of enemies: " + listOfEnemies.Count());
     }
     
     public void ToggleDay()
@@ -77,15 +75,6 @@ public class GameState : MonoBehaviour
             src.PlayOneShot(nightTransitionSound);
         }
     }
-    
-    // Spawn in a player at the given position (A gameobject transform)
-    private void LoadPlayers(Transform arg)
-    {
-        var position = arg.position;
-        Debug.Log("Player Spawned.");
-        Instantiate(player, new Vector3(position.x, position.y, position.z), Quaternion.identity);
-    }
-
 
     // Check if light is valid - if true: set time based on bool:
     private static void UpdateLighting(bool isDayArg, ref Light lightArg)
@@ -108,5 +97,4 @@ public class GameState : MonoBehaviour
         currentWave += 1;
         waveCountUI.text = "WaveCount: " + currentWave;
     }
-
 }

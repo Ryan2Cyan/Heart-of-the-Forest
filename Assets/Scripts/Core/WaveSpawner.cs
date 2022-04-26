@@ -10,9 +10,6 @@ namespace Core
         [SerializeField] private Enemy enemy;
         [SerializeField] private Transform[] spawnPositions;
         [SerializeField] private GameObject centreOfSpawn;
-        private float radius;
-        private float angle;
-        private GameObject spawnPosition;
         [SerializeField] private int enemiesToSpawn;
         private bool spawned;
 
@@ -23,8 +20,6 @@ namespace Core
             gameStateScript = FindObjectOfType<GameState>();
 
             centreOfSpawn = GameObject.Find("CentreOfSpawn");
-
-            spawnPosition = centreOfSpawn;
         }
 
         private void Update()
