@@ -45,7 +45,6 @@ public class Shopkeep : Entity
             lvl1Model = transform.GetChild(0).gameObject;
             lvl2Model = transform.GetChild(1).gameObject;
             lvl3Model = transform.GetChild(2).gameObject;
-            Debug.Log(lvl3Model.name);
             lvl1Model.SetActive(true);
         }
         gameState = GameObject.Find("GameState").GetComponent<GameState>();

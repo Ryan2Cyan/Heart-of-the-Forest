@@ -13,7 +13,7 @@ namespace TDG.Entity
 
         protected virtual void OnDeath()
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
         public virtual void TakeDamage(int damage)

@@ -8,7 +8,6 @@ public class LevelLoader : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1;
-        //DontDestroyOnLoad(this.gameObject);
     }
 
     // Loads the next scene

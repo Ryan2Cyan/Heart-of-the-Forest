@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Core;
 using Entities;
 using TMPro;
 
 public class GameState : MonoBehaviour
 {
-    
+
+    private WaveSpawner waveSpawner;
     public bool isDay { get; private set; }
-    
-    [SerializeField] private List<Enemy> listOfEnemies;
     public int currentWave;
     public int currentTime;
     public int currentDay;
@@ -19,7 +19,6 @@ public class GameState : MonoBehaviour
 
     [SerializeField] private Light directionalLight;
     [SerializeField, Range(0, 24)] private float timeOfDay;
-
     [SerializeField] private Player player;
 
     public AudioSource src;
@@ -33,34 +32,26 @@ public class GameState : MonoBehaviour
         currentDay = 1;
         waveCountUI = GameObject.Find("WaveCount").GetComponent<TMP_Text>();
         waveCountUI.text = "WaveCount: " + currentWave;
+        waveSpawner = transform.GetChild(0).GetComponent<WaveSpawner>();
         // LoadPlayers(GameObject.Find("PlayerSpawn").transform);
     }
     
     private void Update()
     {
-        if (Application.isPlaying)
+        if (waveSpawner)
         {
-            UpdateLighting(isDay, ref directionalLight);
-        }
+            if (Application.isPlaying)
+                UpdateLighting(isDay, ref directionalLight);
 
-        if(listOfEnemies.Count <= 0)
-        {
-            if(!isDay)
+            if (waveSpawner.aliveEnemies.Count <= 0)
             {
-                ToggleDay();
+                if (!isDay)
+                {
+                    ToggleDay();
+                    currentDay += 1;
+                }
             }
-            currentDay += 1;
         }
-    }
-
-    public void AddEnemy(Enemy newEnemy)
-    {
-        listOfEnemies.Add(newEnemy);
-    }
-
-    public void RemoveEnemy(Enemy enemy)
-    {
-        listOfEnemies.Remove(enemy);
     }
     
     public void ToggleDay()
