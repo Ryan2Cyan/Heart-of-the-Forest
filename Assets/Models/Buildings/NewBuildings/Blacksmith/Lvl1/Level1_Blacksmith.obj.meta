@@ -1,0 +1,232 @@
+fileFormatVersion: 2
+guid: 84d20987f86413b4a9f9a662b16020bc
+ModelImporter:
+  serializedVersion: 21100
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: HammerHandle_HammerHandleMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_Anvil2_Lvl1_Anvil2Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_Bellow_Lvl1_BellowMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_Crate1_Lvl1_Crate1Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_Crate2_Lvl1_Crate2Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_Crate_Lvl1_CrateMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_Frame_Lvl1_FrameMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_Furnace_Lvl1_FurnaceMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_Hammer_Head4_Lvl1_Hammer_Head4Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_Lava_Lvl1_LavaMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_RoofTiles_Lvl1_RoofTilesMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_WoodLogStool_Lvl1_WoodLogStoolMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_WoodenBarrel1_Lvl1_WoodenBarrel1Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_WoodenBarrel20_Lvl1_WoodenBarrel20Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_WoodenBarrel21_Lvl1_WoodenBarrel21Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_WoodenBarrel_Lvl1_WoodenBarrelMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_table_top_Lvl1_table_topMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MetalSides_MetalSidesMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: corners_cornersMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube69_pCube69Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rim2_rim2Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rim_rimMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: supporters_front2_supporters_front2Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: supporters_front_supporters_frontMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: supporters_side2_supporters_side2Mat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: supporters_side_supporters_sideMat
+    second: {fileID: 2100000, guid: 6b4ac518c5a34274eb4260a825c0bb4e, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 0
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
