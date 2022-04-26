@@ -10,7 +10,6 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class Player : Entity
 {
     // Serialized variables:
-    [SerializeField] private GameState gameState;
     [SerializeField] private SettingsMenu settingsMenu;
     [SerializeField] GameObject[] swordPrefab;
     [SerializeField] private Inventory inventory;
@@ -50,7 +49,6 @@ public class Player : Entity
     private void Start()
     {
         // Fetch components:
-        gameState = FindObjectOfType<GameState>();
         weapon = transform.GetChild(0).transform.GetChild(0).GetComponent<Weapon>();
         weaponAnimator = weapon.gameObject.GetComponent<Animator>();
         weaponBoxCollider = weapon.gameObject.GetComponent<BoxCollider>();
@@ -107,15 +105,16 @@ public override void TakeDamage(int damage)
             src.PlayOneShot(takeDamageSound);
             // Locked for time in Invoke
             locked = true;
-            Invoke("SetBoolBack", 0.5f);
+            StartCoroutine(SetBoolBack());
         }
 
         damageFX.color = new Color(1, 0, 0, 0.4f);
     }
 
     // Set the bool back to play taking hit sounds
-    private void SetBoolBack()
+    IEnumerator SetBoolBack()
     {
+        yield return new WaitForSeconds(0.5f);
         locked = false;
     }
 
