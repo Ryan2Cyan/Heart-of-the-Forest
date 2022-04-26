@@ -405,7 +405,6 @@ public class Shopkeep : Entity
 
         // Change sprite depending on player level:
         var button = GameObject.Find("Upgrade-" + upgradeName).GetComponent<Button>();
-        Debug.Log(button.name);
         if (levelToIncrement > 3)
         {
             button.GetComponent<Image>().sprite = upgrade1;
