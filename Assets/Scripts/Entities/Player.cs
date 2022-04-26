@@ -138,7 +138,6 @@ public override void TakeDamage(int damage)
         useAttack0 = !useAttack0;
         weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
         weaponBoxCollider.enabled = true;
-        weapon.src.PlayOneShot(weapon.sfx);
         
         yield return new WaitForSeconds(0.05f);
         weaponBoxCollider.enabled = false;
