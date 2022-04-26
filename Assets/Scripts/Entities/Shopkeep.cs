@@ -318,13 +318,11 @@ public class Shopkeep : Entity
         if (levelToIncrement > 3)
         {
             button.GetComponent<Image>().sprite = upgrade1;
-            Debug.Log(upgrade1);
         }
 
         if (levelToIncrement > 6)
         {
             button.GetComponent<Image>().sprite = upgrade2;
-            Debug.Log(upgrade2);
         }
     }
     

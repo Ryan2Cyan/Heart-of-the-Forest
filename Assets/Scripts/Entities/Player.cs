@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TDG.Entity;
 using Items;
 using TMPro;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class Player : Entity
 {
@@ -186,6 +187,11 @@ public override void TakeDamage(int damage)
         {
             if(settingsMenuState == false && shopMenuState == false)
             {
+                // Unlock cursor:
+                GetComponent<FirstPersonController>().enabled = false;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                
                 settingsMenu.SwitchSetting(0);
                 settingsMenuState = true;
                 Time.timeScale = 0;
@@ -195,6 +201,11 @@ public override void TakeDamage(int damage)
                 settingsMenu.SwitchSetting(2);
                 settingsMenuState = false;
                 Time.timeScale = 1;
+                
+                // Give cursor control back to FPS controller:
+                GetComponent<FirstPersonController>().enabled = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
            
         }
