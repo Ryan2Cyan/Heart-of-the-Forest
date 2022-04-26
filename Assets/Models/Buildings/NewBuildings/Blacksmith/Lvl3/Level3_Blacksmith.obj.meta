@@ -1,0 +1,367 @@
+fileFormatVersion: 2
+guid: 3eca82d4072533742937af6ac8d089ef
+ModelImporter:
+  serializedVersion: 21100
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AxeHandle1_AxeHandle1Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AxeHandle_AxeHandleMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl1_Lava2_Lvl1_Lava2Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Anvil_Lvl3_AnvilMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Axe1_Lvl3_Axe1Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Axe_Lvl3_AxeMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Bellow_Lvl3_BellowMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_BlacksmithTongs_Lvl3_BlacksmithTongsMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageCorners_Lvl3_CarrageCornersMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageFloor_Lvl3_CarrageFloorMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageFrame_Lvl3_CarrageFrameMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageFrontSupport_Lvl3_CarrageFrontSupportMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageStuff1_Lvl3_CarrageStuff1Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageStuff2_Lvl3_CarrageStuff2Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageStuff3_Lvl3_CarrageStuff3Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageStuff4_Lvl3_CarrageStuff4Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageStuff5_Lvl3_CarrageStuff5Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageStuff6_Lvl3_CarrageStuff6Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageStuff_Lvl3_CarrageStuffMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_CarrageWheels_Lvl3_CarrageWheelsMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Door6_Lvl3_Door6Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_DoorRoof_Lvl3_DoorRoofMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Furnace_Lvl3_FurnaceMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_HouseRoofFrame1_Lvl3_HouseRoofFrame1Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_HouseRoofFrame_Lvl3_HouseRoofFrameMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_HouseSidesAndCorners_Lvl3_HouseSidesAndCornersMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_HouseWorkShopArea_Lvl3_HouseWorkShopAreaMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_HouseWorkShopRoofFrame_Lvl3_HouseWorkShopRoofFrameMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_HouseWorkShopRoof_Lvl3_HouseWorkShopRoofMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_House_Lvl3_HouseMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Log1_Lvl3_Log1Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Log2_Lvl3_Log2Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Log3_Lvl3_Log3Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_LogChair_Lvl3_LogChairMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Log_Lvl3_LogMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_OpenWoodenBarrel_Lvl3_OpenWoodenBarrelMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Shield1_Lvl3_Shield1Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Shield_Lvl3_ShieldMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_SmallLog1_Lvl3_SmallLog1Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_SmallLog2_Lvl3_SmallLog2Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_SmallLog3_Lvl3_SmallLog3Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_SmallLog_Lvl3_SmallLogMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Stairs_Lvl3_StairsMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_TableLegs_Lvl3_TableLegsMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_TableTop_Lvl3_TableTopMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_Toolbox_Lvl3_ToolboxMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_UnderStairStoneBlock_Lvl3_UnderStairStoneBlockMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_WoodenBarrel12_Lvl3_WoodenBarrel12Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_WoodenBarrel13_Lvl3_WoodenBarrel13Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_WoodenBarrel6_Lvl3_WoodenBarrel6Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lvl3_WoodenDoorSupport2_Lvl3_WoodenDoorSupport2Mat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MetalSides_MetalSidesMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pasted__pasted__MetalSides_pasted__pasted__MetalSidesMat
+    second: {fileID: 2100000, guid: bfbfccd7ed75dbd4284f9d700deebf47, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
