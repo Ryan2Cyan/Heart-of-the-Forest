@@ -17,6 +17,7 @@ public class Player : Entity
     // GUI:
     private Slider hpBarSlider;
     private TextMeshProUGUI currentGoldUI;
+    private Image damageFX;
     
     // State variables:
     // public RaycastHit selectedObj { get; private set; }
@@ -57,6 +58,7 @@ public class Player : Entity
         fpsCamera = GetComponentInChildren<Camera>();
         hpBarSlider = GameObject.Find("Health bar").GetComponent<Slider>();
         currentGoldUI = GameObject.Find("Player-Gold").GetComponentInChildren<TextMeshProUGUI>();
+        damageFX = GameObject.Find("GetHitIndicator").GetComponent<Image>();
 
         // Assign values:
         entityName = "Jargleblarg The Great";
@@ -90,20 +92,8 @@ public class Player : Entity
         if (currentHealth <= 0)
             OnDeath();
 
-        if (m_GotHitScreen != null)
-        {
-            if (m_GotHitScreen.GetComponent<Image>().color.a > 0)
-            {
-                var color = m_GotHitScreen.GetComponent<Image>().color;
-
-                color.a -= 0.05f;
-
-                m_GotHitScreen.GetComponent<Image>().color = color;
-            }
-        }
-
-
-}
+        damageFX.color = Color.Lerp(damageFX.color, new Color(1, 0, 0, 0), 2 * Time.deltaTime);
+    }
 
 // Reduces current HP:
 public override void TakeDamage(int damage)
@@ -121,6 +111,8 @@ public override void TakeDamage(int damage)
             locked = true;
             Invoke("SetBoolBack", 0.5f);
         }
+
+        damageFX.color = new Color(1, 0, 0, 0.4f);
     }
 
     void GotHurt()
