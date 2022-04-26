@@ -11,7 +11,6 @@ public class Player : Entity
 {
     // Serialized variables:
     [SerializeField] private SettingsMenu settingsMenu;
-    [SerializeField] GameObject[] swordPrefab;
     [SerializeField] private Inventory inventory;
 
     // GUI:
@@ -70,7 +69,7 @@ public class Player : Entity
         attackTimer = attackDelay;
         weaponBoxCollider.enabled = false;
         hpBarSlider.value = maxHealth;
-        attackDelay = 1.0f;
+        attackDelay = 1.9f;
         inventory = new Inventory();
         settingsMenuState = false;
         jumpHeightLvl = 0;
