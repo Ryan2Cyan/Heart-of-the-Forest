@@ -35,6 +35,11 @@ public class Shopkeep : Entity
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject sign;
+    
+    [SerializeField] private GameObject healthPotion;
+    [SerializeField] private GameObject speedPotion;
+    [SerializeField] private GameObject damagePotion;
+    
 
     
     
@@ -70,6 +75,34 @@ public class Shopkeep : Entity
 
     private void Update()
     {
+        // Display potions depending on shop level:
+        if (shopType == ShopType.Alchemist)
+        {
+            if (lvl1Model.activeInHierarchy)
+            {
+                healthPotion.SetActive(true);
+                speedPotion.SetActive(false);
+                damagePotion.SetActive(false);
+            }
+            else if (lvl2Model.activeInHierarchy)
+            {
+                healthPotion.SetActive(true);
+                speedPotion.SetActive(true);
+                damagePotion.SetActive(false);
+            }
+            else if (lvl3Model.activeInHierarchy)
+            {
+                healthPotion.SetActive(true);
+                speedPotion.SetActive(true);
+                damagePotion.SetActive(true);
+            }
+            else
+            {
+                healthPotion.SetActive(false);
+                speedPotion.SetActive(false);
+                damagePotion.SetActive(false);
+            }
+        }
         if (gameState.isDay)
         {
             // Check if the player is in range of the shop. Toggle menu by pressing "E":
