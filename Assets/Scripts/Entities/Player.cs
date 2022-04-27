@@ -139,11 +139,11 @@ namespace Entities
         {
             useAttack0 = !useAttack0;
             weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
-            weaponBoxCollider.enabled = true;
-        
+            //weaponBoxCollider.enabled = true;
+
             yield return new WaitForSeconds(0.05f);
-            weaponBoxCollider.enabled = false;
-        
+            //weaponBoxCollider.enabled = false;
+
             yield return new WaitForSeconds(weapon.attackSpeed);
         
             weaponAnimator.SetBool(AttackWithSword0, false);

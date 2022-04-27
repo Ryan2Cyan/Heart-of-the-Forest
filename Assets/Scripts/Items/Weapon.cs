@@ -15,6 +15,15 @@ namespace Items
         {
             src.PlayOneShot(sfx);
         }
+
+        public void EnableHitbox()
+        {
+            GetComponent<BoxCollider>().enabled = true;
+        }
+        public void DisableHitbox()
+        {
+            GetComponent<BoxCollider>().enabled = false;
+        }
     }
 
     public enum WeaponType
