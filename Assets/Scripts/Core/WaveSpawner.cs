@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Entities;
 using UnityEngine;
 
@@ -7,8 +8,10 @@ namespace Core
     {
 
         private GameState gameStateScript;
+        public List<GameObject> enemies;
+        public List<GameObject> aliveEnemies;
+        [SerializeField] private GameObject blackSkeleton;
         [SerializeField] private Enemy enemy;
-        [SerializeField] private Transform[] spawnPositions;
         [SerializeField] private GameObject centreOfSpawn;
         [SerializeField] private int enemiesToSpawn;
         private bool spawned;
@@ -18,37 +21,44 @@ namespace Core
         private void Start()
         {
             gameStateScript = FindObjectOfType<GameState>();
-
             centreOfSpawn = GameObject.Find("CentreOfSpawn");
+            enemies = new List<GameObject>();
         }
 
         private void Update()
         {
             // Check if the time of day is night
-            if (gameStateScript.isDay == false)
+            if (!gameStateScript.isDay)
             {
-                enemiesToSpawn = gameStateScript.currentWave + gameStateScript.currentWave + 1;
+                enemiesToSpawn = 3;
 
                 if (!spawned)
                 {
                     for (var i = 0; i < enemiesToSpawn; i++)
                     {
-                        // Generate enemies randomly on the perimeter of a circle
-                        Vector3 pos = RandomCircle(centreOfSpawn.transform.position, 50f);
-                        Quaternion rot = Quaternion.FromToRotation(Vector3.forward, centreOfSpawn.transform.position - pos);
-                        Enemy newEnemy = Instantiate(enemy, pos, rot);
-
-                        // Add the enemy to the game state so it can track the enemy and its position
-                        gameStateScript.AddEnemy(newEnemy);
+                        var position = centreOfSpawn.transform.position;
+                        var pos = RandomCircle(position, 50f);
+                        var rot = Quaternion.FromToRotation(Vector3.forward, position - pos);
+                        var newEnemy = Instantiate(blackSkeleton, pos, rot);
+                        newEnemy.transform.parent = transform;
+                        enemies.Add(newEnemy);
+                        aliveEnemies.Add(newEnemy);
                     }
-
                     spawned = true;
                 }
             }
-            else
+
+            if (gameStateScript.isDay && spawned)
             {
                 spawned = false;
+                Debug.Log("Call");
+                foreach (var enemy in enemies)
+                {
+                    Destroy(enemy);
+                }
+                enemies.Clear();
             }
+                
         }
 
         Vector3 RandomCircle(Vector3 center, float radius)

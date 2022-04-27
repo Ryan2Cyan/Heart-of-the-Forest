@@ -1,4 +1,5 @@
-﻿using TDG.Entity;
+﻿using Core;
+using TDG.Entity;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -96,8 +97,8 @@ namespace Entities
                 if (currentHealth <= 0) // If dead
                 {
                     OnDeath();
-                    gameState.RemoveEnemy(this);
-                } 
+                    gameState.transform.GetChild(0).GetComponent<WaveSpawner>().aliveEnemies.Remove(gameObject);
+                }
             }
         }
 
@@ -125,7 +126,6 @@ namespace Entities
             gameObject.GetComponent<SphereCollider>().enabled = false;
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
             enabled = false;
-            
         }
 
         // Change material for brief time when hit:

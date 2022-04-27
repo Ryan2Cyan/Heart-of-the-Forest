@@ -1,4 +1,5 @@
 using System;
+using Entities;
 using Items;
 using TDG.Entity;
 using TMPro;
@@ -46,7 +47,6 @@ public class Shopkeep : Entity
             lvl1Model = transform.GetChild(0).gameObject;
             lvl2Model = transform.GetChild(1).gameObject;
             lvl3Model = transform.GetChild(2).gameObject;
-            Debug.Log(lvl3Model.name);
             lvl1Model.SetActive(true);
         }
         gameState = GameObject.Find("GameState").GetComponent<GameState>();
@@ -406,7 +406,6 @@ public class Shopkeep : Entity
 
         // Change sprite depending on player level:
         var button = GameObject.Find("Upgrade-" + upgradeName).GetComponent<Button>();
-        Debug.Log(button.name);
         if (levelToIncrement > 3)
         {
             button.GetComponent<Image>().sprite = upgrade1;

@@ -1,4 +1,5 @@
 using System;
+using Entities;
 using UnityEngine;
 
 namespace Items
