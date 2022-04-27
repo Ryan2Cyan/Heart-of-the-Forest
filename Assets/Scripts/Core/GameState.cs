@@ -26,8 +26,7 @@ public class GameState : MonoBehaviour
     public AudioSource nightSrc;
     public AudioClip nightTransitionSound;
     public AudioClip dayTransitionSound;
-    public AudioClip dayMusic;
-    public AudioClip nightMusic;
+
 
 
     private void Start()
