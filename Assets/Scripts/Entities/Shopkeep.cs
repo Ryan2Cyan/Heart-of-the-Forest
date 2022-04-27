@@ -18,6 +18,7 @@ public class Shopkeep : Entity
     private GameObject player;
     private Player playerScript;
     private PlayerWeapon playerWeaponScript;
+    private PotionInventory potionInventory;
     private GameState gameState;
     public bool isDead { get; private set; }
     
@@ -28,11 +29,17 @@ public class Shopkeep : Entity
     [SerializeField] private AudioClip nullSfx;
     [SerializeField] private AudioClip purchaseSfx;
     [SerializeField] private AudioClip UpgradeBuildingSfx;
+    [SerializeField] private AudioClip buyPotionSfx;
     [SerializeField] private AudioSource src;
     [SerializeField] private ShopType shopType;
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject sign;
+    
+    [SerializeField] private GameObject healthPotion;
+    [SerializeField] private GameObject speedPotion;
+    [SerializeField] private GameObject damagePotion;
+    
 
     
     
@@ -50,8 +57,8 @@ public class Shopkeep : Entity
             lvl1Model.SetActive(true);
         }
         gameState = GameObject.Find("GameState").GetComponent<GameState>();
-
         playerWeaponScript = player.transform.GetChild(0).GetChild(0).GetComponent<PlayerWeapon>();
+        potionInventory = player.GetComponent<PotionInventory>();
 
         // Set values:
         menuOpen = false;
@@ -68,6 +75,34 @@ public class Shopkeep : Entity
 
     private void Update()
     {
+        // Display potions depending on shop level:
+        if (shopType == ShopType.Alchemist)
+        {
+            if (lvl1Model.activeInHierarchy)
+            {
+                healthPotion.SetActive(true);
+                speedPotion.SetActive(false);
+                damagePotion.SetActive(false);
+            }
+            else if (lvl2Model.activeInHierarchy)
+            {
+                healthPotion.SetActive(true);
+                speedPotion.SetActive(true);
+                damagePotion.SetActive(false);
+            }
+            else if (lvl3Model.activeInHierarchy)
+            {
+                healthPotion.SetActive(true);
+                speedPotion.SetActive(true);
+                damagePotion.SetActive(true);
+            }
+            else
+            {
+                healthPotion.SetActive(false);
+                speedPotion.SetActive(false);
+                damagePotion.SetActive(false);
+            }
+        }
         if (gameState.isDay)
         {
             // Check if the player is in range of the shop. Toggle menu by pressing "E":
@@ -277,7 +312,6 @@ public class Shopkeep : Entity
             Resources.Load<Sprite>("Sprites/blade-tier2")
         );
     }
-   
     
     // Upgrades user's jump height:
     public void UpgradeJumpHeight()
@@ -331,6 +365,50 @@ public class Shopkeep : Entity
         );
     }
 
+    // Add health potion to player inventory:
+    public void AddHealthPotion()
+    {
+        // Check if there is space in inventory:
+        if (potionInventory.potions.Count < potionInventory.maxSlots && 
+            playerScript.currentGold >= potionInventory.healthPrice)
+        {
+            src.PlayOneShot(buyPotionSfx);
+            var newPotion = new Potion(PotionType.Health);
+            potionInventory.potions.Add(newPotion);
+            potionInventory.SetPotionIcons();
+            playerScript.currentGold -= potionInventory.healthPrice;
+        }
+    }
+        
+    // Add speed potion to player inventory:
+    public void AddSpeedPotion()
+    {
+        // Check if there is space in inventory:
+        if (potionInventory.potions.Count < potionInventory.maxSlots && 
+            playerScript.currentGold >= potionInventory.speedPrice)
+        {
+            src.PlayOneShot(buyPotionSfx);
+            var newPotion = new Potion(PotionType.Speed);
+            potionInventory.potions.Add(newPotion);
+            potionInventory.SetPotionIcons();
+            playerScript.currentGold -= potionInventory.speedPrice;
+        }
+    }
+        
+    // Add damage potion to player inventory:
+    public void AddDamagePotion()
+    {
+        // Check if there is space in inventory:
+        if (potionInventory.potions.Count < potionInventory.maxSlots && 
+            playerScript.currentGold >= potionInventory.damagePrice)
+        {
+            src.PlayOneShot(buyPotionSfx);
+            var newPotion = new Potion(PotionType.Damage);
+            potionInventory.potions.Add(newPotion);
+            potionInventory.SetPotionIcons();
+            playerScript.currentGold -= potionInventory.damagePrice;
+        }
+    }
 
     // Template for upgrades and stores details of each upgrade:
     private void GeneralUpgrade(int startCost, int costIncrement, ref int levelToIncrement, string upgradeName)

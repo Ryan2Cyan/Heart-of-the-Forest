@@ -42,6 +42,7 @@ namespace Entities
         public AudioClip takeDamageSound;
         public AudioClip deathSound;
         private bool locked = false;
+        
 
         // Indexes:
         private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
@@ -70,10 +71,10 @@ namespace Entities
             nextLevelExp = 20.0f;
             experience = 0.0f;
             level = 0;
-            weapon.attackSpeed = 0.6f;
+            weapon.attackSpeed = 0.1f;
             attackTimer = attackDelay;
             weaponBoxCollider.enabled = false;
-            attackDelay = 1.9f;
+            attackDelay = 0.5f;
             settingsMenuState = false;
             jumpHeightLvl = 0;
         }
@@ -138,11 +139,11 @@ namespace Entities
         {
             useAttack0 = !useAttack0;
             weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
-            weaponBoxCollider.enabled = true;
-        
+            //weaponBoxCollider.enabled = true;
+
             yield return new WaitForSeconds(0.05f);
-            weaponBoxCollider.enabled = false;
-        
+            //weaponBoxCollider.enabled = false;
+
             yield return new WaitForSeconds(weapon.attackSpeed);
         
             weaponAnimator.SetBool(AttackWithSword0, false);
@@ -229,7 +230,8 @@ namespace Entities
 
         private void UsePotion(int potionSlot)
         {
-            if (GameObject.Find("Slot-" + potionSlot).GetComponent<Image>().isActiveAndEnabled && !potionsInventory.isPotionActive)
+            if (GameObject.Find("Slot-" + potionSlot).GetComponent<Image>().isActiveAndEnabled && 
+                !potionsInventory.isPotionActive)
             {
                 potionsInventory.UsePotion(potionsInventory.potions[potionSlot]);
                 potionsInventory.SetPotionIcons();
