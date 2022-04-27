@@ -7,16 +7,11 @@ namespace Items
     public class WeaponHitBox : MonoBehaviour
     {
         [SerializeField] private Weapon weapon;
-        private GameObject player;
 
         public AudioSource src;
         public AudioClip sfx;
         private bool locked = false;
 
-        private void Start()
-        {
-            player = GameObject.FindWithTag("Player");
-        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -28,11 +23,7 @@ namespace Items
                 enemyScript.isDamaged = true;
 
                 // play hit sound, don't play multiple sounds in the same swing 
-                if (locked)
-				{
-
-				}
-				else
+                if (!locked)
 				{
                     src.PlayOneShot(sfx);
                     locked = true;

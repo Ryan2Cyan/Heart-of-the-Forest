@@ -71,10 +71,10 @@ namespace Entities
             nextLevelExp = 20.0f;
             experience = 0.0f;
             level = 0;
-            weapon.attackSpeed = 0.6f;
+            weapon.attackSpeed = 0.1f;
             attackTimer = attackDelay;
             weaponBoxCollider.enabled = false;
-            attackDelay = 1.9f;
+            attackDelay = 0.5f;
             settingsMenuState = false;
             jumpHeightLvl = 0;
         }
