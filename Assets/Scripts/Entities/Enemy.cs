@@ -40,6 +40,7 @@ namespace Entities
         private GameState gameState;
         private AudioSource src;
         public AudioClip deadSound;
+        public AudioClip hitBuildingSound;
 
 
         private void Start()
@@ -150,6 +151,7 @@ namespace Entities
                     if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
                     {
                         Attack(other.gameObject.GetComponent<Entity>());
+                        src.PlayOneShot(hitBuildingSound);
                         attackTimer = weapon.attackSpeed;
                     }
 
@@ -158,6 +160,7 @@ namespace Entities
                     if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
                     {
                         Attack(other.gameObject.GetComponent<Entity>());
+                        src.PlayOneShot(hitBuildingSound);
                         attackTimer = weapon.attackSpeed;
                         // If the shop is destroyed, convert yellow skeleton into black skeleton:
                         if (other.gameObject.GetComponent<Shopkeep>().isDead)
