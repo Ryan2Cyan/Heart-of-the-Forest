@@ -229,7 +229,8 @@ namespace Entities
 
         private void UsePotion(int potionSlot)
         {
-            if (GameObject.Find("Slot-" + potionSlot).GetComponent<Image>().isActiveAndEnabled && !potionsInventory.isPotionActive)
+            if (GameObject.Find("Slot-" + potionSlot).GetComponent<Image>().isActiveAndEnabled && 
+                !potionsInventory.isPotionActive)
             {
                 potionsInventory.UsePotion(potionsInventory.potions[potionSlot]);
                 potionsInventory.SetPotionIcons();

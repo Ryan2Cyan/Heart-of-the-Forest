@@ -16,9 +16,9 @@ namespace Items
         private Sprite healthSprite;
         private Sprite speedSprite;
         private Sprite damageSprite;
-        private int healthPrice;
-        private int speedPrice;
-        private int damagePrice;
+        public int healthPrice { get; private set; }
+        public int speedPrice { get; private set; }
+        public int damagePrice { get; private set; }
         public int maxSlots;
         private float currentTimer;
         private Potion activePotion;
@@ -147,44 +147,44 @@ namespace Items
             isPotionEffect = true;
             potions.Remove(arg);
         }
-        // Add health potion to player inventory:
-        public void AddHealthPotion()
-        {
-            // Check if there is space in inventory:
-            if (potions.Count < maxSlots && playerScript.currentGold >= healthPrice)
-            {
-                var newPotion = new Potion(PotionType.Health);
-                potions.Add(newPotion);
-                SetPotionIcons();
-                playerScript.currentGold -= healthPrice;
-            }
-        }
-        
-        // Add speed potion to player inventory:
-        public void AddSpeedPotion()
-        {
-            // Check if there is space in inventory:
-            if (potions.Count < maxSlots && playerScript.currentGold >= speedPrice)
-            {
-                var newPotion = new Potion(PotionType.Speed);
-                potions.Add(newPotion);
-                SetPotionIcons();
-                playerScript.currentGold -= speedPrice;
-            }
-        }
-        
-        // Add damage potion to player inventory:
-        public void AddDamagePotion()
-        {
-            // Check if there is space in inventory:
-            if (potions.Count < maxSlots && playerScript.currentGold >= damagePrice)
-            {
-                var newPotion = new Potion(PotionType.Damage);
-                potions.Add(newPotion);
-                SetPotionIcons();
-                playerScript.currentGold -= damagePrice;
-            }
-        }
+        // // Add health potion to player inventory:
+        // public void AddHealthPotion()
+        // {
+        //     // Check if there is space in inventory:
+        //     if (potions.Count < maxSlots && playerScript.currentGold >= healthPrice)
+        //     {
+        //         var newPotion = new Potion(PotionType.Health);
+        //         potions.Add(newPotion);
+        //         SetPotionIcons();
+        //         playerScript.currentGold -= healthPrice;
+        //     }
+        // }
+        //
+        // // Add speed potion to player inventory:
+        // public void AddSpeedPotion()
+        // {
+        //     // Check if there is space in inventory:
+        //     if (potions.Count < maxSlots && playerScript.currentGold >= speedPrice)
+        //     {
+        //         var newPotion = new Potion(PotionType.Speed);
+        //         potions.Add(newPotion);
+        //         SetPotionIcons();
+        //         playerScript.currentGold -= speedPrice;
+        //     }
+        // }
+        //
+        // // Add damage potion to player inventory:
+        // public void AddDamagePotion()
+        // {
+        //     // Check if there is space in inventory:
+        //     if (potions.Count < maxSlots && playerScript.currentGold >= damagePrice)
+        //     {
+        //         var newPotion = new Potion(PotionType.Damage);
+        //         potions.Add(newPotion);
+        //         SetPotionIcons();
+        //         playerScript.currentGold -= damagePrice;
+        //     }
+        // }
         
         
         // Changes the GUI to display what potions the player contains in their inventory:

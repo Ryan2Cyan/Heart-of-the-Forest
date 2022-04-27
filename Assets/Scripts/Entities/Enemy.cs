@@ -163,7 +163,6 @@ namespace Entities
                         if (other.gameObject.GetComponent<Shopkeep>().isDead)
                         {
                             Instantiate(blackSkeleton, transform.position, Quaternion.identity);
-                            Destroy(gameObject);
                         }
                     }
                     break;
