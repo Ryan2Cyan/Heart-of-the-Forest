@@ -151,7 +151,6 @@ namespace Entities
                     if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
                     {
                         Attack(other.gameObject.GetComponent<Entity>());
-                        src.PlayOneShot(hitBuildingSound);
                         attackTimer = weapon.attackSpeed;
                     }
 
