@@ -36,6 +36,7 @@ namespace Entities
         public int speedLvl;
         public int resistanceLvl;
         public int goldAccumulationLvl;
+        private PotionInventory potionsInventory;
 
         public AudioSource src;
         public AudioClip takeDamageSound;
@@ -57,11 +58,14 @@ namespace Entities
             hpBarSlider = GameObject.Find("Health bar").GetComponent<Slider>();
             currentGoldUI = GameObject.Find("Player-Gold").GetComponentInChildren<TextMeshProUGUI>();
             damageFX = GameObject.Find("GetHitIndicator").GetComponent<Image>();
+            potionsInventory = GetComponent<PotionInventory>();
 
             // Assign values:
             entityName = "Jargleblarg The Great";
             maxHealth = 100;
-            currentHealth = maxHealth;
+            currentHealth = 20;
+            hpBarSlider.maxValue = maxHealth;
+            hpBarSlider.value = currentHealth;
             currentGold = 8000;
             nextLevelExp = 20.0f;
             experience = 0.0f;
@@ -69,7 +73,6 @@ namespace Entities
             weapon.attackSpeed = 0.6f;
             attackTimer = attackDelay;
             weaponBoxCollider.enabled = false;
-            hpBarSlider.value = maxHealth;
             attackDelay = 1.9f;
             settingsMenuState = false;
             jumpHeightLvl = 0;
@@ -81,11 +84,10 @@ namespace Entities
             FallCheck();
             ProcessInput();
             AssignGold();
-            // HighlightInteractable();
-
+            hpBarSlider.value = currentHealth;
+            
             if (experience > nextLevelExp)
                 LevelUp();
-        
             if (currentHealth <= 0)
                 OnDeath();
 
@@ -186,7 +188,25 @@ namespace Entities
                 }
            
             }
-        
+            
+            // Using potions:
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                UsePotion(0);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                UsePotion(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                UsePotion(2);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                UsePotion(3);
+            }
+
             // Attack:
             attackTimer -= Time.deltaTime;
             if (!Cursor.visible) // Don't process mouse input while in UI Menu
@@ -205,6 +225,15 @@ namespace Entities
         private void AssignGold()
         {
             currentGoldUI.text = currentGold.ToString();
+        }
+
+        private void UsePotion(int potionSlot)
+        {
+            if (GameObject.Find("Slot-" + potionSlot).GetComponent<Image>().isActiveAndEnabled && !potionsInventory.isPotionActive)
+            {
+                potionsInventory.UsePotion(potionsInventory.potions[potionSlot]);
+                potionsInventory.SetPotionIcons();
+            }
         }
 
         private enum PlayerClass

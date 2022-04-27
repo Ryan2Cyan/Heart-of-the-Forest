@@ -6,7 +6,7 @@ namespace TDG.Entity
     public abstract class Entity : MonoBehaviour
     {
         protected string entityName;
-        [SerializeField] protected int currentHealth;
+        public int currentHealth;
         protected int maxHealth;
         protected int level;
         [SerializeField] public Weapon weapon;

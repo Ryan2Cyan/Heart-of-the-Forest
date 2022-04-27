@@ -2,19 +2,18 @@ namespace Items
 {
     public class Potion
     {
-        public PotionType type { get; }
-        
-        public float duration { get; }
-        
+        public readonly PotionType type;
+        public float duration;
+
         public Potion(PotionType type)
         {
             this.type = type;
 
             duration = type switch
             {
-                PotionType.Health => 20f,
-                PotionType.Speed => 50f,
-                PotionType.Damage => 15f,
+                PotionType.Health => 0.05f,
+                PotionType.Speed => 5f,
+                PotionType.Damage => 10f,
                 _ => duration
             };
         }
