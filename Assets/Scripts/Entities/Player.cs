@@ -91,6 +91,8 @@ namespace Entities
                 LevelUp();
             if (currentHealth <= 0)
                 OnDeath();
+            if (currentHealth > 100)
+                currentHealth = 100;
 
             damageFX.color = Color.Lerp(damageFX.color, new Color(1, 0, 0, 0), 2 * Time.deltaTime);
         }
@@ -189,9 +191,13 @@ namespace Entities
                 }
            
             }
-            
-            // Using potions:
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.G))
+			{
+                Debug.Log(currentHealth);
+			}
+
+                // Using potions:
+                if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 UsePotion(0);
             }

@@ -73,10 +73,10 @@ namespace Items
                     switch (activePotion.type)
                     {
                         case PotionType.Health:
-                            playerScript.currentHealth += 1;
+                            playerScript.currentHealth += (100 * Time.deltaTime);
                             if (isPotionEffect)
                             {
-                                playerScript.currentHealth += 1;
+                                playerScript.currentHealth += (100 * Time.deltaTime);
                                 effectImage.sprite = Resources.Load<Sprite>("Sprites/health-potion-effect");
                             }
                             break;
