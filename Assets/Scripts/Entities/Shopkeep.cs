@@ -29,6 +29,7 @@ public class Shopkeep : Entity
     [SerializeField] private AudioClip nullSfx;
     [SerializeField] private AudioClip purchaseSfx;
     [SerializeField] private AudioClip UpgradeBuildingSfx;
+    [SerializeField] private AudioClip buyPotionSfx;
     [SerializeField] private AudioSource src;
     [SerializeField] private ShopType shopType;
     [SerializeField] private GameObject text;
@@ -338,6 +339,7 @@ public class Shopkeep : Entity
         if (potionInventory.potions.Count < potionInventory.maxSlots && 
             playerScript.currentGold >= potionInventory.healthPrice)
         {
+            src.PlayOneShot(buyPotionSfx);
             var newPotion = new Potion(PotionType.Health);
             potionInventory.potions.Add(newPotion);
             potionInventory.SetPotionIcons();
@@ -352,6 +354,7 @@ public class Shopkeep : Entity
         if (potionInventory.potions.Count < potionInventory.maxSlots && 
             playerScript.currentGold >= potionInventory.speedPrice)
         {
+            src.PlayOneShot(buyPotionSfx);
             var newPotion = new Potion(PotionType.Speed);
             potionInventory.potions.Add(newPotion);
             potionInventory.SetPotionIcons();
@@ -366,6 +369,7 @@ public class Shopkeep : Entity
         if (potionInventory.potions.Count < potionInventory.maxSlots && 
             playerScript.currentGold >= potionInventory.damagePrice)
         {
+            src.PlayOneShot(buyPotionSfx);
             var newPotion = new Potion(PotionType.Damage);
             potionInventory.potions.Add(newPotion);
             potionInventory.SetPotionIcons();

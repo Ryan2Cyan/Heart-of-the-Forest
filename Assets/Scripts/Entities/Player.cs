@@ -42,6 +42,7 @@ namespace Entities
         public AudioClip takeDamageSound;
         public AudioClip deathSound;
         private bool locked = false;
+        
 
         // Indexes:
         private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");

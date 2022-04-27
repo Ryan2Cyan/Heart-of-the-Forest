@@ -30,6 +30,7 @@ namespace Items
         [SerializeField] private TextMeshProUGUI damagePriceGUI;
         [SerializeField] private TextMeshProUGUI effectTimer;
         [SerializeField] private Image effectImage;
+        [SerializeField] private AudioClip drinkPotion;
 
         private void Start()
         {
@@ -141,6 +142,7 @@ namespace Items
 
         public void UsePotion(Potion arg)
         {
+            playerScript.src.PlayOneShot(drinkPotion);
             currentTimer = arg.duration;
             activePotion = arg;
             isPotionActive = true;
