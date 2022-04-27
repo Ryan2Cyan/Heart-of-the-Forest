@@ -14,10 +14,14 @@ namespace Entities
         private static readonly int Attack = Animator.StringToHash("attack");
         private static readonly int Death = Animator.StringToHash("death");
 
+        public AudioClip Walk;
+        private AudioSource src;
+
         private void Start()
         {
             animator = transform.GetComponent<Animator>();
             parentScript = transform.parent.gameObject.GetComponent<Enemy>();
+            src = gameObject.GetComponentInParent<AudioSource>();
         }
 
 
@@ -47,6 +51,16 @@ namespace Entities
                 animator.SetBool(Attack, false);
             }
             animator.SetBool(Running, isRunning);
+        }
+
+        public void SkeletonWalkSound()
+		{
+            src.PlayOneShot(Walk);
+		}
+
+        public void BatWalkSound()
+		{
+            src.PlayOneShot(Walk);
         }
     }
 }

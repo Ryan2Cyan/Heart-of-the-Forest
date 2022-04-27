@@ -39,8 +39,7 @@ namespace Entities
         private GameObject core;
         private GameState gameState;
         private AudioSource src;
-        public AudioClip deadSkeletonSound;
-        public AudioClip skeletonWalkSound;
+        public AudioClip deadSound;
 
 
         private void Start()
@@ -120,7 +119,7 @@ namespace Entities
                 enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.
             playerScript.currentGold += goldDrop + goldMod * playerScript.goldAccumulationLvl;
             isDead = true;
-            src.PlayOneShot(deadSkeletonSound);
+            src.PlayOneShot(deadSound);
             enemyNavMesh.enabled = false;
             model.material = deathMat;
             gameObject.GetComponent<SphereCollider>().enabled = false;
