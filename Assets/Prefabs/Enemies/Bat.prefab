@@ -327,6 +327,7 @@ MonoBehaviour:
   knockBackForce: 4
   knockBackTime: 0.25
   deadSound: {fileID: 8300000, guid: cdc4af115938f474bae2eb6105afd1d3, type: 3}
+  hitBuildingSound: {fileID: 8300000, guid: f85ac22c55805a84b9649e5c4c7fa4c1, type: 3}
 --- !u!195 &7416612453443439326
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -506,6 +507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635954c1acfdf8a44acc4328bfb89370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Walk: {fileID: 0}
 --- !u!1001 &9089956757193932092
 PrefabInstance:
   m_ObjectHideFlags: 0

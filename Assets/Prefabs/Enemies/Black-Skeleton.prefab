@@ -423,6 +423,7 @@ MonoBehaviour:
   knockBackForce: 4
   knockBackTime: 0.25
   deadSound: {fileID: 8300000, guid: ce4a546235b7d8e4b927c134c6d26ac7, type: 3}
+  hitBuildingSound: {fileID: 8300000, guid: f85ac22c55805a84b9649e5c4c7fa4c1, type: 3}
 --- !u!195 &7416612453443439326
 NavMeshAgent:
   m_ObjectHideFlags: 0
