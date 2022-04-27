@@ -71,10 +71,10 @@ namespace Entities
             nextLevelExp = 20.0f;
             experience = 0.0f;
             level = 0;
-            weapon.attackSpeed = 0.1f;
+            weapon.attackSpeed = 0.2f;
             attackTimer = attackDelay;
             weaponBoxCollider.enabled = false;
-            attackDelay = 0.5f;
+            attackDelay = 0.8f;
             settingsMenuState = false;
             jumpHeightLvl = 0;
         }
@@ -138,11 +138,11 @@ namespace Entities
         private IEnumerator AttackCooldown()
         {
             useAttack0 = !useAttack0;
-            weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
-            //weaponBoxCollider.enabled = true;
+            // Animator speed is inverse of whatever weapon's attack speed is
+            weaponAnimator.speed = Mathf.Abs(weapon.attackSpeed - 1);
+            Debug.Log("Weapon anim speed = " + weaponAnimator.speed);
 
-            yield return new WaitForSeconds(0.05f);
-            //weaponBoxCollider.enabled = false;
+            weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
 
             yield return new WaitForSeconds(weapon.attackSpeed);
         
