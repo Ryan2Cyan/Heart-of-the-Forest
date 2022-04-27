@@ -72,9 +72,10 @@ namespace Items
                     switch (activePotion.type)
                     {
                         case PotionType.Health:
+                            playerScript.currentHealth += 1;
                             if (isPotionEffect)
                             {
-                                playerScript.currentHealth += 80;
+                                playerScript.currentHealth += 1;
                                 effectImage.sprite = Resources.Load<Sprite>("Sprites/health-potion-effect");
                             }
                             break;
