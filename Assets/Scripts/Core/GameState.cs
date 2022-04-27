@@ -38,7 +38,6 @@ public class GameState : MonoBehaviour
         waveCountUI.text = "WaveCount: " + currentWave;
         waveSpawner = transform.GetChild(0).GetComponent<WaveSpawner>();
         // LoadPlayers(GameObject.Find("PlayerSpawn").transform);
-
         daySrc.Play();
     }
     
