@@ -24,7 +24,7 @@ namespace Entities
             src = gameObject.GetComponentInParent<AudioSource>();
         }
 
-
+        
         private void Update()
         {
             // Check if the enemy is moving:
