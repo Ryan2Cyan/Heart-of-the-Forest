@@ -40,7 +40,8 @@ namespace Entities
         private GameState gameState;
         private AudioSource src;
         public AudioClip deadSkeletonSound;
-        
+        public AudioClip skeletonWalkSound;
+
 
         private void Start()
         {
