@@ -47,7 +47,7 @@ namespace Core
                         var numb = Random.Range(0, 100);
                         Debug.Log(numb);
                         // 40% likely to spawn black skeleton:
-                        if (numb < 40)
+                        if (numb <= 40)
                         {
                             Debug.Log("Spawn BlackSkeleton");
                             var newEnemy = Instantiate(blackSkeleton, pos, rot);
