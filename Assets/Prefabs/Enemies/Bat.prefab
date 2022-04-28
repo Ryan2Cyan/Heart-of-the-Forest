@@ -292,7 +292,7 @@ Transform:
   m_GameObject: {fileID: 6280554207650633495}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.56, y: 0.35985, z: 9.2297}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8767588182964951767}
   - {fileID: 8865789289194691112}
@@ -314,16 +314,12 @@ MonoBehaviour:
   currentHealth: 0
   weapon: {fileID: 6346224260226283443}
   blackSkeleton: {fileID: 0}
-  yellowSkeleton: {fileID: 0}
-  giantSkeleton: {fileID: 0}
-  bat: {fileID: 0}
-  giantBat: {fileID: 0}
   enemyType: 3
   enemyNavMesh: {fileID: 7416612453443439326}
   isAttacking: 0
   isDead: 0
   isDamaged: 0
-  goldDrop: 10
+  goldDrop: 5
   model: {fileID: 845764426312504428}
   damageMat: {fileID: 2100000, guid: 63ab3021a3b546f4fbfdd029305eefeb, type: 2}
   deathMat: {fileID: 9184574335478674445, guid: 847f8760276c9104ca88c989fc7d4876,
@@ -349,7 +345,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 3.86
+  m_BaseOffset: 1.33
   m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
 --- !u!135 &135728804679788404

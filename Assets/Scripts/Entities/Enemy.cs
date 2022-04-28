@@ -1,7 +1,9 @@
-﻿using Core;
+﻿using System;
+using Core;
 using TDG.Entity;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Entities
 {
@@ -15,6 +17,7 @@ namespace Entities
         // States
         public EnemyType enemyType;
         public NavMeshAgent enemyNavMesh;
+        public WaveSpawner WaveSpawner;
         public bool isAttacking;
         public bool isDead;
         public bool isDamaged;
@@ -53,7 +56,28 @@ namespace Entities
             src = GetComponent<AudioSource>();
             
             // Set values:
-            maxHealth = 50;
+            switch (enemyType)
+            {
+                case EnemyType.BlackSkeleton:
+                    maxHealth = 50;
+                    break;
+                case EnemyType.LargeSkeleton:
+                    maxHealth = 150;
+                    break;
+                case EnemyType.YellowSkeleton:
+                    maxHealth = 40;
+                    break;
+                case EnemyType.Bat:
+                    maxHealth = 20;
+                    break;
+                case EnemyType.LargeBat:
+                    maxHealth = 100;
+                    break;
+                case EnemyType.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             currentHealth = maxHealth;
             isDead = false;
             isDamaged = false;
@@ -68,10 +92,10 @@ namespace Entities
             {
                 switch (enemyType)
                 {
-                    case EnemyType.BlackSkeleton:
+                    case EnemyType.BlackSkeleton: // Attacks player
                         enemyNavMesh.SetDestination(player.transform.position);
                         break;
-                    case EnemyType.YellowSkeleton:
+                    case EnemyType.YellowSkeleton: // Attacks 1 of 3 buildings
                         switch (buildingTarget)
                         {
                             case 1:
@@ -85,8 +109,25 @@ namespace Entities
                                 break;
                         }
                         break;
-                    case EnemyType.Bat:
+                    case EnemyType.Bat: // Attacks player
                         enemyNavMesh.SetDestination(player.transform.position);
+                        break;
+                    case EnemyType.LargeSkeleton: // Attacks core
+                        enemyNavMesh.SetDestination(core.transform.position);
+                        break;
+                    case EnemyType.LargeBat: // Attacks 1 of 3 buildings
+                        switch (buildingTarget)
+                        {
+                            case 1:
+                                enemyNavMesh.SetDestination(alchemist.transform.position);
+                                break;
+                            case 2:
+                                enemyNavMesh.SetDestination(armorsmith.transform.position);
+                                break;
+                            case 3:
+                                enemyNavMesh.SetDestination(blacksmith.transform.position);
+                                break;
+                        }
                         break;
                         
                 }
@@ -117,7 +158,7 @@ namespace Entities
         // Activate on death:
         protected override void OnDeath()
         {
-            if(enemyType == EnemyType.Bat)
+            if(enemyType == EnemyType.Bat || enemyType == EnemyType.LargeBat)
                 enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.
             playerScript.currentGold += goldDrop + goldMod * playerScript.goldAccumulationLvl;
             isDead = true;
@@ -172,7 +213,46 @@ namespace Entities
                         // If the shop is destroyed, convert yellow skeleton into black skeleton:
                         if (other.gameObject.GetComponent<Shopkeep>().isDead)
                         {
-                            Instantiate(blackSkeleton, transform.position, Quaternion.identity);
+                            var newEnemy = Instantiate(blackSkeleton, transform.position, Quaternion.identity);
+                            WaveSpawner.enemies.Add(newEnemy);
+                            WaveSpawner.aliveEnemies.Add(gameObject);
+                            WaveSpawner.aliveEnemies.Remove(gameObject);
+                            Destroy(gameObject);
+                        }
+                    }
+                    break;
+                case EnemyType.LargeSkeleton:
+                    if (other.gameObject.CompareTag("Core") && attackTimer <= 0.0f)
+                    {
+                        Attack(other.gameObject.GetComponent<Entity>());
+                        other.GetComponent<Shopkeep>().UpdateHPBars();
+                        src.PlayOneShot(hitBuildingSound);
+                        attackTimer = weapon.attackSpeed;
+                   
+                        if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                        {
+                            // Game over:
+                            Destroy(gameObject);
+                        }
+                    }
+                    break;
+                case EnemyType.LargeBat:
+                    if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
+                    {
+                        Attack(other.gameObject.GetComponent<Entity>());
+                        other.GetComponent<Shopkeep>().UpdateHPBars();
+                        src.PlayOneShot(hitBuildingSound);
+                        attackTimer = weapon.attackSpeed;
+                        // If building is destroyed, spawn 3 black skeletons:
+                        if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                        {
+                            for (var i = 0; i < 3; i++)
+                            {
+                                var newEnemy = Instantiate(blackSkeleton, transform.position, Quaternion.identity);
+                                WaveSpawner.enemies.Add(newEnemy);
+                                WaveSpawner.aliveEnemies.Add(gameObject);
+                            }
+                            WaveSpawner.aliveEnemies.Remove(gameObject);
                             Destroy(gameObject);
                         }
                     }
@@ -203,6 +283,18 @@ namespace Entities
                         isAttacking = true;
                     }
                     break;
+                case EnemyType.LargeSkeleton:
+                    if (other.gameObject.CompareTag("Core") && attackTimer <= 0.0f)
+                    {
+                        isAttacking = true;
+                    }
+                    break;
+                case EnemyType.LargeBat:
+                    if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
+                    {
+                        isAttacking = true;
+                    }
+                    break;
             }
         } 
         
@@ -225,6 +317,14 @@ namespace Entities
 
                     break;
                 case EnemyType.YellowSkeleton:
+                    if (other.gameObject.CompareTag("Building"))
+                    {
+                        isAttacking = false;
+                    }
+                    break;
+                case EnemyType.LargeSkeleton:
+                    break;
+                case EnemyType.LargeBat:
                     if (other.gameObject.CompareTag("Building"))
                     {
                         isAttacking = false;

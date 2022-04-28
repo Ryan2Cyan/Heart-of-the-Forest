@@ -453,24 +453,27 @@ public class Shopkeep : Entity
     {
         // Calculate current cost:
         var cost0 = CalcCost(startCost, costIncrement, levelToIncrement);
-        
+        Debug.Log("Cost:" + cost0);
+        Debug.Log("Current Gold:" + playerScript.currentGold );
+        Debug.Log(playerScript.currentGold >= cost0);
         // Display cost on UI:
         var cost = GameObject.Find("Upgrade-" + upgradeName + "-Price");
-
+        
         // Check player can afford upgrade and isn't max level already:
-        if(lvl1Model.activeInHierarchy && levelToIncrement < 3 ||
-           lvl2Model.activeInHierarchy && levelToIncrement < 6 ||
-           lvl3Model.activeInHierarchy && levelToIncrement < 9 &&
-           playerScript.currentGold >= cost0)
-        {
+        if(playerScript.currentGold >= cost0){
+            if (lvl1Model.activeInHierarchy && levelToIncrement < 3 ||
+                lvl2Model.activeInHierarchy && levelToIncrement < 6 ||
+                lvl3Model.activeInHierarchy && levelToIncrement < 9)
+            {
                 src.PlayOneShot(purchaseSfx);
                 if (upgradeName != "PotionSlot")
                 {
                     levelToIncrement++;
                     playerScript.currentGold -= cost0;
                 }
+
                 playerWeaponScript.CalcTotalLevel();
-            
+
                 switch (upgradeName) // Apply upgrade
                 {
                     case "Damage": // Damage upgrade
@@ -512,6 +515,7 @@ public class Shopkeep : Entity
                             levelToIncrement++;
                             playerScript.currentGold -= cost0;
                         }
+
                         break;
                     case "Speed":
                         player.GetComponent<FirstPersonController>().m_RunSpeed += 0.4f;
@@ -540,6 +544,7 @@ public class Shopkeep : Entity
                     else
                         cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "MAX";
                 }
+            }
         }
         else
             src.PlayOneShot(nullSfx);
@@ -623,10 +628,13 @@ public class Shopkeep : Entity
     // Called when shop is destroyed:
     protected override void OnDeath()
     {
+        if (gameObject.name != "Core")
+        {
+            lvl3Model.SetActive(false);
+            lvl2Model.SetActive(false);
+            lvl1Model.SetActive(false);
+        }
         src.PlayOneShot(destroySfx);
-        lvl3Model.SetActive(false);
-        lvl2Model.SetActive(false);
-        lvl1Model.SetActive(false);
         interactText.SetActive(false);
         menu.SetActive(false);
         isDead = true;

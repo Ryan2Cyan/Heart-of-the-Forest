@@ -17,7 +17,6 @@ namespace Items
         {
             if(other.CompareTag("Enemy"))
             {
-                Debug.Log("Deal damage");
                 var enemyScript = other.GetComponent<Enemy>();
                 enemyScript.TakeDamage(weapon.damage);
                 enemyScript.isDamaged = true;

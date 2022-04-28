@@ -20,10 +20,7 @@ namespace Entities
         private Image damageFX;
     
         // State variables:
-        // public RaycastHit selectedObj { get; private set; }
         private Camera fpsCamera;
-        private float experience;
-        private float nextLevelExp;
         public float attackDelay;
         private float attackTimer;
         private bool useAttack0;
@@ -32,7 +29,6 @@ namespace Entities
         public bool shopMenuState;
         private Animator weaponAnimator;
         private BoxCollider weaponBoxCollider;
-        public int jumpHeightLvl;
         public int speedLvl;
         public int resistanceLvl;
         public int goldAccumulationLvl;
@@ -67,16 +63,12 @@ namespace Entities
             currentHealth = 20;
             hpBarSlider.maxValue = maxHealth;
             hpBarSlider.value = currentHealth;
-            currentGold = 8000;
-            nextLevelExp = 20.0f;
-            experience = 0.0f;
-            level = 0;
+            currentGold = 0;
             weapon.attackSpeed = 0.2f;
             attackTimer = attackDelay;
             weaponBoxCollider.enabled = false;
             attackDelay = 0.8f;
             settingsMenuState = false;
-            jumpHeightLvl = 0;
         }
 
    
