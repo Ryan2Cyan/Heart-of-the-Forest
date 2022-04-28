@@ -32,7 +32,7 @@ public class Shopkeep : Entity
     [SerializeField] private AudioClip buyPotionSfx;
     [SerializeField] private AudioSource src;
     [SerializeField] private ShopType shopType;
-    [SerializeField] private GameObject text;
+    [SerializeField] private GameObject interactText;
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject sign;
     
@@ -105,37 +105,36 @@ public class Shopkeep : Entity
                 damagePotion.SetActive(false);
             }
         }
-        if (gameState.isDay)
+        
+        // It's daytime - menu interaction is active:
+        // Check if the player is in range of the shop. Toggle menu by pressing "E":
+        if (Input.GetKeyDown(KeyCode.E) && playerCollision && !menuOpen) // Open menu
         {
-            // Check if the player is in range of the shop. Toggle menu by pressing "E":
-            if (Input.GetKeyDown(KeyCode.E) && playerCollision && !menuOpen) // Open menu
-            {
-                // Unlock cursor:
-                player.GetComponent<FirstPersonController>().enabled = false;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                menu.SetActive(true);
-                text.SetActive(false);
-                menuOpen = true;
-                player.GetComponent<Player>().shopMenuState = true;
+            // Unlock cursor:
+            player.GetComponent<FirstPersonController>().enabled = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            menu.SetActive(true);
+            interactText.SetActive(false);
+            menuOpen = true;
+            player.GetComponent<Player>().shopMenuState = true;
 
-            }
-            else if (Input.GetKeyDown(KeyCode.E) && menuOpen ||
-                     Input.GetKeyDown(KeyCode.Escape) && menuOpen) // Close menu
-            {
-                player.GetComponent<FirstPersonController>().enabled = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                menu.SetActive(false);
-                menuOpen = false;
-                text.SetActive(true);
-                player.GetComponent<Player>().shopMenuState = false;
-            }
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && menuOpen ||
+                 Input.GetKeyDown(KeyCode.Escape) && menuOpen) // Close menu
+        {
+            player.GetComponent<FirstPersonController>().enabled = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            menu.SetActive(false);
+            menuOpen = false;
+            interactText.SetActive(true);
+            player.GetComponent<Player>().shopMenuState = false;
+        }
 
-            if (currentHealth <= 0 && !isDead)
-            {
-                OnDeath();
-            }
+        if (currentHealth <= 0 && !isDead)
+        {
+            OnDeath();
         }
     }
 
@@ -308,8 +307,15 @@ public class Shopkeep : Entity
             Cursor.visible = false;
             menu.SetActive(false);
             menuOpen = false;
-            text.SetActive(true);
+            interactText.SetActive(true);
             player.GetComponent<Player>().shopMenuState = false;
+            
+            // Disable and close core menu:
+            interactText.SetActive(false);
+            playerCollision = false;
+            menu.SetActive(false);
+            menuOpen = false;
+            
         } 
     }
     
@@ -571,7 +577,7 @@ public class Shopkeep : Entity
         lvl3Model.SetActive(false);
         lvl2Model.SetActive(false);
         lvl1Model.SetActive(false);
-        text.SetActive(false);
+        interactText.SetActive(false);
         menu.SetActive(false);
         isDead = true;
     }
@@ -591,8 +597,11 @@ public class Shopkeep : Entity
             // Display interaction text when close to the shop:
             if (other.gameObject.CompareTag("Player"))
             {
-                text.SetActive(true);
-                playerCollision = true;
+                if (gameState.isDay)
+                {
+                    interactText.SetActive(true);
+                    playerCollision = true;
+                }
             }
         }
     }
@@ -601,7 +610,7 @@ public class Shopkeep : Entity
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            text.SetActive(false);
+            interactText.SetActive(false);
             playerCollision = false;
             menu.SetActive(false);
             menuOpen = false;
