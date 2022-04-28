@@ -158,16 +158,15 @@ namespace Entities
         // Activate on death:
         protected override void OnDeath()
         {
+            isDead = true;
             if(enemyType == EnemyType.Bat || enemyType == EnemyType.LargeBat)
                 enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.
             playerScript.currentGold += goldDrop + goldMod * playerScript.goldAccumulationLvl;
-            isDead = true;
             src.PlayOneShot(deadSound);
             enemyNavMesh.enabled = false;
             model.material = deathMat;
+            gameObject.GetComponent<Enemy>().enabled = false;
             gameObject.GetComponent<SphereCollider>().enabled = false;
-            gameObject.GetComponent<NavMeshAgent>().enabled = false;
-            enabled = false;
         }
 
         // Change material for brief time when hit:
@@ -186,77 +185,89 @@ namespace Entities
         // Check if player is continuously colliding to repeatedly attack:
         private void OnTriggerStay(Collider other)
         {
-            attackTimer -= Time.deltaTime;
-            switch (enemyType)
+            if (!isDead)
             {
-                case EnemyType.BlackSkeleton:
-                    if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
-                    {
-                        Attack(other.gameObject.GetComponent<Entity>());
-                        attackTimer = weapon.attackSpeed;
-                    }
-                    break;
-                case EnemyType.Bat:
-                    if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
-                    {
-                        Attack(other.gameObject.GetComponent<Entity>());
-                        attackTimer = weapon.attackSpeed;
-                    }
-                    break;
-                case EnemyType.YellowSkeleton:
-                    if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
-                    {
-                        Attack(other.gameObject.GetComponent<Entity>());
-                        other.GetComponent<Shopkeep>().UpdateHPBars();
-                        src.PlayOneShot(hitBuildingSound);
-                        attackTimer = weapon.attackSpeed;
-                        // If the shop is destroyed, convert yellow skeleton into black skeleton:
-                        if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                attackTimer -= Time.deltaTime;
+                switch (enemyType)
+                {
+                    case EnemyType.BlackSkeleton:
+                        if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
                         {
-                            var newEnemy = Instantiate(blackSkeleton, transform.position, Quaternion.identity);
-                            WaveSpawner.enemies.Add(newEnemy);
-                            WaveSpawner.aliveEnemies.Add(gameObject);
-                            WaveSpawner.aliveEnemies.Remove(gameObject);
-                            Destroy(gameObject);
+                            Attack(other.gameObject.GetComponent<Entity>());
+                            attackTimer = weapon.attackSpeed;
                         }
-                    }
-                    break;
-                case EnemyType.LargeSkeleton:
-                    if (other.gameObject.CompareTag("Core") && attackTimer <= 0.0f)
-                    {
-                        Attack(other.gameObject.GetComponent<Entity>());
-                        other.GetComponent<Shopkeep>().UpdateHPBars();
-                        src.PlayOneShot(hitBuildingSound);
-                        attackTimer = weapon.attackSpeed;
-                   
-                        if (other.gameObject.GetComponent<Shopkeep>().isDead)
+
+                        break;
+                    case EnemyType.Bat:
+                        if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
                         {
-                            // Game over:
-                            Destroy(gameObject);
+                            Attack(other.gameObject.GetComponent<Entity>());
+                            attackTimer = weapon.attackSpeed;
                         }
-                    }
-                    break;
-                case EnemyType.LargeBat:
-                    if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
-                    {
-                        Attack(other.gameObject.GetComponent<Entity>());
-                        other.GetComponent<Shopkeep>().UpdateHPBars();
-                        src.PlayOneShot(hitBuildingSound);
-                        attackTimer = weapon.attackSpeed;
-                        // If building is destroyed, spawn 3 black skeletons:
-                        if (other.gameObject.GetComponent<Shopkeep>().isDead)
+
+                        break;
+                    case EnemyType.YellowSkeleton:
+                        if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
                         {
-                            for (var i = 0; i < 3; i++)
+                            if (!isDead)
                             {
-                                var newEnemy = Instantiate(blackSkeleton, transform.position, Quaternion.identity);
-                                WaveSpawner.enemies.Add(newEnemy);
-                                WaveSpawner.aliveEnemies.Add(gameObject);
+                                Attack(other.gameObject.GetComponent<Entity>());
+                                other.GetComponent<Shopkeep>().UpdateHPBars();
+                                src.PlayOneShot(hitBuildingSound);
+                                attackTimer = weapon.attackSpeed;
+                                // If the shop is destroyed, convert yellow skeleton into black skeleton:
+                                if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                                {
+                                    // isDead = true;
+                                    // var newEnemy = Instantiate(blackSkeleton, transform.position, Quaternion.identity);
+                                    // WaveSpawner.enemies.Add(newEnemy);
+                                    // WaveSpawner.aliveEnemies.Add(gameObject);
+                                    // WaveSpawner.aliveEnemies.Remove(gameObject);
+                                    // OnDeath();
+                                }
                             }
-                            WaveSpawner.aliveEnemies.Remove(gameObject);
-                            Destroy(gameObject);
                         }
-                    }
-                    break;
+
+                        break;
+                    case EnemyType.LargeSkeleton:
+                        if (other.gameObject.CompareTag("Core") && attackTimer <= 0.0f)
+                        {
+                            Attack(other.gameObject.GetComponent<Entity>());
+                            other.GetComponent<Shopkeep>().UpdateHPBars();
+                            src.PlayOneShot(hitBuildingSound);
+                            attackTimer = weapon.attackSpeed;
+
+                            if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                            {
+                                // Game over:
+                                Destroy(gameObject);
+                            }
+                        }
+
+                        break;
+                    case EnemyType.LargeBat:
+                        if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
+                        {
+                            Attack(other.gameObject.GetComponent<Entity>());
+                            other.GetComponent<Shopkeep>().UpdateHPBars();
+                            src.PlayOneShot(hitBuildingSound);
+                            attackTimer = weapon.attackSpeed;
+                            // If building is destroyed, spawn 3 black skeletons:
+                            if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                            {
+                                isDead = true;
+                                for (var i = 0; i < 3; i++)
+                                {
+                                    var newEnemy = Instantiate(blackSkeleton, transform.position, Quaternion.identity);
+                                    WaveSpawner.enemies.Add(newEnemy);
+                                    WaveSpawner.aliveEnemies.Add(gameObject);
+                                }
+                        
+                            }
+                        }
+
+                        break;
+                }
             }
         }
 

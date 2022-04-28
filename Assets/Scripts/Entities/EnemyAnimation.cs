@@ -53,14 +53,10 @@ namespace Entities
             animator.SetBool(Running, isRunning);
         }
 
-        public void SkeletonWalkSound()
+        public void WalkSound()
 		{
             src.PlayOneShot(Walk);
 		}
-
-        public void BatWalkSound()
-		{
-            src.PlayOneShot(Walk);
-        }
+        
     }
 }

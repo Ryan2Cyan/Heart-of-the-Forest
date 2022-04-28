@@ -316,6 +316,7 @@ MonoBehaviour:
   blackSkeleton: {fileID: 0}
   enemyType: 3
   enemyNavMesh: {fileID: 7416612453443439326}
+  WaveSpawner: {fileID: 0}
   isAttacking: 0
   isDead: 0
   isDamaged: 0
@@ -505,7 +506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635954c1acfdf8a44acc4328bfb89370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Walk: {fileID: 0}
+  Walk: {fileID: 8300000, guid: eb49f72bb0b906a4fa63686a9223bb8b, type: 3}
 --- !u!1001 &9089956757193932092
 PrefabInstance:
   m_ObjectHideFlags: 0
