@@ -27,10 +27,6 @@ namespace Entities
         private Material defaultMat;
         [SerializeField] private Material damageMat;
         [SerializeField] private Material deathMat;
-        // Knockback: 
-        [SerializeField] private float knockBackForce;
-        [SerializeField] private float knockBackTime;
-        private float knockBackCounter;
         // Buildings:
         private GameObject armorsmith;
         private GameObject alchemist;
@@ -159,6 +155,7 @@ namespace Entities
                     if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
                     {
                         Attack(other.gameObject.GetComponent<Entity>());
+                        other.GetComponent<Shopkeep>().UpdateHPBars();
                         src.PlayOneShot(hitBuildingSound);
                         attackTimer = weapon.attackSpeed;
                         // If the shop is destroyed, convert yellow skeleton into black skeleton:

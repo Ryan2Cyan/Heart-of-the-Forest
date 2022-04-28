@@ -89,12 +89,14 @@ public class Shopkeep : Entity
                 healthPotion.SetActive(true);
                 speedPotion.SetActive(true);
                 damagePotion.SetActive(false);
+                
             }
             else if (lvl3Model.activeInHierarchy)
             {
                 healthPotion.SetActive(true);
                 speedPotion.SetActive(true);
                 damagePotion.SetActive(true);
+                maxHealth = 1000;
             }
             else
             {
@@ -137,6 +139,17 @@ public class Shopkeep : Entity
         }
     }
 
+    // Updates buildings HP bars:
+    public void UpdateHPBars()
+    {
+        if (currentHealth >= 0)
+        {
+            hpBarSlider.maxValue = maxHealth;
+            hpBarSlider.value = currentHealth;
+            hpBarSlider.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = currentHealth.ToString();
+        }
+    }
+    
     // Switch to next level of shop model:
     public void UpgradeShop()
     {
@@ -154,6 +167,11 @@ public class Shopkeep : Entity
                 lvl1Model.SetActive(false);
                 lvl2Model.SetActive(true);
                 
+                // Increase building HP:
+                maxHealth = 500;
+                currentHealth = maxHealth;
+                UpdateHPBars();
+                
                 // Change Icon:
                 SetIcon(1);
             }
@@ -164,6 +182,11 @@ public class Shopkeep : Entity
                 src.PlayOneShot(UpgradeBuildingSfx);
                 lvl2Model.SetActive(false);
                 lvl3Model.SetActive(true);
+                
+                // Increase building HP:
+                maxHealth = 1000;
+                currentHealth = maxHealth;
+                UpdateHPBars();
                 
                 // Change Icon:
                 SetIcon(2);
@@ -250,8 +273,11 @@ public class Shopkeep : Entity
             isDead = false;
             lvl1Model.SetActive(true);
             playerScript.currentGold -= cost0;
+            
+            // Reset building HP:
+            maxHealth = 100;
             currentHealth = maxHealth;
-            hpBarSlider.value = maxHealth;
+            UpdateHPBars();
         }
         else
             src.PlayOneShot(nullSfx);
@@ -378,6 +404,8 @@ public class Shopkeep : Entity
             potionInventory.SetPotionIcons();
             playerScript.currentGold -= potionInventory.healthPrice;
         }
+        else
+            src.PlayOneShot(nullSfx);
     }
         
     // Add speed potion to player inventory:
@@ -393,6 +421,8 @@ public class Shopkeep : Entity
             potionInventory.SetPotionIcons();
             playerScript.currentGold -= potionInventory.speedPrice;
         }
+        else
+            src.PlayOneShot(nullSfx);
     }
         
     // Add damage potion to player inventory:
@@ -408,6 +438,8 @@ public class Shopkeep : Entity
             potionInventory.SetPotionIcons();
             playerScript.currentGold -= potionInventory.damagePrice;
         }
+        else
+            src.PlayOneShot(nullSfx);
     }
 
     // Template for upgrades and stores details of each upgrade:
