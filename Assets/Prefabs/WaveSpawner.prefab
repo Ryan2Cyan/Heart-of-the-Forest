@@ -44,11 +44,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies: []
-  blackSkeleton: {fileID: 0}
+  aliveEnemies: []
+  blackSkeleton: {fileID: 6280554207650633495, guid: d1b7611c67711904fb25e0b746b2709d,
+    type: 3}
+  yellowSkeleton: {fileID: 6280554207650633495, guid: 3cec3796fe8895049bc6b2a049efbbde,
+    type: 3}
+  giantSkeleton: {fileID: 0}
+  bat: {fileID: 6280554207650633495, guid: 2dae0cbc6cf7d1148ba9a53f8f774868, type: 3}
+  giantBat: {fileID: 0}
   enemy: {fileID: 151747853, guid: d1b7611c67711904fb25e0b746b2709d, type: 3}
-  spawnPositions:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   centreOfSpawn: {fileID: 0}
   enemiesToSpawn: 0

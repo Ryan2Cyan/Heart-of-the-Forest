@@ -11,6 +11,10 @@ namespace Core
         public List<GameObject> enemies;
         public List<GameObject> aliveEnemies;
         [SerializeField] private GameObject blackSkeleton;
+        [SerializeField] private GameObject yellowSkeleton;
+        [SerializeField] private GameObject giantSkeleton;
+        [SerializeField] private GameObject bat;
+        [SerializeField] private GameObject giantBat;
         [SerializeField] private Enemy enemy;
         [SerializeField] private GameObject centreOfSpawn;
         [SerializeField] private int enemiesToSpawn;
@@ -39,6 +43,12 @@ namespace Core
                         var position = centreOfSpawn.transform.position;
                         var pos = RandomCircle(position, 50f);
                         var rot = Quaternion.FromToRotation(Vector3.forward, position - pos);
+
+                        // var numb = Random.Range(0, 100);
+                        // if (numb < 0 && numb <= 30)
+                        // {
+                        //     
+                        // }
                         var newEnemy = Instantiate(blackSkeleton, pos, rot);
                         newEnemy.transform.parent = transform;
                         enemies.Add(newEnemy);

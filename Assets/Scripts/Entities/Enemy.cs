@@ -11,6 +11,7 @@ namespace Entities
         private Player playerScript;
 
         [SerializeField] private GameObject blackSkeleton;
+        
         // States
         public EnemyType enemyType;
         public NavMeshAgent enemyNavMesh;
@@ -84,6 +85,10 @@ namespace Entities
                                 break;
                         }
                         break;
+                    case EnemyType.Bat:
+                        enemyNavMesh.SetDestination(player.transform.position);
+                        break;
+                        
                 }
                 if (isDamaged) // If damaged
                 {
@@ -149,7 +154,13 @@ namespace Entities
                         Attack(other.gameObject.GetComponent<Entity>());
                         attackTimer = weapon.attackSpeed;
                     }
-
+                    break;
+                case EnemyType.Bat:
+                    if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
+                    {
+                        Attack(other.gameObject.GetComponent<Entity>());
+                        attackTimer = weapon.attackSpeed;
+                    }
                     break;
                 case EnemyType.YellowSkeleton:
                     if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
@@ -179,7 +190,12 @@ namespace Entities
                     {
                         isAttacking = true;
                     }
-
+                    break;
+                case EnemyType.Bat:
+                    if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
+                    {
+                        isAttacking = true;
+                    }
                     break;
                 case EnemyType.YellowSkeleton:
                     if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
@@ -196,6 +212,12 @@ namespace Entities
             switch (enemyType)
             {
                 case EnemyType.BlackSkeleton:
+                    if (other.gameObject.CompareTag("Player"))
+                    {
+                        isAttacking = false;
+                    }
+                    break;
+                case EnemyType.Bat:
                     if (other.gameObject.CompareTag("Player"))
                     {
                         isAttacking = false;

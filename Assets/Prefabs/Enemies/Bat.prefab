@@ -314,7 +314,11 @@ MonoBehaviour:
   currentHealth: 0
   weapon: {fileID: 6346224260226283443}
   blackSkeleton: {fileID: 0}
-  enemyType: 2
+  yellowSkeleton: {fileID: 0}
+  giantSkeleton: {fileID: 0}
+  bat: {fileID: 0}
+  giantBat: {fileID: 0}
+  enemyType: 3
   enemyNavMesh: {fileID: 7416612453443439326}
   isAttacking: 0
   isDead: 0
@@ -324,8 +328,6 @@ MonoBehaviour:
   damageMat: {fileID: 2100000, guid: 63ab3021a3b546f4fbfdd029305eefeb, type: 2}
   deathMat: {fileID: 9184574335478674445, guid: 847f8760276c9104ca88c989fc7d4876,
     type: 3}
-  knockBackForce: 4
-  knockBackTime: 0.25
   deadSound: {fileID: 8300000, guid: cdc4af115938f474bae2eb6105afd1d3, type: 3}
   hitBuildingSound: {fileID: 8300000, guid: f85ac22c55805a84b9649e5c4c7fa4c1, type: 3}
 --- !u!195 &7416612453443439326
