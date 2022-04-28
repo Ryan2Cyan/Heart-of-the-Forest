@@ -87,17 +87,17 @@ namespace Entities
             AssignGold();
             hpBarSlider.value = currentHealth;
             
-            if (experience > nextLevelExp)
-                LevelUp();
+            // if (experience > nextLevelExp)
+            //     LevelUp();
             if (currentHealth <= 0)
                 OnDeath();
-            if (currentHealth > 100)
-                currentHealth = 100;
+            if (currentHealth > maxHealth)
+                currentHealth = maxHealth;
 
             damageFX.color = Color.Lerp(damageFX.color, new Color(1, 0, 0, 0), 2 * Time.deltaTime);
         }
 
-// Reduces current HP:
+        // Reduces current HP:
         public override void TakeDamage(int damage)
         {
             base.TakeDamage(damage);
@@ -129,12 +129,12 @@ namespace Entities
         }
     
 
-        // Increase current level and EXP to next level:
-        private void LevelUp()
-        {
-            level += 1;
-            nextLevelExp += nextLevelExp + 20.0f;
-        }
+        // // Increase current level and EXP to next level:
+        // private void LevelUp()
+        // {
+        //     level += 1;
+        //     nextLevelExp += nextLevelExp + 20.0f;
+        // }
 
         // Processes activated when attacking (including collider and animation):
         private IEnumerator AttackCooldown()

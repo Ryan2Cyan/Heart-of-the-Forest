@@ -52,8 +52,7 @@ namespace Items
             damagePriceGUI.text = damagePrice.ToString();
             
             // Assign max slots:
-            maxSlots = 3;
-
+            maxSlots = 0;
             isPotionEffect = false;
 
         }
@@ -113,7 +112,6 @@ namespace Items
                     switch (activePotion.type)
                     {
                         case PotionType.Health:
-                            Debug.Log("HP End Call");
                             break;
                         case PotionType.Speed:
                             playerScript.GetComponent<FirstPersonController>().m_WalkSpeed -= 10f;
@@ -149,50 +147,11 @@ namespace Items
             isPotionEffect = true;
             potions.Remove(arg);
         }
-        // // Add health potion to player inventory:
-        // public void AddHealthPotion()
-        // {
-        //     // Check if there is space in inventory:
-        //     if (potions.Count < maxSlots && playerScript.currentGold >= healthPrice)
-        //     {
-        //         var newPotion = new Potion(PotionType.Health);
-        //         potions.Add(newPotion);
-        //         SetPotionIcons();
-        //         playerScript.currentGold -= healthPrice;
-        //     }
-        // }
-        //
-        // // Add speed potion to player inventory:
-        // public void AddSpeedPotion()
-        // {
-        //     // Check if there is space in inventory:
-        //     if (potions.Count < maxSlots && playerScript.currentGold >= speedPrice)
-        //     {
-        //         var newPotion = new Potion(PotionType.Speed);
-        //         potions.Add(newPotion);
-        //         SetPotionIcons();
-        //         playerScript.currentGold -= speedPrice;
-        //     }
-        // }
-        //
-        // // Add damage potion to player inventory:
-        // public void AddDamagePotion()
-        // {
-        //     // Check if there is space in inventory:
-        //     if (potions.Count < maxSlots && playerScript.currentGold >= damagePrice)
-        //     {
-        //         var newPotion = new Potion(PotionType.Damage);
-        //         potions.Add(newPotion);
-        //         SetPotionIcons();
-        //         playerScript.currentGold -= damagePrice;
-        //     }
-        // }
-        
-        
+
+
         // Changes the GUI to display what potions the player contains in their inventory:
         public void SetPotionIcons()
         {
-            Debug.Log("Set Icons");
             GameObject.Find("Slot-" + 0).GetComponent<Image>().enabled = false;
             GameObject.Find("Slot-" + 1).GetComponent<Image>().enabled = false;
             GameObject.Find("Slot-" + 2).GetComponent<Image>().enabled = false;

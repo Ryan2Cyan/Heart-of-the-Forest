@@ -346,13 +346,13 @@ public class Shopkeep : Entity
     }
     
     // Upgrades user's jump height:
-    public void UpgradeJumpHeight()
+    public void UpgradePotionSlot()
     {
         UpgradeIncSprites(
-            100,
-            25,
-            ref playerScript.jumpHeightLvl,
-            "JumpHeight",
+            250,
+            50,
+            ref potionInventory.maxSlots,
+            "PotionSlot",
             Resources.Load<Sprite>("Sprites/leggings-tier1"),
             Resources.Load<Sprite>("Sprites/leggings-tier2")
         );
@@ -464,9 +464,13 @@ public class Shopkeep : Entity
            playerScript.currentGold >= cost0)
         {
                 src.PlayOneShot(purchaseSfx);
-                levelToIncrement++;
+                if (upgradeName != "PotionSlot")
+                {
+                    levelToIncrement++;
+                    playerScript.currentGold -= cost0;
+                }
                 playerWeaponScript.CalcTotalLevel();
-                playerScript.currentGold -= cost0;
+            
                 switch (upgradeName) // Apply upgrade
                 {
                     case "Damage": // Damage upgrade
@@ -488,8 +492,26 @@ public class Shopkeep : Entity
                             playerSword.GetChild(0).GetChild(1).localPosition +=
                                 new Vector3(0.0f, 0.028f, 0.0f);
                         break;
-                    case "JumpHeight":
-                        player.GetComponent<FirstPersonController>().m_JumpSpeed += 1f;
+                    case "PotionSlot":
+                        // Upgrade potion slots (only 3 times):
+                        if (lvl1Model.activeInHierarchy && levelToIncrement == 0 ||
+                            lvl2Model.activeInHierarchy && levelToIncrement == 0 ||
+                            lvl3Model.activeInHierarchy && levelToIncrement == 0)
+                        {
+                            levelToIncrement++;
+                            playerScript.currentGold -= cost0;
+                        }
+                        else if (lvl2Model.activeInHierarchy && levelToIncrement == 1 ||
+                                 lvl3Model.activeInHierarchy && levelToIncrement == 1)
+                        {
+                            levelToIncrement++;
+                            playerScript.currentGold -= cost0;
+                        }
+                        else if (lvl3Model.activeInHierarchy && levelToIncrement == 2)
+                        {
+                            levelToIncrement++;
+                            playerScript.currentGold -= cost0;
+                        }
                         break;
                     case "Speed":
                         player.GetComponent<FirstPersonController>().m_RunSpeed += 0.4f;
@@ -498,13 +520,26 @@ public class Shopkeep : Entity
                 }
 
                 // Recalculate and display new cost:
-                if (levelToIncrement < 9)
+                if (upgradeName != "PotionSlot")
                 {
-                    cost0 = CalcCost(100, 25, levelToIncrement);
-                    cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + cost0;
+                    if (levelToIncrement < 9)
+                    {
+                        cost0 = CalcCost(startCost, costIncrement, levelToIncrement);
+                        cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + cost0;
+                    }
+                    else
+                        cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "MAX";
                 }
                 else
-                    cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "MAX";
+                {
+                    if (levelToIncrement < 3)
+                    {
+                        cost0 = CalcCost(startCost, costIncrement, levelToIncrement);
+                        cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "" + cost0;
+                    }
+                    else
+                        cost.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "MAX";
+                }
         }
         else
             src.PlayOneShot(nullSfx);
@@ -522,14 +557,29 @@ public class Shopkeep : Entity
 
         // Change sprite depending on player level:
         var button = GameObject.Find("Upgrade-" + upgradeName).GetComponent<Button>();
-        if (levelToIncrement > 3)
+        if (upgradeName != "PotionSlot")
         {
-            button.GetComponent<Image>().sprite = upgrade1;
-        }
+            if (levelToIncrement > 3)
+            {
+                button.GetComponent<Image>().sprite = upgrade1;
+            }
 
-        if (levelToIncrement > 6)
+            if (levelToIncrement > 6)
+            {
+                button.GetComponent<Image>().sprite = upgrade2;
+            }
+        }
+        else
         {
-            button.GetComponent<Image>().sprite = upgrade2;
+            if (levelToIncrement > 1)
+            {
+                button.GetComponent<Image>().sprite = upgrade1;
+            }
+
+            if (levelToIncrement > 2)
+            {
+                button.GetComponent<Image>().sprite = upgrade2;
+            }
         }
     }
     
