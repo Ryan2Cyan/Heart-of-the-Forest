@@ -71,10 +71,10 @@ namespace Entities
             nextLevelExp = 20.0f;
             experience = 0.0f;
             level = 0;
-            weapon.attackSpeed = 0.6f;
+            weapon.attackSpeed = 0.2f;
             attackTimer = attackDelay;
             weaponBoxCollider.enabled = false;
-            attackDelay = 1.9f;
+            attackDelay = 0.8f;
             settingsMenuState = false;
             jumpHeightLvl = 0;
         }
@@ -91,6 +91,8 @@ namespace Entities
                 LevelUp();
             if (currentHealth <= 0)
                 OnDeath();
+            if (currentHealth > 100)
+                currentHealth = 100;
 
             damageFX.color = Color.Lerp(damageFX.color, new Color(1, 0, 0, 0), 2 * Time.deltaTime);
         }
@@ -138,12 +140,12 @@ namespace Entities
         private IEnumerator AttackCooldown()
         {
             useAttack0 = !useAttack0;
+            // Animator speed is inverse of whatever weapon's attack speed is
+            weaponAnimator.speed = Mathf.Abs(weapon.attackSpeed - 1);
+            Debug.Log("Weapon anim speed = " + weaponAnimator.speed);
+
             weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
-            weaponBoxCollider.enabled = true;
-        
-            yield return new WaitForSeconds(0.05f);
-            weaponBoxCollider.enabled = false;
-        
+
             yield return new WaitForSeconds(weapon.attackSpeed);
         
             weaponAnimator.SetBool(AttackWithSword0, false);
@@ -189,9 +191,13 @@ namespace Entities
                 }
            
             }
-            
-            // Using potions:
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.G))
+			{
+                Debug.Log(currentHealth);
+			}
+
+                // Using potions:
+                if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 UsePotion(0);
             }

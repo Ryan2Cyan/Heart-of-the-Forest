@@ -39,8 +39,8 @@ namespace Entities
         private GameObject core;
         private GameState gameState;
         private AudioSource src;
-        public AudioClip deadSkeletonSound;
-        public AudioClip skeletonWalkSound;
+        public AudioClip deadSound;
+        public AudioClip hitBuildingSound;
 
 
         private void Start()
@@ -120,7 +120,7 @@ namespace Entities
                 enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.
             playerScript.currentGold += goldDrop + goldMod * playerScript.goldAccumulationLvl;
             isDead = true;
-            src.PlayOneShot(deadSkeletonSound);
+            src.PlayOneShot(deadSound);
             enemyNavMesh.enabled = false;
             model.material = deathMat;
             gameObject.GetComponent<SphereCollider>().enabled = false;
@@ -159,6 +159,7 @@ namespace Entities
                     if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
                     {
                         Attack(other.gameObject.GetComponent<Entity>());
+                        src.PlayOneShot(hitBuildingSound);
                         attackTimer = weapon.attackSpeed;
                         // If the shop is destroyed, convert yellow skeleton into black skeleton:
                         if (other.gameObject.GetComponent<Shopkeep>().isDead)

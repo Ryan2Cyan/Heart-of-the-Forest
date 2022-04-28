@@ -22,8 +22,12 @@ public class GameState : MonoBehaviour
     [SerializeField] private Player player;
 
     public AudioSource src;
+    public AudioSource daySrc;
+    public AudioSource nightSrc;
     public AudioClip nightTransitionSound;
     public AudioClip dayTransitionSound;
+
+
 
     private void Start()
     {
@@ -34,6 +38,7 @@ public class GameState : MonoBehaviour
         waveCountUI.text = "WaveCount: " + currentWave;
         waveSpawner = transform.GetChild(0).GetComponent<WaveSpawner>();
         // LoadPlayers(GameObject.Find("PlayerSpawn").transform);
+        daySrc.Play();
     }
     
     private void Update()
@@ -60,10 +65,14 @@ public class GameState : MonoBehaviour
         if (isDay)
 		{
             src.PlayOneShot(dayTransitionSound);
+            nightSrc.Pause();
+            daySrc.Play();
 		}
         else
 		{
             src.PlayOneShot(nightTransitionSound);
+            daySrc.Stop();
+            nightSrc.PlayDelayed(2);
         }
     }
 
