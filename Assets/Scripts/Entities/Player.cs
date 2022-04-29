@@ -11,7 +11,7 @@ namespace Entities
 {
     public class Player : Entity
     {
-        // Serialized variables:
+        
         [SerializeField] private SettingsMenu settingsMenu;
 
         // GUI:
@@ -83,7 +83,7 @@ namespace Entities
                 OnDeath();
             if (currentHealth > maxHealth)
                 currentHealth = maxHealth;
-
+            
             damageFX.color = Color.Lerp(damageFX.color, new Color(1, 0, 0, 0), 2 * Time.deltaTime);
         }
 
@@ -91,6 +91,7 @@ namespace Entities
         public override void TakeDamage(int damage)
         {
             base.TakeDamage(damage);
+            StartCoroutine(ChangeHpBarColor());
             hpBarSlider.value = currentHealth;
             // Play sound when unlocked
             if (!locked)
@@ -102,6 +103,16 @@ namespace Entities
             }
 
             damageFX.color = new Color(1, 0, 0, 0.4f);
+        }
+        
+        // Change color of HP bar when hit:
+        private IEnumerator ChangeHpBarColor()
+        {
+            var fill = hpBarSlider.transform.GetChild(0).GetComponent<Image>();
+            var originalColor = fill.color;
+            fill.color = Color.white;
+            yield return new WaitForSeconds(0.05f);
+            fill.color = originalColor;
         }
 
         // Set the bool back to play taking hit sounds

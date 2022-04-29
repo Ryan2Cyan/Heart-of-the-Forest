@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Items;
 using TDG.Entity;
 using TMPro;
@@ -24,6 +26,7 @@ namespace Entities
         public bool isDead { get; private set; }
     
         [SerializeField] private Slider hpBarSlider;
+        [SerializeField] private Slider nightHpBarSlider;
         [SerializeField] private TextMeshProUGUI upgradePrice;
         [SerializeField] private AudioClip repairSfx;
         [SerializeField] private AudioClip destroySfx;
@@ -134,6 +137,10 @@ namespace Entities
                 player.GetComponent<Player>().shopMenuState = false;
             }
 
+            // Display night HP bars only at night:
+            if(nightHpBarSlider != null)
+                nightHpBarSlider.gameObject.SetActive(!gameState.isDay);
+
             if (currentHealth <= 0 && !isDead)
             {
                 OnDeath();
@@ -145,9 +152,14 @@ namespace Entities
         {
             if (currentHealth >= 0)
             {
+                // Core sliders:
                 hpBarSlider.maxValue = maxHealth;
                 hpBarSlider.value = currentHealth;
                 hpBarSlider.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = currentHealth.ToString();
+                
+                // Night sliders:
+                nightHpBarSlider.maxValue = maxHealth;
+                nightHpBarSlider.value = currentHealth;
             }
         }
     
@@ -209,6 +221,8 @@ namespace Entities
                     {
                         GameObject.Find("Blacksmith-Icon").GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/blacksmith-icon-tier0");
+                        nightHpBarSlider.transform.GetChild(2).GetComponent<Image>().sprite =
+                            Resources.Load<Sprite>("Sprites/blacksmith-icon-tier0");
                         sign.GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/blacksmith-icon-tier0");
                     }
@@ -217,6 +231,8 @@ namespace Entities
                     {
                         GameObject.Find("Blacksmith-Icon").GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/blacksmith-icon-tier1");
+                        nightHpBarSlider.transform.GetChild(2).GetComponent<Image>().sprite =
+                            Resources.Load<Sprite>("Sprites/blacksmith-icon-tier1");
                         sign.GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/blacksmith-icon-tier1");
                     }
@@ -224,6 +240,8 @@ namespace Entities
                     if (level == 2)
                     {
                         GameObject.Find("Blacksmith-Icon").GetComponent<Image>().sprite =
+                            Resources.Load<Sprite>("Sprites/blacksmith-icon-tier2");
+                        nightHpBarSlider.transform.GetChild(2).GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/blacksmith-icon-tier2");
                         sign.GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/blacksmith-icon-tier2");
@@ -235,6 +253,8 @@ namespace Entities
                     {
                         GameObject.Find("Armorsmith-Icon").GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/armorsmith-icon-tier0");
+                        nightHpBarSlider.transform.GetChild(2).GetComponent<Image>().sprite =
+                            Resources.Load<Sprite>("Sprites/armorsmith-icon-tier0");
                         sign.GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/armorsmith-icon-tier0");
                     }
@@ -243,6 +263,8 @@ namespace Entities
                     {
                         GameObject.Find("Armorsmith-Icon").GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/armorsmith-icon-tier1");
+                        nightHpBarSlider.transform.GetChild(2).GetComponent<Image>().sprite =
+                            Resources.Load<Sprite>("Sprites/armorsmith-icon-tier1");
                         sign.GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/armorsmith-icon-tier1");
                     }
@@ -250,6 +272,8 @@ namespace Entities
                     if (level == 2)
                     {
                         GameObject.Find("Armorsmith-Icon").GetComponent<Image>().sprite =
+                            Resources.Load<Sprite>("Sprites/armorsmith-icon-tier2");
+                        nightHpBarSlider.transform.GetChild(2).GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/armorsmith-icon-tier2");
                         sign.GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/armorsmith-icon-tier2");
@@ -261,6 +285,8 @@ namespace Entities
                     {
                         GameObject.Find("Alchemist-Icon").GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/alchemist-icon-tier0");
+                        nightHpBarSlider.transform.GetChild(2).GetComponent<Image>().sprite =
+                            Resources.Load<Sprite>("Sprites/alchemist-icon-tier0");
                         sign.GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/alchemist-icon-tier0");
                     }
@@ -269,6 +295,8 @@ namespace Entities
                     {
                         GameObject.Find("Alchemist-Icon").GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/alchemist-icon-tier1");
+                        nightHpBarSlider.transform.GetChild(2).GetComponent<Image>().sprite =
+                            Resources.Load<Sprite>("Sprites/alchemist-icon-tier1");
                         sign.GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/alchemist-icon-tier1");
                     }
@@ -276,6 +304,8 @@ namespace Entities
                     if (level == 2)
                     {
                         GameObject.Find("Alchemist-Icon").GetComponent<Image>().sprite =
+                            Resources.Load<Sprite>("Sprites/alchemist-icon-tier2");
+                        nightHpBarSlider.transform.GetChild(2).GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/alchemist-icon-tier2");
                         sign.GetComponent<Image>().sprite =
                             Resources.Load<Sprite>("Sprites/alchemist-icon-tier2");
@@ -688,6 +718,20 @@ namespace Entities
             base.TakeDamage(damage);
             if(hpBarSlider)
                 hpBarSlider.value = currentHealth;
+            if (nightHpBarSlider)
+            {
+                StartCoroutine(ChangeHpBarColor());
+            }
+        }
+        
+        // Change color of HP bar when hit:
+        private IEnumerator ChangeHpBarColor()
+        {
+            var fill = nightHpBarSlider.transform.GetChild(0).GetComponent<Image>();
+            var originalColor = fill.color;
+            fill.color = Color.red;
+            yield return new WaitForSeconds(0.05f);
+            fill.color = originalColor;
         }
 
         private void OnTriggerEnter(Collider other)
