@@ -15,7 +15,10 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private GameObject settingsCanvas;
     [SerializeField] private GameObject controlsCanvas;
-    
+    public AudioSource src;
+    public AudioClip uiClick;
+    public AudioClip uiHover;
+
 
     Resolution[] resolutions;
 
@@ -146,4 +149,14 @@ public class SettingsMenu : MonoBehaviour
             controlsCanvas.SetActive(false);
         }
     }
+
+    public void playClick()
+	{
+        src.PlayOneShot(uiClick);
+	}
+
+    public void playHover()
+	{
+        src.PlayOneShot(uiHover);
+	}
 }
