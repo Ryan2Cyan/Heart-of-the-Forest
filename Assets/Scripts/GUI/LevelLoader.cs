@@ -5,8 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
+    [SerializeField] private MusicPlayer musicPlayer;
+
     private void Start()
     {
+        musicPlayer = GameObject.Find("MusicPlayer").GetComponent<MusicPlayer>();
         Time.timeScale = 1;
     }
 
@@ -19,12 +22,18 @@ public class LevelLoader : MonoBehaviour
     // Loads a specific scene via build index number
     public void LoadScene(int sceneNumber)
     {
+        // Destroy the menu music player before loading a new scene
+        if(GameObject.Find("MusicPlayer") != null)
+        {
+            Destroy(GameObject.Find("MusicPlayer"));
+        }
         SceneManager.LoadScene(sceneNumber);
     }
 
     // Loads the settings menu specifically
     public void LoadSettingsMenu()
     {
+        DontDestroyOnLoad(musicPlayer);
         SceneManager.LoadScene("SettingsMenu");
     }
 
