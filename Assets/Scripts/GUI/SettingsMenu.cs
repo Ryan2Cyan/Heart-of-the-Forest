@@ -52,7 +52,7 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
 
         // Get playerpref volume and set slider val to it
-        float volume = PlayerPrefs.GetFloat("volume", 0f);
+        float volume = PlayerPrefs.GetFloat("volume", 0.35f);
         audioSlider.value = volume;
 
         // Get the saved quality and update dropdown
@@ -76,7 +76,7 @@ public class SettingsMenu : MonoBehaviour
     public void SetVolume(float volume)
     {
         // Update AudioMixer
-        audioMixer.SetFloat("volume", volume);
+        audioMixer.SetFloat("volume", Mathf.Log10(volume) * 20);
 
         // Update PlayerPrefs "volume"
         PlayerPrefs.SetFloat("volume", volume);
