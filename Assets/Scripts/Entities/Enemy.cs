@@ -140,6 +140,7 @@ namespace Entities
                 if (currentHealth <= 0) // If dead
                 {
                     OnDeath();
+                    DropGold();
                     gameState.transform.GetChild(0).GetComponent<WaveSpawner>().aliveEnemies.Remove(gameObject);
                 }
             }
@@ -163,12 +164,16 @@ namespace Entities
             isDead = true;
             if(enemyType == EnemyType.Bat || enemyType == EnemyType.LargeBat)
                 enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.
-            playerScript.currentGold += goldDrop + goldMod * playerScript.goldAccumulationLvl;
             src.PlayOneShot(deadSound);
             enemyNavMesh.enabled = false;
             model.material = deathMat;
             gameObject.GetComponent<Enemy>().enabled = false;
             gameObject.GetComponent<SphereCollider>().enabled = false;
+        }
+
+        private void DropGold()
+        {
+            playerScript.currentGold += goldDrop + goldMod * playerScript.goldAccumulationLvl;
         }
 
         // Change material for brief time when hit:
