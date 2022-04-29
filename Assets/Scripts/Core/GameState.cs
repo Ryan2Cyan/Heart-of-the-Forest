@@ -33,7 +33,7 @@ public class GameState : MonoBehaviour
         isDay = true;
         currentWave = 0;
         waveCountUI = GameObject.Find("WaveCount").GetComponent<TMP_Text>();
-        waveCountUI.text = "WaveCount: " + currentWave;
+        waveCountUI.text = "Wave: " + currentWave;
         waveSpawner = transform.GetChild(0).GetComponent<WaveSpawner>();
         daySrc.Play();
     }

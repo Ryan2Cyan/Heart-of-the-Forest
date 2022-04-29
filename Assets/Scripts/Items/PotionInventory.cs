@@ -140,12 +140,19 @@ namespace Items
 
         public void UsePotion(Potion arg)
         {
-            playerScript.src.PlayOneShot(drinkPotion);
-            currentTimer = arg.duration;
-            activePotion = arg;
-            isPotionActive = true;
-            isPotionEffect = true;
-            potions.Remove(arg);
+            if (arg.type == PotionType.Health && playerScript.currentHealth >= playerScript.maxHealth)
+            {
+                // if the player tries to drink a health potion with full hp, do nothing:
+            }
+            else
+            {
+                playerScript.src.PlayOneShot(drinkPotion);
+                currentTimer = arg.duration;
+                activePotion = arg;
+                isPotionActive = true;
+                isPotionEffect = true;
+                potions.Remove(arg);
+            }
         }
 
 

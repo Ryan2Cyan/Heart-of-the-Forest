@@ -46,6 +46,7 @@ namespace Core
 
                         
                         var numb = Random.Range(0, 100);
+
                         // 45% likely to spawn black skeleton:
                         if (numb <= 45)
                         {
