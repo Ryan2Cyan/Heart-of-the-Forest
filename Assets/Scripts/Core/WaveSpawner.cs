@@ -35,7 +35,6 @@ namespace Core
             if (!gameStateScript.isDay)
             {
                 enemiesToSpawn = gameStateScript.currentWave;
-                Debug.Log("Enemies to Spawn:" + enemiesToSpawn);
 
                 if (!spawned)
                 {
@@ -47,7 +46,6 @@ namespace Core
 
                         
                         var numb = Random.Range(0, 100);
-                        Debug.Log(numb);
                         // 45% likely to spawn black skeleton:
                         if (numb <= 45)
                         {
@@ -64,8 +62,8 @@ namespace Core
                             enemies.Add(newEnemy);
                             aliveEnemies.Add(newEnemy);
                         }
-                        // 15% likely to spawn bat:
-                        else if (numb > 75 && numb <= 90)
+                        // 20% likely to spawn bat:
+                        else if (numb > 75 && numb <= 95)
                         {
                             Debug.Log("Spawn Bat");
                             var newEnemy = Instantiate(bat, pos, rot);
@@ -73,16 +71,16 @@ namespace Core
                             enemies.Add(newEnemy);
                             aliveEnemies.Add(newEnemy);
                         }
-                        // 10% likely to spawn giant bat:
-                        else if (numb > 90 && numb <= 97)
+                        // 3% likely to spawn giant bat:
+                        else if (numb > 95 && numb <= 98)
                         {
                             var newEnemy = Instantiate(giantBat, pos, rot);
                             newEnemy.transform.parent = transform;
                             enemies.Add(newEnemy);
                             aliveEnemies.Add(newEnemy);
                         }
-                        // 5% likely to spawn giant skeleton:
-                        else if (numb > 97 && numb <= 100)
+                        // 2% likely to spawn giant skeleton:
+                        else if (numb > 98 && numb <= 100)
                         {
                             var newEnemy = Instantiate(giantSkeleton, pos, rot);
                             newEnemy.transform.parent = transform;

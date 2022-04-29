@@ -13,7 +13,6 @@ public class GameState : MonoBehaviour
     public bool isDay { get; private set; }
     public int currentWave;
     public int currentTime;
-    public int currentDay;
     private TMP_Text waveCountUI;
     private TMP_Text dayCountUI;
 
@@ -33,11 +32,9 @@ public class GameState : MonoBehaviour
     {
         isDay = true;
         currentWave = 0;
-        currentDay = 1;
         waveCountUI = GameObject.Find("WaveCount").GetComponent<TMP_Text>();
         waveCountUI.text = "WaveCount: " + currentWave;
         waveSpawner = transform.GetChild(0).GetComponent<WaveSpawner>();
-        // LoadPlayers(GameObject.Find("PlayerSpawn").transform);
         daySrc.Play();
     }
     
@@ -53,7 +50,6 @@ public class GameState : MonoBehaviour
                 if (!isDay)
                 {
                     ToggleDay();
-                    currentDay += 1;
                 }
             }
         }

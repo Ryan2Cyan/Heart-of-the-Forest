@@ -41,7 +41,7 @@ namespace Entities
         private AudioSource src;
         public AudioClip deadSound;
         public AudioClip hitBuildingSound;
-
+        
 
         private void Start()
         {
@@ -60,19 +60,19 @@ namespace Entities
             switch (enemyType)
             {
                 case EnemyType.BlackSkeleton:
-                    maxHealth = 50;
+                    maxHealth = 50 + 20 * CalcHpMod();
                     break;
                 case EnemyType.LargeSkeleton:
-                    maxHealth = 250;
+                    maxHealth = 250 + 50 * CalcHpMod();
                     break;
                 case EnemyType.YellowSkeleton:
-                    maxHealth = 40;
+                    maxHealth = 40 + 20 * CalcHpMod();
                     break;
                 case EnemyType.Bat:
-                    maxHealth = 20;
+                    maxHealth = 20 + 20 * CalcHpMod();
                     break;
                 case EnemyType.LargeBat:
-                    maxHealth = 150;
+                    maxHealth = 150 + 30 * CalcHpMod();
                     break;
                 case EnemyType.None:
                     break;
@@ -176,6 +176,17 @@ namespace Entities
             playerScript.currentGold += goldDrop + goldMod * playerScript.goldAccumulationLvl;
         }
 
+        // Calculates how much extra HP the enemy gets (on spawn):
+        private float CalcHpMod()
+        {
+            if (gameState.currentWave % 5 == 0)
+            {
+                return gameState.currentWave / 5f;
+            }
+
+            return 0f;
+        }
+        
         // Change material for brief time when hit:
         private void TakeDamage()
         {

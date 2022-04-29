@@ -7,7 +7,7 @@ namespace TDG.Entity
     {
         protected string entityName;
         public float currentHealth;
-        protected float maxHealth;
+        public float maxHealth;
         protected int level;
         [SerializeField] public Weapon weapon;
 
