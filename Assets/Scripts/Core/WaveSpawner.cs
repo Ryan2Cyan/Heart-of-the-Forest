@@ -62,17 +62,16 @@ namespace Core
                             enemies.Add(newEnemy);
                             aliveEnemies.Add(newEnemy);
                         }
-                        // 20% likely to spawn bat:
-                        else if (numb > 75 && numb <= 95)
+                        // 15% likely to spawn bat:
+                        else if (numb > 75 && numb <= 93)
                         {
-                            Debug.Log("Spawn Bat");
                             var newEnemy = Instantiate(bat, pos, rot);
                             newEnemy.transform.parent = transform;
                             enemies.Add(newEnemy);
                             aliveEnemies.Add(newEnemy);
                         }
                         // 3% likely to spawn giant bat:
-                        else if (numb > 95 && numb <= 98)
+                        else if (numb > 93 && numb <= 98)
                         {
                             var newEnemy = Instantiate(giantBat, pos, rot);
                             newEnemy.transform.parent = transform;
