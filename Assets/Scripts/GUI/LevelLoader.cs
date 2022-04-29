@@ -27,7 +27,7 @@ public class LevelLoader : MonoBehaviour
         {
             Destroy(GameObject.Find("MusicPlayer"));
         }
-        SceneManager.LoadScene(sceneNumber);
+        SceneManager.LoadSceneAsync(sceneNumber, LoadSceneMode.Single);
     }
 
     // Loads the settings menu specifically
