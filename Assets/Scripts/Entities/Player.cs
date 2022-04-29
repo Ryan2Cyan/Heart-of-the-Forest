@@ -15,6 +15,7 @@ namespace Entities
         [SerializeField] private SettingsMenu settingsMenu;
 
         // GUI:
+        [SerializeField] private TextMeshProUGUI hpText;
         private Slider hpBarSlider;
         private TextMeshProUGUI currentGoldUI;
         private Image damageFX;
@@ -58,7 +59,7 @@ namespace Entities
 
             // Assign values:
             entityName = "Jargleblarg The Great";
-            maxHealth = 100;
+            maxHealth = 50;
             currentHealth = maxHealth;
             hpBarSlider.maxValue = maxHealth;
             hpBarSlider.value = currentHealth;
@@ -77,9 +78,7 @@ namespace Entities
             ProcessInput();
             AssignGold();
             hpBarSlider.value = currentHealth;
-            
-            // if (experience > nextLevelExp)
-            //     LevelUp();
+            hpText.text = currentHealth + " / " + maxHealth;
             if (currentHealth <= 0)
                 OnDeath();
             if (currentHealth > maxHealth)
