@@ -20,7 +20,6 @@ namespace Entities
         private Image damageFX;
     
         // State variables:
-        private Camera fpsCamera;
         public float attackDelay;
         private float attackTimer;
         private bool useAttack0;
@@ -52,7 +51,6 @@ namespace Entities
             weapon = transform.GetChild(0).transform.GetChild(0).GetComponent<Weapon>();
             weaponAnimator = weapon.gameObject.GetComponent<Animator>();
             weaponBoxCollider = weapon.gameObject.GetComponent<BoxCollider>();
-            fpsCamera = GetComponentInChildren<Camera>();
             hpBarSlider = GameObject.Find("Health bar").GetComponent<Slider>();
             currentGoldUI = GameObject.Find("Player-Gold").GetComponentInChildren<TextMeshProUGUI>();
             damageFX = GameObject.Find("GetHitIndicator").GetComponent<Image>();

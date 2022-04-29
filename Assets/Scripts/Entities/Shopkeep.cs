@@ -294,6 +294,7 @@ namespace Entities
             const int cost0 = 100;
             if (playerScript.currentGold >= cost0 && currentHealth != maxHealth)
             {
+                playerScript.currentGold -= cost0;
                 src.PlayOneShot(repairSfx);
                 switch (isDead)
                 {
