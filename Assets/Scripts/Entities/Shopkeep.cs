@@ -495,14 +495,15 @@ public class Shopkeep : Entity
         var cost = GameObject.Find("Upgrade-" + upgradeName + "-Price");
         
         // Check player can afford upgrade and isn't max level already:
-        if(playerScript.currentGold >= cost0){
+        if(playerScript.currentGold >= cost0)
+        {
             if (lvl1Model.activeInHierarchy && levelToIncrement < 3 ||
                 lvl2Model.activeInHierarchy && levelToIncrement < 6 ||
                 lvl3Model.activeInHierarchy && levelToIncrement < 9)
             {
-                src.PlayOneShot(purchaseSfx);
                 if (upgradeName != "PotionSlot")
                 {
+                    src.PlayOneShot(purchaseSfx);
                     levelToIncrement++;
                     playerScript.currentGold -= cost0;
                 }
@@ -538,19 +539,23 @@ public class Shopkeep : Entity
                         {
                             levelToIncrement++;
                             playerScript.currentGold -= cost0;
+                            src.PlayOneShot(purchaseSfx);
                         }
                         else if (lvl2Model.activeInHierarchy && levelToIncrement == 1 ||
                                  lvl3Model.activeInHierarchy && levelToIncrement == 1)
                         {
                             levelToIncrement++;
                             playerScript.currentGold -= cost0;
+                            src.PlayOneShot(purchaseSfx);
                         }
                         else if (lvl3Model.activeInHierarchy && levelToIncrement == 2)
                         {
                             levelToIncrement++;
                             playerScript.currentGold -= cost0;
+                            src.PlayOneShot(purchaseSfx);
                         }
-
+                        else
+                            src.PlayOneShot(nullSfx);
                         break;
                     case "Speed":
                         player.GetComponent<FirstPersonController>().m_RunSpeed += 0.4f;
