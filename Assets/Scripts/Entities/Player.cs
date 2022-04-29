@@ -63,7 +63,7 @@ namespace Entities
             currentHealth = maxHealth;
             hpBarSlider.maxValue = maxHealth;
             hpBarSlider.value = currentHealth;
-            currentGold = 0;
+            currentGold = 10000;
             weapon.attackSpeed = 0.2f;
             attackTimer = attackDelay;
             weaponBoxCollider.enabled = false;
