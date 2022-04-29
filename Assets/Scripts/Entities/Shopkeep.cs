@@ -15,6 +15,7 @@ public class Shopkeep : Entity
     private GameObject lvl1Model;
     private GameObject lvl2Model;
     private GameObject lvl3Model;
+    private ParticleSystem smokeModel;
     private GameObject player;
     private Player playerScript;
     private PlayerWeapon playerWeaponScript;
@@ -54,6 +55,7 @@ public class Shopkeep : Entity
             lvl1Model = transform.GetChild(0).gameObject;
             lvl2Model = transform.GetChild(1).gameObject;
             lvl3Model = transform.GetChild(2).gameObject;
+            smokeModel = transform.GetChild(3).GetComponent<ParticleSystem>();
             lvl1Model.SetActive(true);
         }
         gameState = GameObject.Find("GameState").GetComponent<GameState>();
@@ -298,6 +300,7 @@ public class Shopkeep : Entity
                 case true:
                     isDead = false;
                     lvl1Model.SetActive(true);
+                    smokeModel.Stop(true);
                     playerScript.currentGold -= cost0;
                     SetIcon(0);
                 
@@ -513,7 +516,7 @@ public class Shopkeep : Entity
                 switch (upgradeName) // Apply upgrade
                 {
                     case "Damage": // Damage upgrade
-                        playerScript.weapon.damage += 20;
+                        playerScript.weapon.damage += 5;
                         break;
                     case "AttackSpeed": // Attack speed upgrade
                         playerScript.attackDelay -= 0.07f;
@@ -668,8 +671,8 @@ public class Shopkeep : Entity
     // Called when shop is destroyed:
     protected override void OnDeath()
     {
-        Debug.Log("Shop Dead");
         isDead = true;
+        smokeModel.Play(true);
         if (gameObject.name != "Core")
         {
             lvl3Model.SetActive(false);

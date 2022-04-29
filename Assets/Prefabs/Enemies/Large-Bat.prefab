@@ -323,7 +323,7 @@ MonoBehaviour:
   damageMat: {fileID: 2100000, guid: 63ab3021a3b546f4fbfdd029305eefeb, type: 2}
   deathMat: {fileID: 9184574335478674445, guid: 847f8760276c9104ca88c989fc7d4876,
     type: 3}
-  deadSound: {fileID: 8300000, guid: cdc4af115938f474bae2eb6105afd1d3, type: 3}
+  deadSound: {fileID: 8300000, guid: 2777d05477784c44792ab95e9b2accb0, type: 3}
   hitBuildingSound: {fileID: 8300000, guid: f85ac22c55805a84b9649e5c4c7fa4c1, type: 3}
 --- !u!195 &7416612453443439326
 NavMeshAgent:
