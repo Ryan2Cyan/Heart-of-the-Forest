@@ -179,12 +179,7 @@ namespace Entities
         // Calculates how much extra HP the enemy gets (on spawn):
         private float CalcHpMod()
         {
-            if (gameState.currentWave % 5 == 0)
-            {
-                return gameState.currentWave / 5f;
-            }
-
-            return 0f;
+            return Mathf.Floor(gameState.currentWave / 5f);
         }
         
         // Change material for brief time when hit:
