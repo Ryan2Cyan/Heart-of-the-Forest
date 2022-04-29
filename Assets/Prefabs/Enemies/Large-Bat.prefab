@@ -143,8 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 0
-  attackSpeed: 2
-  damage: 10
+  attackSpeed: 20
+  damage: 5
   src: {fileID: 0}
   sfx: {fileID: 0}
 --- !u!95 &8078782242934650196
@@ -313,11 +313,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   weapon: {fileID: 6346224260226283443}
-  blackSkeleton: {fileID: 6280554207650633495, guid: d1b7611c67711904fb25e0b746b2709d,
-    type: 3}
   enemyType: 4
   enemyNavMesh: {fileID: 7416612453443439326}
-  WaveSpawner: {fileID: 0}
   isAttacking: 0
   isDead: 0
   isDamaged: 0

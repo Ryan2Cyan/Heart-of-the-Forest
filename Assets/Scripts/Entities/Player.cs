@@ -38,7 +38,8 @@ namespace Entities
         public AudioClip takeDamageSound;
         public AudioClip deathSound;
         private bool locked = false;
-        
+
+        private int numb = 1;
 
         // Indexes:
         private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
@@ -119,14 +120,7 @@ namespace Entities
             src.PlayOneShot(deathSound);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-    
-
-        // // Increase current level and EXP to next level:
-        // private void LevelUp()
-        // {
-        //     level += 1;
-        //     nextLevelExp += nextLevelExp + 20.0f;
-        // }
+        
 
         // Processes activated when attacking (including collider and animation):
         private IEnumerator AttackCooldown()
@@ -134,7 +128,7 @@ namespace Entities
             useAttack0 = !useAttack0;
             // Animator speed is inverse of whatever weapon's attack speed is
             weaponAnimator.speed = Mathf.Abs(weapon.attackSpeed - 1);
-            Debug.Log("Weapon anim speed = " + weaponAnimator.speed);
+            // Debug.Log("Weapon anim speed = " + weaponAnimator.speed);
 
             weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
 

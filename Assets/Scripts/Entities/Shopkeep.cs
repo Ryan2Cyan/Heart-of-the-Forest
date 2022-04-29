@@ -628,6 +628,8 @@ public class Shopkeep : Entity
     // Called when shop is destroyed:
     protected override void OnDeath()
     {
+        Debug.Log("Shop Dead");
+        isDead = true;
         if (gameObject.name != "Core")
         {
             lvl3Model.SetActive(false);
@@ -637,7 +639,6 @@ public class Shopkeep : Entity
         src.PlayOneShot(destroySfx);
         interactText.SetActive(false);
         menu.SetActive(false);
-        isDead = true;
     }
     
     // Reduces current HP:

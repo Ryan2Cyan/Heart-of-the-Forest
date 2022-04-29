@@ -10,11 +10,11 @@ namespace Core
         private GameState gameStateScript;
         public List<GameObject> enemies;
         public List<GameObject> aliveEnemies;
-        [SerializeField] private GameObject blackSkeleton;
-        [SerializeField] private GameObject yellowSkeleton;
-        [SerializeField] private GameObject giantSkeleton;
-        [SerializeField] private GameObject bat;
-        [SerializeField] private GameObject giantBat;
+        public GameObject blackSkeleton;
+        public GameObject yellowSkeleton;
+        public GameObject giantSkeleton;
+        public GameObject bat;
+        public GameObject giantBat;
         [SerializeField] private Enemy enemy;
         [SerializeField] private GameObject centreOfSpawn;
         [SerializeField] private int enemiesToSpawn;
@@ -34,7 +34,8 @@ namespace Core
             // Check if the time of day is night
             if (!gameStateScript.isDay)
             {
-                enemiesToSpawn = 3;
+                enemiesToSpawn += 1;
+                Debug.Log("Enemies to Spawn:" + enemiesToSpawn);
 
                 if (!spawned)
                 {
@@ -99,7 +100,6 @@ namespace Core
             if (gameStateScript.isDay && spawned)
             {
                 spawned = false;
-                Debug.Log("Call");
                 foreach (var enemy in enemies)
                 {
                     Destroy(enemy);
