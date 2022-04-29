@@ -203,6 +203,14 @@ public class Shopkeep : Entity
         switch (shopType)
         {
             case ShopType.Blacksmith:
+                if (level == 0)
+                {
+                    GameObject.Find("Blacksmith-Icon").GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/blacksmith-icon-tier0");
+                    sign.GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/blacksmith-icon-tier0");
+                }
+                
                 if (level == 1)
                 {
                     GameObject.Find("Blacksmith-Icon").GetComponent<Image>().sprite =
@@ -221,6 +229,14 @@ public class Shopkeep : Entity
 
                 break;
             case ShopType.Armorsmith:
+                if (level == 0)
+                {
+                    GameObject.Find("Armorsmith-Icon").GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/armorsmith-icon-tier0");
+                    sign.GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/armorsmith-icon-tier0");
+                }
+                
                 if (level == 1)
                 {
                     GameObject.Find("Armorsmith-Icon").GetComponent<Image>().sprite =
@@ -239,6 +255,14 @@ public class Shopkeep : Entity
 
                 break;
             case ShopType.Alchemist:
+                if (level == 0)
+                {
+                    GameObject.Find("Alchemist-Icon").GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/alchemist-icon-tier0");
+                    sign.GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Sprites/alchemist-icon-tier0");
+                }
+                
                 if (level == 1)
                 {
                     GameObject.Find("Alchemist-Icon").GetComponent<Image>().sprite =
@@ -269,14 +293,25 @@ public class Shopkeep : Entity
         if (playerScript.currentGold >= cost0 && currentHealth != maxHealth)
         {
             src.PlayOneShot(repairSfx);
-            isDead = false;
-            lvl1Model.SetActive(true);
-            playerScript.currentGold -= cost0;
-            
-            // Reset building HP:
-            maxHealth = 100;
-            currentHealth = maxHealth;
-            UpdateHPBars();
+            switch (isDead)
+            {
+                case true:
+                    isDead = false;
+                    lvl1Model.SetActive(true);
+                    playerScript.currentGold -= cost0;
+                    SetIcon(0);
+                
+                    // Reset building HP:
+                    maxHealth = 100;
+                    currentHealth = maxHealth;
+                    UpdateHPBars();
+                    break;
+                case false:
+                    // Set building HP to max:
+                    currentHealth = maxHealth;
+                    UpdateHPBars();
+                    break;
+            }
         }
         else
             src.PlayOneShot(nullSfx);

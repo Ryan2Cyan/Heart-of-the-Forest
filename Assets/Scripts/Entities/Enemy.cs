@@ -3,6 +3,7 @@ using Core;
 using TDG.Entity;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace Entities
@@ -62,7 +63,7 @@ namespace Entities
                     maxHealth = 50;
                     break;
                 case EnemyType.LargeSkeleton:
-                    maxHealth = 150;
+                    maxHealth = 250;
                     break;
                 case EnemyType.YellowSkeleton:
                     maxHealth = 40;
@@ -71,7 +72,7 @@ namespace Entities
                     maxHealth = 20;
                     break;
                 case EnemyType.LargeBat:
-                    maxHealth = 100;
+                    maxHealth = 150;
                     break;
                 case EnemyType.None:
                     break;
@@ -242,7 +243,7 @@ namespace Entities
                             if (other.gameObject.GetComponent<Shopkeep>().isDead)
                             {
                                 // Game over:
-                                Destroy(gameObject);
+                                SceneManager.LoadScene(0);
                             }
                         }
                         break;

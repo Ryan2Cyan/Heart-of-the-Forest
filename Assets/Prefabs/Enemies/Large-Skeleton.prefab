@@ -239,8 +239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 0
-  attackSpeed: 1
-  damage: 4
+  attackSpeed: 5
+  damage: 2
   src: {fileID: 0}
   sfx: {fileID: 0}
 --- !u!95 &8078782242934650196
@@ -409,7 +409,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   weapon: {fileID: 6346224260226283443}
-  blackSkeleton: {fileID: 0}
   enemyType: 1
   enemyNavMesh: {fileID: 7416612453443439326}
   isAttacking: 0

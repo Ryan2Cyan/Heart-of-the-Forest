@@ -34,7 +34,7 @@ namespace Core
             // Check if the time of day is night
             if (!gameStateScript.isDay)
             {
-                enemiesToSpawn += 1;
+                enemiesToSpawn = gameStateScript.currentWave;
                 Debug.Log("Enemies to Spawn:" + enemiesToSpawn);
 
                 if (!spawned)
@@ -45,19 +45,27 @@ namespace Core
                         var pos = RandomCircle(position, 50f);
                         var rot = Quaternion.FromToRotation(Vector3.forward, position - pos);
 
+                        
                         var numb = Random.Range(0, 100);
                         Debug.Log(numb);
-                        // 40% likely to spawn black skeleton:
-                        if (numb <= 40)
+                        // 45% likely to spawn black skeleton:
+                        if (numb <= 45)
                         {
-                            Debug.Log("Spawn BlackSkeleton");
                             var newEnemy = Instantiate(blackSkeleton, pos, rot);
                             newEnemy.transform.parent = transform;
                             enemies.Add(newEnemy);
                             aliveEnemies.Add(newEnemy);
                         }
+                        // 30% likely to spawn yellow skeleton:
+                        else if (numb > 45 && numb <= 75)
+                        {
+                            var newEnemy = Instantiate(yellowSkeleton, pos, rot);
+                            newEnemy.transform.parent = transform;
+                            enemies.Add(newEnemy);
+                            aliveEnemies.Add(newEnemy);
+                        }
                         // 15% likely to spawn bat:
-                        else if (numb > 40 && numb <= 55)
+                        else if (numb > 75 && numb <= 90)
                         {
                             Debug.Log("Spawn Bat");
                             var newEnemy = Instantiate(bat, pos, rot);
@@ -65,29 +73,18 @@ namespace Core
                             enemies.Add(newEnemy);
                             aliveEnemies.Add(newEnemy);
                         }
-                        // 30% likely to spawn yellow skeleton:
-                        else if (numb > 55 && numb <= 85)
+                        // 10% likely to spawn giant bat:
+                        else if (numb > 90 && numb <= 97)
                         {
-                            Debug.Log("Spawn YellowSkeleton");
-                            var newEnemy = Instantiate(yellowSkeleton, pos, rot);
+                            var newEnemy = Instantiate(giantBat, pos, rot);
                             newEnemy.transform.parent = transform;
                             enemies.Add(newEnemy);
                             aliveEnemies.Add(newEnemy);
                         }
                         // 5% likely to spawn giant skeleton:
-                        else if (numb > 85 && numb <= 90)
+                        else if (numb > 97 && numb <= 100)
                         {
-                            Debug.Log("Spawn Giant Skeleton");
                             var newEnemy = Instantiate(giantSkeleton, pos, rot);
-                            newEnemy.transform.parent = transform;
-                            enemies.Add(newEnemy);
-                            aliveEnemies.Add(newEnemy);
-                        }
-                        // 10% likely to spawn giant bat:
-                        else if (numb > 90 && numb <= 100)
-                        {
-                            Debug.Log("Spawn Giant Bat");
-                            var newEnemy = Instantiate(giantBat, pos, rot);
                             newEnemy.transform.parent = transform;
                             enemies.Add(newEnemy);
                             aliveEnemies.Add(newEnemy);
