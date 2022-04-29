@@ -311,6 +311,7 @@ namespace Entities
                         break;
                     case false:
                         // Set building HP to max:
+                        playerScript.currentGold -= cost0;
                         currentHealth = maxHealth;
                         UpdateHPBars();
                         break;
@@ -491,9 +492,6 @@ namespace Entities
         {
             // Calculate current cost:
             var cost0 = CalcCost(startCost, costIncrement, levelToIncrement);
-            Debug.Log("Cost:" + cost0);
-            Debug.Log("Current Gold:" + playerScript.currentGold );
-            Debug.Log(playerScript.currentGold >= cost0);
             // Display cost on UI:
             var cost = GameObject.Find("Upgrade-" + upgradeName + "-Price");
         
