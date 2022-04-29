@@ -93,6 +93,7 @@ namespace Entities
             base.TakeDamage(damage);
             StartCoroutine(ChangeHpBarColor());
             hpBarSlider.value = currentHealth;
+          
             // Play sound when unlocked
             if (!locked)
             {

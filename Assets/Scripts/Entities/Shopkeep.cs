@@ -39,7 +39,7 @@ namespace Entities
         [SerializeField] private GameObject interactText;
         [SerializeField] private GameObject menu;
         [SerializeField] private GameObject sign;
-    
+        [SerializeField] private ParticleSystem damagePfx;
         [SerializeField] private GameObject healthPotion;
         [SerializeField] private GameObject speedPotion;
         [SerializeField] private GameObject damagePotion;
@@ -718,6 +718,8 @@ namespace Entities
             base.TakeDamage(damage);
             if(hpBarSlider)
                 hpBarSlider.value = currentHealth;
+            if(damagePfx != null)
+                damagePfx.Play();
             if (nightHpBarSlider)
             {
                 StartCoroutine(ChangeHpBarColor());
