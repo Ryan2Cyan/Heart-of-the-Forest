@@ -89,9 +89,9 @@ public class GameState : MonoBehaviour
     
     public void ToggleDay()
     {
-        if (isDay)
+        if (!isDay)
 		{
-            isDay = !isDay;
+            isDay = true;
             src.PlayOneShot(dayTransitionSound);
             nightSrc.Pause();
             daySrc.Play();
@@ -99,7 +99,7 @@ public class GameState : MonoBehaviour
 		}
         else
 		{
-            isDay = true;
+            isDay = false;
             src.PlayOneShot(nightTransitionSound);
             daySrc.Stop();
             nightSrc.PlayDelayed(2);
