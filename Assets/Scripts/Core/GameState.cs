@@ -26,6 +26,7 @@ public class GameState : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private GameObject coreGameOverScreen;
     [SerializeField] private GameObject waveCompleteScreen;
+    private TMP_Text waveCompleteText;
 
     public AudioSource src;
     public AudioSource daySrc;
@@ -44,6 +45,7 @@ public class GameState : MonoBehaviour
         waveCountUI.text = currentWave.ToString();
         waveIcon.sprite = Resources.Load<Sprite>("Sprites/wave-icon");
         waveSpawner = transform.GetChild(0).GetComponent<WaveSpawner>();
+        waveCompleteText = waveCompleteScreen.GetComponent<TMP_Text>();
         daySrc.Play();
     }
     
@@ -66,6 +68,14 @@ public class GameState : MonoBehaviour
                 }
             }
         }
+        if(waitingForDay)
+        {
+            waveCompleteText.color = Color.Lerp(waveCompleteText.color, new Color(waveCompleteText.color.r, waveCompleteText.color.g, waveCompleteText.color.b, 1), 2 * Time.deltaTime);
+        }
+        if(!waitingForDay && waveCompleteText.color.a != 0)
+        {
+            waveCompleteText.color = new Color(waveCompleteText.color.r, waveCompleteText.color.g, waveCompleteText.color.b, 0);
+        }
     }
 
     IEnumerator FinishWave()
@@ -74,12 +84,11 @@ public class GameState : MonoBehaviour
         yield return new WaitForSeconds(4f);
         waveCompleteScreen.SetActive(false);
         ToggleDay();
+        waitingForDay = false;
     }
     
     public void ToggleDay()
     {
-
-        
         if (isDay)
 		{
             isDay = !isDay;
