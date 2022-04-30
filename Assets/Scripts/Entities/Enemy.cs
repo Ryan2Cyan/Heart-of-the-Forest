@@ -26,7 +26,8 @@ namespace Entities
         private float damageCounter;
         [SerializeField] private int goldDrop;
         private const int goldMod = 5;
-        private float blackSkellySearchRange = 15;
+        private float blackSkellySearchRange = 40;
+        private float yellowSkellySearchRange = 3;
         // Materials:
         public SkinnedMeshRenderer model;
         private Material defaultMat;
@@ -94,21 +95,36 @@ namespace Entities
             {
                 switch (enemyType)
                 {
-                    case EnemyType.BlackSkeleton: // Attacks player
-                        enemyNavMesh.SetDestination(player.transform.position);
+                    case EnemyType.BlackSkeleton: // Attacks player if in range, else core
+                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= blackSkellySearchRange && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= blackSkellySearchRange)
+                        {
+                            enemyNavMesh.SetDestination(player.transform.position);
+                        }
+
+                        else
+                        {
+                            enemyNavMesh.SetDestination(core.transform.position);
+                        }
                         break;
                     case EnemyType.YellowSkeleton: // Attacks 1 of 3 buildings
-                        switch (buildingTarget)
+                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= yellowSkellySearchRange && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= yellowSkellySearchRange)
                         {
-                            case 1:
-                                enemyNavMesh.SetDestination(alchemist.transform.position);
-                                break;
-                            case 2:
-                                enemyNavMesh.SetDestination(armorsmith.transform.position);
-                                break;
-                            case 3:
-                                enemyNavMesh.SetDestination(blacksmith.transform.position);
-                                break;
+                            enemyNavMesh.SetDestination(player.transform.position);
+                        }
+                        else
+                        {
+                            switch (buildingTarget)
+                            {
+                                case 1:
+                                    enemyNavMesh.SetDestination(alchemist.transform.position);
+                                    break;
+                                case 2:
+                                    enemyNavMesh.SetDestination(armorsmith.transform.position);
+                                    break;
+                                case 3:
+                                    enemyNavMesh.SetDestination(blacksmith.transform.position);
+                                    break;
+                            }
                         }
                         break;
                     case EnemyType.Bat: // Attacks player
@@ -209,6 +225,22 @@ namespace Entities
                             Attack(other.gameObject.GetComponent<Entity>());
                             attackTimer = weapon.attackSpeed;
                         }
+                        else if (other.gameObject.CompareTag("Core") && attackTimer <= 0.0f)
+                        {
+                            if (!isDead)
+                            {
+                                Attack(other.gameObject.GetComponent<Entity>());
+                                other.GetComponent<Shopkeep>().UpdateHPBars();
+                                src.PlayOneShot(hitBuildingSound);
+                                attackTimer = weapon.attackSpeed;
+
+                                if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                                {
+                                    // Game over:
+                                    gameState.CoreDestroyed();
+                                }
+                            }
+                        }
                         break;
                     
                     case EnemyType.Bat:
@@ -240,6 +272,11 @@ namespace Entities
                                     OnDeath();
                                 }
                             }
+                        }
+                        else if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
+                        {
+                            Attack(other.gameObject.GetComponent<Entity>());
+                            attackTimer = weapon.attackSpeed;
                         }
                         break;
                     
@@ -304,7 +341,7 @@ namespace Entities
                     }
                     break;
                 case EnemyType.YellowSkeleton:
-                    if (other.gameObject.CompareTag("Building"))
+                    if (other.gameObject.CompareTag("Building") || other.gameObject.CompareTag("Player"))
                     {
                         isAttacking = true;
                     }
