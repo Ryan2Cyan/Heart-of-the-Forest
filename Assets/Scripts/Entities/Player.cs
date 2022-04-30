@@ -91,7 +91,8 @@ namespace Entities
         public override void TakeDamage(int damage)
         {
             base.TakeDamage(damage);
-            StartCoroutine(ChangeHpBarColor());
+            if(hpBarSlider.transform.GetChild(0).GetComponent<Image>().color != Color.white)
+                StartCoroutine(ChangeHpBarColor());
             hpBarSlider.value = currentHealth;
           
             // Play sound when unlocked

@@ -722,7 +722,8 @@ namespace Entities
                 damagePfx.Play();
             if (nightHpBarSlider)
             {
-                StartCoroutine(ChangeHpBarColor());
+                if(nightHpBarSlider.transform.GetChild(0).GetComponent<Image>().color != Color.red)
+                    StartCoroutine(ChangeHpBarColor());
             }
         }
         
