@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System.Linq;
 using Core;
@@ -17,6 +17,7 @@ public class GameState : MonoBehaviour
     public int currentTime;
     private TMP_Text waveCountUI;
     private Image waveIcon;
+    private bool waitingForDay;
     private bool changeIcon;
     private TMP_Text dayCountUI;
 
@@ -35,6 +36,7 @@ public class GameState : MonoBehaviour
     private void Start()
     {
         isDay = true;
+        waitingForDay = false;
         currentWave = 0;
         waveCountUI = GameObject.Find("WaveCount").transform.GetChild(0).GetComponent<TMP_Text>();
         waveIcon = GameObject.Find("WaveCount").transform.GetChild(1).GetComponent<Image>();
@@ -55,17 +57,29 @@ public class GameState : MonoBehaviour
             {
                 if (!isDay)
                 {
-                    ToggleDay();
+                    if(!waitingForDay)
+                    {
+                        StartCoroutine(FinishWave());
+                        waitingForDay = true; 
+                    }
                 }
             }
         }
     }
+
+    IEnumerator FinishWave()
+    {
+        yield return new WaitForSeconds(4f);
+        ToggleDay();
+    }
     
     public void ToggleDay()
     {
-        isDay = !isDay;
+
+        
         if (isDay)
 		{
+            isDay = !isDay;
             src.PlayOneShot(dayTransitionSound);
             nightSrc.Pause();
             daySrc.Play();
@@ -73,6 +87,7 @@ public class GameState : MonoBehaviour
 		}
         else
 		{
+            isDay = true;
             src.PlayOneShot(nightTransitionSound);
             daySrc.Stop();
             nightSrc.PlayDelayed(2);
