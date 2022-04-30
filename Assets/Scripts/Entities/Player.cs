@@ -19,6 +19,7 @@ namespace Entities
         private Slider hpBarSlider;
         private TextMeshProUGUI currentGoldUI;
         private Image damageFX;
+        [SerializeField] private GameObject deathScreen;
     
         // State variables:
         public float attackDelay;
@@ -33,6 +34,7 @@ namespace Entities
         public int resistanceLvl;
         public int goldAccumulationLvl;
         private PotionInventory potionsInventory;
+        private bool isAlive;
 
         public AudioSource src;
         public AudioClip takeDamageSound;
@@ -69,22 +71,33 @@ namespace Entities
             weaponBoxCollider.enabled = false;
             attackDelay = 0.8f;
             settingsMenuState = false;
+            isAlive = true;
+            deathScreen.SetActive(false);
         }
 
-   
+
         private void Update()
         {
-            FallCheck();
-            ProcessInput();
-            AssignGold();
-            hpBarSlider.value = currentHealth;
-            hpText.text = currentHealth + " / " + maxHealth;
-            if (currentHealth <= 0)
+            if (currentHealth <= 0 && isAlive)
+            {
                 OnDeath();
-            if (currentHealth > maxHealth)
-                currentHealth = maxHealth;
-            
-            damageFX.color = Color.Lerp(damageFX.color, new Color(1, 0, 0, 0), 2 * Time.deltaTime);
+                isAlive = false;
+            }
+            else if (isAlive)
+            {
+                FallCheck();
+                ProcessInput();
+                AssignGold();
+                hpBarSlider.value = currentHealth;
+                hpText.text = currentHealth + " / " + maxHealth;
+
+                if (currentHealth > maxHealth)
+                {
+                    currentHealth = maxHealth;
+                }
+
+                damageFX.color = Color.Lerp(damageFX.color, new Color(1, 0, 0, 0), 2 * Time.deltaTime);
+            }
         }
 
         // Reduces current HP:
@@ -127,8 +140,14 @@ namespace Entities
         // Reset the scene:
         protected override void OnDeath() 
         {
+            deathScreen.SetActive(true);
+
+            Time.timeScale = 0;
+            GetComponent<FirstPersonController>().enabled = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
             src.PlayOneShot(deathSound);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         
 

@@ -15,7 +15,10 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private GameObject settingsCanvas;
     [SerializeField] private GameObject controlsCanvas;
-    
+    public AudioSource src;
+    public AudioClip uiClick;
+    public AudioClip uiHover;
+
 
     Resolution[] resolutions;
 
@@ -36,7 +39,7 @@ public class SettingsMenu : MonoBehaviour
         int currentResolutionIndex = PlayerPrefs.GetInt("resolution", 0);
         for(int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height + " " + resolutions[i].refreshRate + "hz";
+            string option = resolutions[i].width + "x" + resolutions[i].height + " " + resolutions[i].refreshRate + "hz";
             options.Add(option);
 
             if(resolutions[i].width == Screen.width &&
@@ -146,4 +149,14 @@ public class SettingsMenu : MonoBehaviour
             controlsCanvas.SetActive(false);
         }
     }
+
+    public void playClick()
+	{
+        src.PlayOneShot(uiClick);
+	}
+
+    public void playHover()
+	{
+        src.PlayOneShot(uiHover);
+	}
 }

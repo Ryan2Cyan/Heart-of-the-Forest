@@ -700,9 +700,9 @@ namespace Entities
         protected override void OnDeath()
         {
             isDead = true;
-            smokeModel.Play(true);
             if (gameObject.name != "Core")
             {
+                smokeModel.Play(true);
                 lvl3Model.SetActive(false);
                 lvl2Model.SetActive(false);
                 lvl1Model.SetActive(false);
