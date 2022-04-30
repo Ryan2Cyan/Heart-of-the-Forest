@@ -94,7 +94,20 @@ namespace Entities
                 switch (enemyType)
                 {
                     case EnemyType.BlackSkeleton: // Attacks player
-                        enemyNavMesh.SetDestination(player.transform.position);
+                        Debug.Log("x dif = " + (Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)));
+                        Debug.Log("z dif = " + (Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)));
+                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= 4 && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= 4)
+                        {
+                            Debug.Log("TARGETTING PLAYER");
+                            enemyNavMesh.SetDestination(player.transform.position);
+                        }
+
+                        else
+                        {
+                            enemyNavMesh.SetDestination(core.transform.position);
+                            Debug.Log("TARGETTING CORE");
+                        }
+                        
                         break;
                     case EnemyType.YellowSkeleton: // Attacks 1 of 3 buildings
                         switch (buildingTarget)
@@ -209,6 +222,22 @@ namespace Entities
                             Attack(other.gameObject.GetComponent<Entity>());
                             attackTimer = weapon.attackSpeed;
                         }
+                        else if (other.gameObject.CompareTag("Core") && attackTimer <= 0.0f)
+                        {
+                            if (!isDead)
+                            {
+                                Attack(other.gameObject.GetComponent<Entity>());
+                                other.GetComponent<Shopkeep>().UpdateHPBars();
+                                src.PlayOneShot(hitBuildingSound);
+                                attackTimer = weapon.attackSpeed;
+
+                                if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                                {
+                                    // Game over:
+                                    Debug.Log("GAME OVER, CORE DESTROYED BY " + this.gameObject.name);
+                                }
+                            }                          
+                    }
                         break;
                     
                     case EnemyType.Bat:
