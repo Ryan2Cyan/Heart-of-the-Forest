@@ -26,6 +26,7 @@ namespace Entities
         private float damageCounter;
         [SerializeField] private int goldDrop;
         private const int goldMod = 5;
+        private float blackSkellySearchRange = 15;
         // Materials:
         public SkinnedMeshRenderer model;
         private Material defaultMat;
@@ -94,9 +95,7 @@ namespace Entities
                 switch (enemyType)
                 {
                     case EnemyType.BlackSkeleton: // Attacks player
-                        Debug.Log("x dif = " + (Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)));
-                        Debug.Log("z dif = " + (Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)));
-                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= 4 && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= 4)
+                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= blackSkellySearchRange && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= blackSkellySearchRange)
                         {
                             Debug.Log("TARGETTING PLAYER");
                             enemyNavMesh.SetDestination(player.transform.position);
@@ -321,31 +320,31 @@ namespace Entities
             switch (enemyType)
             {
                 case EnemyType.BlackSkeleton:
-                    if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
+                    if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Core"))
                     {
                         isAttacking = true;
                     }
                     break;
                 case EnemyType.Bat:
-                    if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
+                    if (other.gameObject.CompareTag("Player"))
                     {
                         isAttacking = true;
                     }
                     break;
                 case EnemyType.YellowSkeleton:
-                    if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
+                    if (other.gameObject.CompareTag("Building"))
                     {
                         isAttacking = true;
                     }
                     break;
                 case EnemyType.LargeSkeleton:
-                    if (other.gameObject.CompareTag("Core") && attackTimer <= 0.0f)
+                    if (other.gameObject.CompareTag("Core"))
                     {
                         isAttacking = true;
                     }
                     break;
                 case EnemyType.LargeBat:
-                    if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
+                    if (other.gameObject.CompareTag("Building"))
                     {
                         isAttacking = true;
                     }
@@ -356,36 +355,7 @@ namespace Entities
         // Check if player is not colliding to halt attacking:
         private void OnTriggerExit(Collider other)
         {
-            switch (enemyType)
-            {
-                case EnemyType.BlackSkeleton:
-                    if (other.gameObject.CompareTag("Player"))
-                    {
-                        isAttacking = false;
-                    }
-                    break;
-                case EnemyType.Bat:
-                    if (other.gameObject.CompareTag("Player"))
-                    {
-                        isAttacking = false;
-                    }
-
-                    break;
-                case EnemyType.YellowSkeleton:
-                    if (other.gameObject.CompareTag("Building"))
-                    {
-                        isAttacking = false;
-                    }
-                    break;
-                case EnemyType.LargeSkeleton:
-                    break;
-                case EnemyType.LargeBat:
-                    if (other.gameObject.CompareTag("Building"))
-                    {
-                        isAttacking = false;
-                    }
-                    break;
-            }
+            isAttacking = false;
         }
     }
 
