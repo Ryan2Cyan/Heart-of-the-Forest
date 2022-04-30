@@ -384,7 +384,6 @@ namespace Entities
                 playerCollision = false;
                 menu.SetActive(false);
                 menuOpen = false;
-            
             } 
         }
     

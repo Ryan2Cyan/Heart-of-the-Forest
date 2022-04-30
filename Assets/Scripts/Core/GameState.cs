@@ -18,8 +18,7 @@ public class GameState : MonoBehaviour
     private TMP_Text waveCountUI;
     private Image waveIcon;
     private bool waitingForDay;
-    private bool changeIcon;
-    private TMP_Text dayCountUI;
+    private float dayLimitedTimer;
 
     [SerializeField] private Light directionalLight;
     [SerializeField, Range(0, 24)] private float timeOfDay;
@@ -37,6 +36,7 @@ public class GameState : MonoBehaviour
     
     private void Start()
     {
+        dayLimitedTimer = 0f;
         isDay = true;
         waitingForDay = false;
         currentWave = 0;
@@ -51,6 +51,10 @@ public class GameState : MonoBehaviour
     
     private void Update()
     {
+        dayLimitedTimer += 1 * Time.deltaTime;
+        
+
+        Debug.Log(dayLimitedTimer);
         if (waveSpawner)
         {
             if (Application.isPlaying)
@@ -75,6 +79,12 @@ public class GameState : MonoBehaviour
         if(!waitingForDay && waveCompleteText.color.a != 0)
         {
             waveCompleteText.color = new Color(waveCompleteText.color.r, waveCompleteText.color.g, waveCompleteText.color.b, 0);
+        }
+
+        // If time exceeded 60 seconds, start the next wave automatically
+        if (dayLimitedTimer >= 60f)
+        {
+            GameObject.Find("Core").GetComponent<Shopkeep>().StartNextWave();
         }
     }
 
