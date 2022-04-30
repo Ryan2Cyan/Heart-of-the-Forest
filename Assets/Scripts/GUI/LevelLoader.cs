@@ -13,7 +13,7 @@ public class LevelLoader : MonoBehaviour
 
     private void Start()
     {
-        musicPlayer = GameObject.Find("MusicPlayer").GetComponent<MusicPlayer>();
+        // musicPlayer = GameObject.Find("MusicPlayer").GetComponent<MusicPlayer>();
         Time.timeScale = 1;
     }
 
@@ -56,7 +56,7 @@ public class LevelLoader : MonoBehaviour
     // Loads the settings menu specifically
     public void LoadSettingsMenu()
     {
-        DontDestroyOnLoad(musicPlayer);
+        // DontDestroyOnLoad(musicPlayer);
         SceneManager.LoadScene("SettingsMenu");
     }
 
