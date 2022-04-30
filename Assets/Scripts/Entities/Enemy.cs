@@ -118,6 +118,7 @@ namespace Entities
                                 case 1:
                                     enemyNavMesh.SetDestination(alchemist.transform.position);
                                     break;
+                                    
                                 case 2:
                                     enemyNavMesh.SetDestination(armorsmith.transform.position);
                                     break;
@@ -178,8 +179,10 @@ namespace Entities
         {
             waveSpawner.aliveEnemies.Remove(gameObject);
             isDead = true;
-            if(enemyType == EnemyType.Bat || enemyType == EnemyType.LargeBat)
-                enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.
+            if (enemyType == EnemyType.Bat || enemyType == EnemyType.LargeBat)
+            {
+                enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.  
+            }
             src.PlayOneShot(deadSound);
             enemyNavMesh.enabled = false;
             model.material = deathMat;
@@ -256,10 +259,16 @@ namespace Entities
                         {
                             if (!isDead)
                             {
-                                Attack(other.gameObject.GetComponent<Entity>());
-                                other.GetComponent<Shopkeep>().UpdateHPBars();
-                                src.PlayOneShot(hitBuildingSound);
-                                attackTimer = weapon.attackSpeed;
+                                // If yellow skeleton is close to its target, attack it:
+                                // This avoids the skeleton attacking buildings while walking by.
+                                if(Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= yellowSkellySearchRange && Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= yellowSkellySearchRange)
+                                {
+                                    Attack(other.gameObject.GetComponent<Entity>());
+                                    other.GetComponent<Shopkeep>().UpdateHPBars();
+                                    src.PlayOneShot(hitBuildingSound);
+                                    attackTimer = weapon.attackSpeed;
+                                }
+                                
                                 
                                 // If the shop is destroyed, convert yellow skeleton into black skeleton:
                                 if (other.gameObject.GetComponent<Shopkeep>().isDead)
@@ -341,11 +350,18 @@ namespace Entities
                     }
                     break;
                 case EnemyType.YellowSkeleton:
-                    if (other.gameObject.CompareTag("Building") || other.gameObject.CompareTag("Player"))
+                    if (other.gameObject.CompareTag("Building"))
+                    {
+                        if (Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= yellowSkellySearchRange && Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= yellowSkellySearchRange)
+                        {
+                            isAttacking = true;
+                        }
+                    }
+                    else if(other.gameObject.CompareTag("Player"))
                     {
                         isAttacking = true;
                     }
-                    break;
+                        break;
                 case EnemyType.LargeSkeleton:
                     if (other.gameObject.CompareTag("Core"))
                     {

@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System.Linq;
 using Core;
@@ -17,13 +17,15 @@ public class GameState : MonoBehaviour
     public int currentTime;
     private TMP_Text waveCountUI;
     private Image waveIcon;
-    private bool changeIcon;
-    private TMP_Text dayCountUI;
+    private bool waitingForDay;
+    private float dayLimitedTimer;
 
     [SerializeField] private Light directionalLight;
     [SerializeField, Range(0, 24)] private float timeOfDay;
     [SerializeField] private Player player;
     [SerializeField] private GameObject coreGameOverScreen;
+    [SerializeField] private GameObject waveCompleteScreen;
+    private TMP_Text waveCompleteText;
 
     public AudioSource src;
     public AudioSource daySrc;
@@ -34,18 +36,25 @@ public class GameState : MonoBehaviour
     
     private void Start()
     {
+        dayLimitedTimer = 0f;
         isDay = true;
+        waitingForDay = false;
         currentWave = 0;
         waveCountUI = GameObject.Find("WaveCount").transform.GetChild(0).GetComponent<TMP_Text>();
         waveIcon = GameObject.Find("WaveCount").transform.GetChild(1).GetComponent<Image>();
         waveCountUI.text = currentWave.ToString();
         waveIcon.sprite = Resources.Load<Sprite>("Sprites/wave-icon");
         waveSpawner = transform.GetChild(0).GetComponent<WaveSpawner>();
+        waveCompleteText = waveCompleteScreen.GetComponent<TMP_Text>();
         daySrc.Play();
     }
     
     private void Update()
     {
+        dayLimitedTimer += 1 * Time.deltaTime;
+        
+
+        Debug.Log(dayLimitedTimer);
         if (waveSpawner)
         {
             if (Application.isPlaying)
@@ -55,17 +64,44 @@ public class GameState : MonoBehaviour
             {
                 if (!isDay)
                 {
-                    ToggleDay();
+                    if(!waitingForDay)
+                    {
+                        StartCoroutine(FinishWave());
+                        waitingForDay = true; 
+                    }
                 }
             }
         }
+        if(waitingForDay)
+        {
+            waveCompleteText.color = Color.Lerp(waveCompleteText.color, new Color(waveCompleteText.color.r, waveCompleteText.color.g, waveCompleteText.color.b, 1), 2 * Time.deltaTime);
+        }
+        if(!waitingForDay && waveCompleteText.color.a != 0)
+        {
+            waveCompleteText.color = new Color(waveCompleteText.color.r, waveCompleteText.color.g, waveCompleteText.color.b, 0);
+        }
+
+        // If time exceeded 60 seconds, start the next wave automatically
+        if (dayLimitedTimer >= 60f)
+        {
+            GameObject.Find("Core").GetComponent<Shopkeep>().StartNextWave();
+        }
+    }
+
+    IEnumerator FinishWave()
+    {
+        waveCompleteScreen.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        waveCompleteScreen.SetActive(false);
+        ToggleDay();
+        waitingForDay = false;
     }
     
     public void ToggleDay()
     {
-        isDay = !isDay;
-        if (isDay)
+        if (!isDay)
 		{
+            isDay = true;
             src.PlayOneShot(dayTransitionSound);
             nightSrc.Pause();
             daySrc.Play();
@@ -73,6 +109,7 @@ public class GameState : MonoBehaviour
 		}
         else
 		{
+            isDay = false;
             src.PlayOneShot(nightTransitionSound);
             daySrc.Stop();
             nightSrc.PlayDelayed(2);

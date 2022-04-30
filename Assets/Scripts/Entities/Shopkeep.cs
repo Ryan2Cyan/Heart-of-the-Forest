@@ -384,7 +384,6 @@ namespace Entities
                 playerCollision = false;
                 menu.SetActive(false);
                 menuOpen = false;
-            
             } 
         }
     
@@ -716,10 +715,14 @@ namespace Entities
         public override void TakeDamage(int damage)
         {
             base.TakeDamage(damage);
-            if(hpBarSlider)
+            if (hpBarSlider)
+            {
                 hpBarSlider.value = currentHealth;
-            if(damagePfx != null)
+            }
+            if (damagePfx != null)
+            {
                 damagePfx.Play();
+            }
             if (nightHpBarSlider)
             {
                 if(nightHpBarSlider.transform.GetChild(0).GetComponent<Image>().color != Color.red)
