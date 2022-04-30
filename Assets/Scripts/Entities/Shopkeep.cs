@@ -36,7 +36,7 @@ namespace Entities
         [SerializeField] private AudioClip buyPotionSfx;
         [SerializeField] private AudioSource src;
         [SerializeField] private ShopType shopType;
-        [SerializeField] private GameObject interactText;
+        [SerializeField] private GameObject interactButton;
         [SerializeField] private GameObject menu;
         [SerializeField] private GameObject sign;
         [SerializeField] private ParticleSystem damagePfx;
@@ -120,7 +120,7 @@ namespace Entities
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 menu.SetActive(true);
-                interactText.SetActive(false);
+                interactButton.SetActive(false);
                 menuOpen = true;
                 player.GetComponent<Player>().shopMenuState = true;
 
@@ -133,7 +133,7 @@ namespace Entities
                 Cursor.visible = false;
                 menu.SetActive(false);
                 menuOpen = false;
-                interactText.SetActive(true);
+                interactButton.SetActive(true);
                 player.GetComponent<Player>().shopMenuState = false;
             }
 
@@ -376,11 +376,11 @@ namespace Entities
                 Cursor.visible = false;
                 menu.SetActive(false);
                 menuOpen = false;
-                interactText.SetActive(true);
+                interactButton.SetActive(true);
                 player.GetComponent<Player>().shopMenuState = false;
             
                 // Disable and close core menu:
-                interactText.SetActive(false);
+                interactButton.SetActive(false);
                 playerCollision = false;
                 menu.SetActive(false);
                 menuOpen = false;
@@ -708,7 +708,7 @@ namespace Entities
                 lvl1Model.SetActive(false);
             }
             src.PlayOneShot(destroySfx);
-            interactText.SetActive(false);
+            interactButton.SetActive(false);
             menu.SetActive(false);
         }
     
@@ -746,7 +746,7 @@ namespace Entities
                 {
                     if (gameState.isDay)
                     {
-                        interactText.SetActive(true);
+                        interactButton.SetActive(true);
                         playerCollision = true;
                     }
                 }
@@ -757,7 +757,7 @@ namespace Entities
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                interactText.SetActive(false);
+                interactButton.SetActive(false);
                 playerCollision = false;
                 menu.SetActive(false);
                 menuOpen = false;
