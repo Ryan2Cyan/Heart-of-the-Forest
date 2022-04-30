@@ -5,6 +5,7 @@ using System.Linq;
 using Core;
 using Entities;
 using TMPro;
+using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
 
 public class GameState : MonoBehaviour
@@ -15,6 +16,8 @@ public class GameState : MonoBehaviour
     public int currentWave;
     public int currentTime;
     private TMP_Text waveCountUI;
+    private Image waveIcon;
+    private bool changeIcon;
     private TMP_Text dayCountUI;
 
     [SerializeField] private Light directionalLight;
@@ -28,15 +31,15 @@ public class GameState : MonoBehaviour
     public AudioClip nightTransitionSound;
     public AudioClip dayTransitionSound;
 
-
-
-
+    
     private void Start()
     {
         isDay = true;
         currentWave = 0;
-        waveCountUI = GameObject.Find("WaveCount").GetComponent<TMP_Text>();
-        waveCountUI.text = "Wave: " + currentWave;
+        waveCountUI = GameObject.Find("WaveCount").transform.GetChild(0).GetComponent<TMP_Text>();
+        waveIcon = GameObject.Find("WaveCount").transform.GetChild(1).GetComponent<Image>();
+        waveCountUI.text = currentWave.ToString();
+        waveIcon.sprite = Resources.Load<Sprite>("Sprites/wave-icon");
         waveSpawner = transform.GetChild(0).GetComponent<WaveSpawner>();
         daySrc.Play();
     }
@@ -66,12 +69,14 @@ public class GameState : MonoBehaviour
             src.PlayOneShot(dayTransitionSound);
             nightSrc.Pause();
             daySrc.Play();
+            waveIcon.sprite = Resources.Load<Sprite>("Sprites/wave-icon");
 		}
         else
 		{
             src.PlayOneShot(nightTransitionSound);
             daySrc.Stop();
             nightSrc.PlayDelayed(2);
+            waveIcon.sprite = Resources.Load<Sprite>("Sprites/night-wave-icon");
         }
     }
 
@@ -94,7 +99,7 @@ public class GameState : MonoBehaviour
     public void UpdateWaveCount()
     {
         currentWave += 1;
-        waveCountUI.text = "WaveCount: " + currentWave;
+        waveCountUI.text = currentWave.ToString();
     }
 
     public void CoreDestroyed()
