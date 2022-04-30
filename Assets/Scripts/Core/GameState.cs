@@ -91,7 +91,7 @@ public class GameState : MonoBehaviour
     IEnumerator FinishWave()
     {
         waveCompleteScreen.SetActive(true);
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2f);
         waveCompleteScreen.SetActive(false);
         ToggleDay();
         waitingForDay = false;
