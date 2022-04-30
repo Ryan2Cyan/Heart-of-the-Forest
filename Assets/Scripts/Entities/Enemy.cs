@@ -95,18 +95,7 @@ namespace Entities
                 switch (enemyType)
                 {
                     case EnemyType.BlackSkeleton: // Attacks player
-                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= blackSkellySearchRange && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= blackSkellySearchRange)
-                        {
-                            Debug.Log("TARGETTING PLAYER");
-                            enemyNavMesh.SetDestination(player.transform.position);
-                        }
-
-                        else
-                        {
-                            enemyNavMesh.SetDestination(core.transform.position);
-                            Debug.Log("TARGETTING CORE");
-                        }
-                        
+                        enemyNavMesh.SetDestination(player.transform.position);
                         break;
                     case EnemyType.YellowSkeleton: // Attacks 1 of 3 buildings
                         switch (buildingTarget)
@@ -142,13 +131,12 @@ namespace Entities
                                 break;
                         }
                         break;
-                        
+                    
                 }
                 if (isDamaged) // If damaged
                 {
                     TakeDamage();
                 }
-
                 if (currentHealth <= 0) // If dead
                 {
                     OnDeath();
@@ -221,22 +209,6 @@ namespace Entities
                             Attack(other.gameObject.GetComponent<Entity>());
                             attackTimer = weapon.attackSpeed;
                         }
-                        else if (other.gameObject.CompareTag("Core") && attackTimer <= 0.0f)
-                        {
-                            if (!isDead)
-                            {
-                                Attack(other.gameObject.GetComponent<Entity>());
-                                other.GetComponent<Shopkeep>().UpdateHPBars();
-                                src.PlayOneShot(hitBuildingSound);
-                                attackTimer = weapon.attackSpeed;
-
-                                if (other.gameObject.GetComponent<Shopkeep>().isDead)
-                                {
-                                    // Game over:
-                                    gameState.CoreDestroyed();
-                                }
-                            }                          
-                    }
                         break;
                     
                     case EnemyType.Bat:
