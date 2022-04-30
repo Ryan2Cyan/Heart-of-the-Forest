@@ -179,8 +179,10 @@ namespace Entities
         {
             waveSpawner.aliveEnemies.Remove(gameObject);
             isDead = true;
-            if(enemyType == EnemyType.Bat || enemyType == EnemyType.LargeBat)
-                enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.
+            if (enemyType == EnemyType.Bat || enemyType == EnemyType.LargeBat)
+            {
+                enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.  
+            }
             src.PlayOneShot(deadSound);
             enemyNavMesh.enabled = false;
             model.material = deathMat;
