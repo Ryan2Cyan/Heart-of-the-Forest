@@ -233,7 +233,7 @@ namespace Entities
                                 if (other.gameObject.GetComponent<Shopkeep>().isDead)
                                 {
                                     // Game over:
-                                    Debug.Log("GAME OVER, CORE DESTROYED BY " + this.gameObject.name);
+                                    gameState.CoreDestroyed();
                                 }
                             }                          
                     }
@@ -282,7 +282,7 @@ namespace Entities
                             if (other.gameObject.GetComponent<Shopkeep>().isDead)
                             {
                                 // Game over:
-                                SceneManager.LoadScene(0);
+                                gameState.CoreDestroyed();
                             }
                         }
                         break;

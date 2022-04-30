@@ -5,6 +5,7 @@ using System.Linq;
 using Core;
 using Entities;
 using TMPro;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class GameState : MonoBehaviour
 {
@@ -19,12 +20,14 @@ public class GameState : MonoBehaviour
     [SerializeField] private Light directionalLight;
     [SerializeField, Range(0, 24)] private float timeOfDay;
     [SerializeField] private Player player;
+    [SerializeField] private GameObject coreGameOverScreen;
 
     public AudioSource src;
     public AudioSource daySrc;
     public AudioSource nightSrc;
     public AudioClip nightTransitionSound;
     public AudioClip dayTransitionSound;
+
 
 
 
@@ -92,5 +95,15 @@ public class GameState : MonoBehaviour
     {
         currentWave += 1;
         waveCountUI.text = "WaveCount: " + currentWave;
+    }
+
+    public void CoreDestroyed()
+    {
+        coreGameOverScreen.SetActive(true);
+
+        Time.timeScale = 0;
+        player.GetComponent<FirstPersonController>().enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }
