@@ -25,6 +25,7 @@ public class GameState : MonoBehaviour
     [SerializeField, Range(0, 24)] private float timeOfDay;
     [SerializeField] private Player player;
     [SerializeField] private GameObject coreGameOverScreen;
+    [SerializeField] private GameObject waveCompleteScreen;
 
     public AudioSource src;
     public AudioSource daySrc;
@@ -69,7 +70,9 @@ public class GameState : MonoBehaviour
 
     IEnumerator FinishWave()
     {
+        waveCompleteScreen.SetActive(true);
         yield return new WaitForSeconds(4f);
+        waveCompleteScreen.SetActive(false);
         ToggleDay();
     }
     
