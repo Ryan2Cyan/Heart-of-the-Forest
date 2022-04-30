@@ -51,7 +51,7 @@ public class GameState : MonoBehaviour
     
     private void Update()
     {
-        if (!isDay)
+        if (isDay)
         {
             dayLimitedTimer += 1 * Time.deltaTime;
         }
