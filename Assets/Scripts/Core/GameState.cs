@@ -51,8 +51,10 @@ public class GameState : MonoBehaviour
     
     private void Update()
     {
-        dayLimitedTimer += 1 * Time.deltaTime;
-        
+        if (isDay)
+        {
+            dayLimitedTimer += 1 * Time.deltaTime;
+        }
 
         Debug.Log(dayLimitedTimer);
         if (waveSpawner)
@@ -95,6 +97,7 @@ public class GameState : MonoBehaviour
         waveCompleteScreen.SetActive(false);
         ToggleDay();
         waitingForDay = false;
+        dayLimitedTimer = 0f;
     }
     
     public void ToggleDay()
