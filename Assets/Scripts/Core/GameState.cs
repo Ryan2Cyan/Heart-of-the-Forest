@@ -19,12 +19,15 @@ public class GameState : MonoBehaviour
     private Image waveIcon;
     private bool waitingForDay;
     private float dayLimitedTimer;
+    private float maximumDayTime;
+   
 
     [SerializeField] private Light directionalLight;
     [SerializeField, Range(0, 24)] private float timeOfDay;
     [SerializeField] private Player player;
     [SerializeField] private GameObject coreGameOverScreen;
     [SerializeField] private GameObject waveCompleteScreen;
+    [SerializeField] private TMP_Text dayTimerText;
     private TMP_Text waveCompleteText;
 
     public AudioSource src;
@@ -37,6 +40,7 @@ public class GameState : MonoBehaviour
     private void Start()
     {
         dayLimitedTimer = 0f;
+        maximumDayTime = 60f;
         isDay = true;
         waitingForDay = false;
         currentWave = 0;
@@ -54,6 +58,7 @@ public class GameState : MonoBehaviour
         if (isDay)
         {
             dayLimitedTimer += 1 * Time.deltaTime;
+            dayTimerText.transform.GetChild(0).GetComponent<TMP_Text>().text = (maximumDayTime - Mathf.Round(dayLimitedTimer)).ToString() + "s";
         }
 
         Debug.Log(dayLimitedTimer);
@@ -84,7 +89,7 @@ public class GameState : MonoBehaviour
         }
 
         // If time exceeded 60 seconds, start the next wave automatically
-        if (dayLimitedTimer >= 60f)
+        if (dayLimitedTimer >= maximumDayTime)
         {
             GameObject.Find("Core").GetComponent<Shopkeep>().StartNextWave();
         }
@@ -102,6 +107,7 @@ public class GameState : MonoBehaviour
     
     public void ToggleDay()
     {
+        // Change to day
         if (!isDay)
 		{
             isDay = true;
@@ -109,7 +115,9 @@ public class GameState : MonoBehaviour
             nightSrc.Pause();
             daySrc.Play();
             waveIcon.sprite = Resources.Load<Sprite>("Sprites/wave-icon");
-		}
+            dayTimerText.gameObject.SetActive(true);
+        }
+        // Change to night
         else
 		{
             isDay = false;
@@ -117,6 +125,8 @@ public class GameState : MonoBehaviour
             daySrc.Stop();
             nightSrc.PlayDelayed(2);
             waveIcon.sprite = Resources.Load<Sprite>("Sprites/night-wave-icon");
+            dayTimerText.gameObject.SetActive(false);
+
         }
     }
 
