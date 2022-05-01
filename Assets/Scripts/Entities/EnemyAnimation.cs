@@ -62,8 +62,10 @@ namespace Entities
 
         public void WalkSound()
 		{
-            WalkVFX.Play();
-            src.PlayOneShot(Walk);
+            if(WalkVFX)
+                WalkVFX.Play();
+            if(Walk)
+                src.PlayOneShot(Walk);
 		}
         
     }
