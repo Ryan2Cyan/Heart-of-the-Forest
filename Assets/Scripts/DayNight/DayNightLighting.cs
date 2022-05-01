@@ -56,11 +56,12 @@ public class DayNightLighting : MonoBehaviour
 			{
 				UpdateLighting(TimeOfDay / DayLength);
 			}
-
+			// Transition moon intensity
+			t += 0.2f * Time.deltaTime;
+			MoonLight.intensity = Mathf.Lerp(0, 0.27f, t);
 		}
 
-		t += 0.2f * Time.deltaTime;
-		MoonLight.intensity = Mathf.Lerp(0, 0.2f, t);
+		
 
 	}
 
