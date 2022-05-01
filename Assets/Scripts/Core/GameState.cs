@@ -70,7 +70,7 @@ public class GameState : MonoBehaviour
         if (waveSpawner)
         {
             if (Application.isPlaying)
-                UpdateLighting(isDay, ref directionalLight);
+                //UpdateLighting(isDay, ref directionalLight);
 
             if (waveSpawner.aliveEnemies.Count <= 0)
             {
