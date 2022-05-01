@@ -3,27 +3,35 @@ using UnityEngine;
 [ExecuteAlways]
 public class DayNightLighting : MonoBehaviour
 {
-	// References
+	//References
 	[SerializeField] private Light DirectionalLight;
 	[SerializeField] private LightPreset Preset;
-	// Variables
-	[SerializeField, Range(0,24)] private float TimeOfDay;
+	//Variables
+	[SerializeField] private float DayLength;
+	[SerializeField] private float TimeOfDay;
+
+	private void Start()
+	{
+		//Sets time of day to start at dusk
+		TimeOfDay = DayLength * 0.25f;
+	}
 
 	private void Update()
 	{
 		if (Preset == null)
 			return;
 
-		if(Application.isPlaying)
-		{
-			TimeOfDay += Time.deltaTime;
-			TimeOfDay %= 24; //Clamp between 0-24
-			UpdateLighting(TimeOfDay / 24f);
-		}
-		else
-		{
-			UpdateLighting(TimeOfDay / 24f);
-		}
+		
+			if(Application.isPlaying)
+			{
+				TimeOfDay += Time.deltaTime;
+				TimeOfDay %= DayLength; //Clamp between 0-24
+				UpdateLighting(TimeOfDay / DayLength);
+			}
+			else
+			{
+				UpdateLighting(TimeOfDay / DayLength);
+			}
 	}
 
 	private void UpdateLighting(float timePercent)

@@ -54,7 +54,7 @@ MonoBehaviour:
     ctime0: 0
     ctime1: 32768
     ctime2: 65535
-    ctime3: 0
+    ctime3: 65535
     ctime4: 0
     ctime5: 0
     ctime6: 0
