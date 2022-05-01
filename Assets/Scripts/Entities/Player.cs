@@ -157,7 +157,6 @@ namespace Entities
             useAttack0 = !useAttack0;
             // Animator speed is inverse of whatever weapon's attack speed is
             weaponAnimator.speed = Mathf.Abs(weapon.attackSpeed - 1);
-            // Debug.Log("Weapon anim speed = " + weaponAnimator.speed);
 
             weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
 
@@ -206,13 +205,9 @@ namespace Entities
                 }
            
             }
-            if (Input.GetKeyDown(KeyCode.G))
-			{
-                Debug.Log(currentHealth);
-			}
 
-                // Using potions:
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+            // Using potions:
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 UsePotion(0);
             }
