@@ -17,7 +17,7 @@ public class DayNightLighting : MonoBehaviour
 	{
 		GameState GState = GameStateObject.GetComponent<GameState>();
 		DayLength = GState.maximumDayTime * 2;
-		//Sets time of day to start at dusk
+		//Sets time of day to start at dawn
 		TimeOfDay = DayLength * 0.25f;
 	}
 
