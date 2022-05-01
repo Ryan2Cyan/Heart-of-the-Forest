@@ -25,7 +25,7 @@ namespace Entities
         private GameState gameState;
         private double corePassiveRegenDelay;
         private double corePassiveRegenTimer;
-        public bool isDead { get; private set; }
+        public bool isDead;
     
         [SerializeField] private Slider hpBarSlider;
         [SerializeField] private Slider nightHpBarSlider;
@@ -718,7 +718,7 @@ namespace Entities
         }
     
         // Called when shop is destroyed:
-        protected override void OnDeath()
+        public override void OnDeath()
         {
             isDead = true;
             if (gameObject.name != "Core")

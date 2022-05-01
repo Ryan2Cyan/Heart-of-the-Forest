@@ -138,12 +138,15 @@ namespace Entities
                         switch (buildingTarget)
                         {
                             case 1:
+                                Debug.Log("Alchemist");
                                 enemyNavMesh.SetDestination(alchemist.transform.position);
                                 break;
                             case 2:
+                                Debug.Log("Armoursmith");
                                 enemyNavMesh.SetDestination(armorsmith.transform.position);
                                 break;
                             case 3:
+                                Debug.Log("Blacksmith");
                                 enemyNavMesh.SetDestination(blacksmith.transform.position);
                                 break;
                         }
@@ -175,7 +178,7 @@ namespace Entities
         }
 
         // Activate on death:
-        protected override void OnDeath()
+        public override void OnDeath()
         {
             waveSpawner.aliveEnemies.Remove(gameObject);
             isDead = true;
@@ -308,14 +311,28 @@ namespace Entities
                     case EnemyType.LargeBat:
                         if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
                         {
-                            Attack(other.gameObject.GetComponent<Entity>());
-                            other.GetComponent<Shopkeep>().UpdateHPBars();
+                            // Fetch shop scripts:
+                            Shopkeep shopScript = other.gameObject.GetComponent<Shopkeep>();
+                            Entity shopEntityScript = other.gameObject.GetComponent<Entity>();
+                            
+                            Debug.Log("Stay");
+                            // Deal damage to the shop:
+                            Attack(shopEntityScript);
+                            shopScript.UpdateHPBars();
                             src.PlayOneShot(hitBuildingSound);
                             attackTimer = weapon.attackSpeed;
                             
+                            // Check if building HP is 0 - if true destroy the building:
+                            if (other.gameObject.GetComponent<Entity>().currentHealth <= 0)
+                            {
+                                shopScript.isDead = true;
+                                shopEntityScript.OnDeath();
+                            }
+
                             // If building is destroyed, spawn 3 bats:
                             if (other.gameObject.GetComponent<Shopkeep>().isDead)
                             {
+                                Debug.Log("building dead");
                                 OnDeath();
                                 for (var i = 0; i < 3; i++)
                                 {
@@ -371,6 +388,7 @@ namespace Entities
                 case EnemyType.LargeBat:
                     if (other.gameObject.CompareTag("Building"))
                     {
+                        Debug.Log("Enter");
                         isAttacking = true;
                     }
                     break;
@@ -380,7 +398,28 @@ namespace Entities
         // Check if player is not colliding to halt attacking:
         private void OnTriggerExit(Collider other)
         {
-            isAttacking = false;
+            switch (enemyType)
+            {
+                case EnemyType.BlackSkeleton:
+                    isAttacking = false;
+                    break;
+                case EnemyType.Bat:
+                    isAttacking = false;
+                    break;
+                case EnemyType.YellowSkeleton:
+                    isAttacking = false;
+                    break;
+                case EnemyType.LargeSkeleton:
+                    isAttacking = false;
+                    break;
+                case EnemyType.LargeBat:
+                    if (other.gameObject.CompareTag("Building"))
+                    {
+                        Debug.Log("Exit");
+                        isAttacking = false;
+                    }
+                    break;
+            }
         }
     }
 
