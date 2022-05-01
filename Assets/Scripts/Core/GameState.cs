@@ -116,7 +116,7 @@ public class GameState : MonoBehaviour
         if (!isDay)
 		{
             isDay = true;
-            lightingManager.GetComponent<DayNightLighting>().toDay();
+            lightingManager.GetComponent<DayNightLighting>().ToDay();
             src.PlayOneShot(dayTransitionSound);
             nightSrc.Pause();
             daySrc.Play();
@@ -127,7 +127,7 @@ public class GameState : MonoBehaviour
         else
 		{
             isDay = false;
-            lightingManager.GetComponent<DayNightLighting>().toNight();
+            lightingManager.GetComponent<DayNightLighting>().ToNight();
             src.PlayOneShot(nightTransitionSound);
             daySrc.Stop();
             nightSrc.PlayDelayed(2);

@@ -3,40 +3,40 @@ using UnityEngine;
 public class DayNightLighting : MonoBehaviour
 {
 	//References
-	[SerializeField] private Light DirectionalLight;
-	[SerializeField] private LightPreset Preset;
-	[SerializeField] private GameObject GameStateObject;
-	[SerializeField] private Light MoonLight;
+	[SerializeField] private Light directionalLight;
+	[SerializeField] private LightPreset preset;
+	[SerializeField] private GameObject gameStateObject;
+	[SerializeField] private Light moonLight;
 	//Variables
-	[SerializeField] private float DayLength;
-	[SerializeField] private float TimeOfDay;
+	[SerializeField] private float dayLength;
+	[SerializeField] private float timeOfDay;
 	private float t = 0.0f;
 	private bool isDay = true;
 
 	private void Start()
 	{
-		GameState GState = GameStateObject.GetComponent<GameState>();
-		DayLength = GState.maximumDayTime * 2;
+		GameState GState = gameStateObject.GetComponent<GameState>();
+		dayLength = GState.maximumDayTime * 2;
 		//Sets time of day to start at dawn
-		TimeOfDay = DayLength * 0.25f;
+		timeOfDay = dayLength * 0.25f;
 	}
 
 	private void Update()
 	{
-		if (Preset == null)
+		if (preset == null)
 			return;
 
 		if (isDay)
 		{
 			if (Application.isPlaying)
 			{
-				TimeOfDay += Time.deltaTime;
-				TimeOfDay %= DayLength; //Clamp between 0-DayLength
-				UpdateLighting(TimeOfDay / DayLength);
+				timeOfDay += Time.deltaTime;
+				timeOfDay %= dayLength; //Clamp between 0-DayLength
+				UpdateLighting(timeOfDay / dayLength);
 			}
 			else
 			{
-				UpdateLighting(TimeOfDay / DayLength);
+				UpdateLighting(timeOfDay / dayLength);
 			}
 		}
 		else
@@ -44,21 +44,21 @@ public class DayNightLighting : MonoBehaviour
 			if (Application.isPlaying)
 			{
 				//Keep the directional light moving during night until it's dark
-				if(!(TimeOfDay % DayLength > DayLength * 0.95))
+				if(!(timeOfDay % dayLength > dayLength * 0.95))
 				{
-					TimeOfDay += Time.deltaTime;
-					TimeOfDay %= DayLength; //Clamp between 0-DayLength
-					UpdateLighting(TimeOfDay / DayLength);
+					timeOfDay += Time.deltaTime;
+					timeOfDay %= dayLength; //Clamp between 0-DayLength
+					UpdateLighting(timeOfDay / dayLength);
 				}
 				
 			}
 			else
 			{
-				UpdateLighting(TimeOfDay / DayLength);
+				UpdateLighting(timeOfDay / dayLength);
 			}
 			// Transition moon intensity
 			t += 0.2f * Time.deltaTime;
-			MoonLight.intensity = Mathf.Lerp(0, 0.27f, t);
+			moonLight.intensity = Mathf.Lerp(0, 0.27f, t);
 		}
 
 		
@@ -67,38 +67,38 @@ public class DayNightLighting : MonoBehaviour
 
 	private void UpdateLighting(float timePercent)
 	{
-		RenderSettings.ambientLight = Preset.Ambientcolour.Evaluate(timePercent);
-		RenderSettings.fogColor = Preset.FogColour.Evaluate(timePercent);
+		RenderSettings.ambientLight = preset.ambientColour.Evaluate(timePercent);
+		RenderSettings.fogColor = preset.fogColour.Evaluate(timePercent);
 
-		if (DirectionalLight != null)
+		if (directionalLight != null)
 		{
-			DirectionalLight.color = Preset.DirectionalColour.Evaluate(timePercent);
-			DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
+			directionalLight.color = preset.directionalColour.Evaluate(timePercent);
+			directionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
 		}
 	}
 
 	private void OnValidate()
 	{
-		if (DirectionalLight != null)
+		if (directionalLight != null)
 			return;
 
 		if (RenderSettings.sun != null)
 		{
-			DirectionalLight = RenderSettings.sun;
+			directionalLight = RenderSettings.sun;
 		}
 	}
 
-	public void toDay()
+	public void ToDay()
 	{
 		isDay = true;
-		TimeOfDay = DayLength * 0.25f;
-		MoonLight.intensity = 0;
+		timeOfDay = dayLength * 0.25f;
+		moonLight.intensity = 0;
 	}
 
-	public void toNight()
+	public void ToNight()
 	{
 		isDay = false;
-		TimeOfDay = DayLength * 0.75f;
-		MoonLight.intensity = 0;
+		timeOfDay = dayLength * 0.75f;
+		moonLight.intensity = 0;
 	}
 }
