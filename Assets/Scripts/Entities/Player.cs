@@ -138,7 +138,7 @@ namespace Entities
         }
 
         // Reset the scene:
-        protected override void OnDeath() 
+        public override void OnDeath() 
         {
             deathScreen.SetActive(true);
 

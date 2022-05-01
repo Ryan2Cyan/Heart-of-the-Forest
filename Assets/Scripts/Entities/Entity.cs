@@ -11,7 +11,7 @@ namespace TDG.Entity
         protected int level;
         [SerializeField] public Weapon weapon;
 
-        protected virtual void OnDeath()
+        public virtual void OnDeath()
         {
             //Destroy(gameObject);
         }
