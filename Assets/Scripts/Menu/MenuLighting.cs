@@ -11,7 +11,7 @@ public class MenuLighting : MonoBehaviour
 	[SerializeField] private CanvasGroup canvasGroup;
 	[SerializeField] private GameObject menuEnemies;
 	//Variables
-	public float dayLength = 38;
+	public float dayLength;
 	[SerializeField] private float timeOfDay;
 	[SerializeField, Range(0f, 1f)] private float cycleStart;
 	private float t = 0.0f;
