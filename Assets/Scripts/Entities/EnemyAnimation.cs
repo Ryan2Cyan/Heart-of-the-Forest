@@ -16,12 +16,19 @@ namespace Entities
 
         public AudioClip Walk;
         private AudioSource src;
+        public ParticleSystem WalkVFX;
 
+
+        private void Awake()
+        {
+            if (!WalkVFX) WalkVFX = GetComponentInChildren<ParticleSystem>(true);
+        }
         private void Start()
         {
             animator = transform.GetComponent<Animator>();
             parentScript = transform.parent.gameObject.GetComponent<Enemy>();
             src = gameObject.GetComponentInParent<AudioSource>();
+            //WalkVFX = FindObjectOfType<ParticleSystem>();
         }
 
         
@@ -55,6 +62,7 @@ namespace Entities
 
         public void WalkSound()
 		{
+            WalkVFX.Play();
             src.PlayOneShot(Walk);
 		}
         
