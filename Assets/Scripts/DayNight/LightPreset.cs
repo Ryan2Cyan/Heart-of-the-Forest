@@ -6,4 +6,5 @@ public class LightPreset : ScriptableObject
 {
 	public Gradient DirectionalColour;
 	public Gradient FogColour;
+	public Gradient Ambientcolour;
 }

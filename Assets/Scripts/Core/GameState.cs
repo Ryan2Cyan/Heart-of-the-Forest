@@ -19,7 +19,7 @@ public class GameState : MonoBehaviour
     private Image waveIcon;
     private bool waitingForDay;
     private float dayLimitedTimer;
-    private float maximumDayTime;
+    public float maximumDayTime;
    
 
     [SerializeField] private Light directionalLight;
@@ -29,6 +29,7 @@ public class GameState : MonoBehaviour
     [SerializeField] private GameObject waveCompleteScreen;
     [SerializeField] private TMP_Text dayTimerText;
     private TMP_Text waveCompleteText;
+    [SerializeField] private GameObject lightingManager;
 
     public AudioSource src;
     public AudioSource daySrc;
@@ -111,6 +112,7 @@ public class GameState : MonoBehaviour
         if (!isDay)
 		{
             isDay = true;
+            lightingManager.GetComponent<DayNightLighting>().toDay();
             src.PlayOneShot(dayTransitionSound);
             nightSrc.Pause();
             daySrc.Play();
@@ -121,6 +123,7 @@ public class GameState : MonoBehaviour
         else
 		{
             isDay = false;
+            lightingManager.GetComponent<DayNightLighting>().toNight();
             src.PlayOneShot(nightTransitionSound);
             daySrc.Stop();
             nightSrc.PlayDelayed(2);
