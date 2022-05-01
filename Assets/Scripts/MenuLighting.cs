@@ -12,6 +12,7 @@ public class MenuLighting : MonoBehaviour
 	[SerializeField] private float DayLength;
 	[SerializeField] private float TimeOfDay;
 	[SerializeField, Range(0f, 1f)] private float cycleStart;
+	//[SerializeField] private float timeToNight;
 	private float t = 0.0f;
 	private bool isDay = true;
 
@@ -19,6 +20,13 @@ public class MenuLighting : MonoBehaviour
 	{
 		//Sets time of day to start at dawn
 		TimeOfDay = DayLength * cycleStart;
+		StartCoroutine(turnToNight());
+	}
+
+	IEnumerator turnToNight()
+	{
+		yield return new WaitForSeconds(DayLength/2);
+		toNight();
 	}
 
 	private void Update()
@@ -60,7 +68,6 @@ public class MenuLighting : MonoBehaviour
 			t += 0.2f * Time.deltaTime;
 			MoonLight.intensity = Mathf.Lerp(0, 0.27f, t);
 		}
-
 
 
 	}
