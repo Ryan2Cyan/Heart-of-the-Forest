@@ -43,7 +43,6 @@ public class LevelLoader : MonoBehaviour
 
             slider.value = progress;
             progressText.text = (Mathf.Round(progress * 100f) + "%");
-            Debug.Log(progress);
 
             yield return null;
 		}
