@@ -20,6 +20,7 @@ public class MenuLighting : MonoBehaviour
 		//Sets time of day to start at dawn
 		timeOfDay = dayLength * cycleStart;
 		StartCoroutine(TurnToNight());
+		RenderSettings.skybox.SetFloat("_AtmosphereThickness", 1f);
 	}
 
 	IEnumerator TurnToNight()
@@ -39,11 +40,11 @@ public class MenuLighting : MonoBehaviour
 			{
 				timeOfDay += Time.deltaTime;
 				timeOfDay %= dayLength; //Clamp between 0-DayLength
-				UpdateLighting(timeOfDay / dayLength);
+				UpdateLighting(timeOfDay / dayLength, true);
 			}
 			else
 			{
-				UpdateLighting(timeOfDay / dayLength);
+				UpdateLighting(timeOfDay / dayLength, true);
 			}
 		}
 		else
@@ -51,27 +52,28 @@ public class MenuLighting : MonoBehaviour
 			if (Application.isPlaying)
 			{
 				//Keep the directional light moving during night until it's dark
-				if (!(timeOfDay % dayLength > dayLength * 0.95))
+				if (!(timeOfDay % dayLength > dayLength * 0.85))
 				{
 					timeOfDay += Time.deltaTime;
 					timeOfDay %= dayLength; //Clamp between 0-DayLength
-					UpdateLighting(timeOfDay / dayLength);
+					UpdateLighting(timeOfDay / dayLength, false);
 				}
 
 			}
 			else
 			{
-				UpdateLighting(timeOfDay / dayLength);
+				UpdateLighting(timeOfDay / dayLength, false);
 			}
 			// Transition moon intensity
 			t += 0.2f * Time.deltaTime;
 			moonLight.intensity = Mathf.Lerp(0, 0.27f, t);
+			RenderSettings.skybox.SetFloat("_AtmosphereThickness", Mathf.Lerp(1, 0.28f, t));
 		}
 
 
 	}
 
-	private void UpdateLighting(float timePercent)
+	private void UpdateLighting(float timePercent, bool affectLightRotation)
 	{
 		RenderSettings.ambientLight = preset.ambientColour.Evaluate(timePercent);
 		RenderSettings.fogColor = preset.fogColour.Evaluate(timePercent);
@@ -79,6 +81,7 @@ public class MenuLighting : MonoBehaviour
 		if (directionalLight != null)
 		{
 			directionalLight.color = preset.directionalColour.Evaluate(timePercent);
+			if(affectLightRotation)
 			directionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
 		}
 	}
@@ -105,6 +108,7 @@ public class MenuLighting : MonoBehaviour
 	{
 		isDay = false;
 		timeOfDay = dayLength * 0.75f;
+		directionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timeOfDay / dayLength * 360f) - 90f, 170f, 0));
 		moonLight.intensity = 0;
 	}
 }
