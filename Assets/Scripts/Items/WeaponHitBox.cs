@@ -10,6 +10,7 @@ namespace Items
 
         public AudioSource src;
         public AudioClip sfx;
+        [SerializeField] private ParticleSystem hitVFX;
         private bool locked = false;
 
 
@@ -20,6 +21,9 @@ namespace Items
                 var enemyScript = other.GetComponent<Enemy>();
                 enemyScript.TakeDamage(weapon.damage);
                 enemyScript.isDamaged = true;
+
+                //Instantiate(hitVFX, transform.position, Quaternion.identity);
+                hitVFX.Play();
 
                 // play hit sound, don't play multiple sounds in the same swing 
                 if (!locked)
