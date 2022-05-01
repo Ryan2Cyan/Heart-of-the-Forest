@@ -89,7 +89,7 @@ namespace Entities
                 ProcessInput();
                 AssignGold();
                 hpBarSlider.value = currentHealth;
-                hpText.text = currentHealth + " / " + maxHealth;
+                hpText.text = Mathf.Floor(currentHealth) + " / " + maxHealth;
 
                 if (currentHealth > maxHealth)
                 {
