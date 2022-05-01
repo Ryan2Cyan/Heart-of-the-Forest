@@ -23,6 +23,8 @@ namespace Entities
         private PlayerWeapon playerWeaponScript;
         private PotionInventory potionInventory;
         private GameState gameState;
+        private double corePassiveRegenDelay;
+        private double corePassiveRegenTimer;
         public bool isDead { get; private set; }
     
         [SerializeField] private Slider hpBarSlider;
@@ -69,6 +71,8 @@ namespace Entities
             menuOpen = false;
             playerCollision = false;
             maxHealth = 100;
+            corePassiveRegenDelay = 4f;
+            corePassiveRegenTimer = corePassiveRegenDelay;
             currentHealth = maxHealth;
             if (hpBarSlider)
             {
@@ -80,6 +84,24 @@ namespace Entities
 
         private void Update()
         {
+            // Core Passive Health Regen:
+            if(shopType == ShopType.Core)
+            {
+                if(currentHealth < maxHealth)
+                {
+                    if (!gameState.isDay)
+                    {
+                        corePassiveRegenTimer -= 1 * Time.deltaTime;
+                        if(corePassiveRegenTimer <= 0)
+                        {
+                            currentHealth += 1;
+                            corePassiveRegenTimer = corePassiveRegenDelay;
+                            UpdateHPBars();
+                        } 
+                    }
+                }
+            }
+
             // Display potions depending on shop level:
             if (shopType == ShopType.Alchemist)
             {
