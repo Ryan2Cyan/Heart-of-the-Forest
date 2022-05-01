@@ -37,8 +37,13 @@ public class GameState : MonoBehaviour
     public AudioClip nightTransitionSound;
     public AudioClip dayTransitionSound;
 
-    
-    private void Start()
+	private void Awake()
+	{
+        // This fixed the build error
+        waveCompleteText = waveCompleteScreen.GetComponent<TMP_Text>();
+    }
+
+	private void Start()
     {
         dayLimitedTimer = 0f;
         maximumDayTime = 60f;
@@ -50,7 +55,7 @@ public class GameState : MonoBehaviour
         waveCountUI.text = currentWave.ToString();
         waveIcon.sprite = Resources.Load<Sprite>("Sprites/wave-icon");
         waveSpawner = transform.GetChild(0).GetComponent<WaveSpawner>();
-        waveCompleteText = waveCompleteScreen.GetComponent<TMP_Text>();
+        
         daySrc.Play();
     }
     
