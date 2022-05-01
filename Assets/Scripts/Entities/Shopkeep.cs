@@ -203,7 +203,7 @@ namespace Entities
                     lvl2Model.SetActive(true);
                 
                     // Increase building HP:
-                    maxHealth = 500;
+                    maxHealth = 250;
                     currentHealth = maxHealth;
                     UpdateHPBars();
                 
@@ -219,7 +219,7 @@ namespace Entities
                     lvl3Model.SetActive(true);
                 
                     // Increase building HP:
-                    maxHealth = 1000;
+                    maxHealth = 500;
                     currentHealth = maxHealth;
                     UpdateHPBars();
                 
@@ -414,7 +414,7 @@ namespace Entities
         {
             UpgradeIncSprites(
                 100, 
-                25, 
+                50, 
                 ref playerWeaponScript.attackSpeedLvl, 
                 "AttackSpeed",
                 Resources.Load<Sprite>("Sprites/hilt-tier1"),
@@ -427,7 +427,7 @@ namespace Entities
         {
             UpgradeIncSprites(
                 100, 
-                25, 
+                50, 
                 ref playerWeaponScript.damageLvl, 
                 "Damage",
                 Resources.Load<Sprite>("Sprites/blade-tier1"),
@@ -440,7 +440,7 @@ namespace Entities
         {
             UpgradeIncSprites(
                 250,
-                50,
+                100,
                 ref potionInventory.maxSlots,
                 "PotionSlot",
                 Resources.Load<Sprite>("Sprites/leggings-tier1"),
@@ -453,7 +453,7 @@ namespace Entities
         {
             UpgradeIncSprites(
                 100,
-                25,
+                50,
                 ref playerScript.goldAccumulationLvl,
                 "GoldAccumulation",
                 Resources.Load<Sprite>("Sprites/helmet-tier1"),
@@ -466,7 +466,7 @@ namespace Entities
         {
             UpgradeIncSprites(
                 100,
-                25,
+                50,
                 ref playerScript.resistanceLvl,
                 "Resistance",
                 Resources.Load<Sprite>("Sprites/chestpiece-tier1"),
@@ -479,7 +479,7 @@ namespace Entities
         {
             UpgradeIncSprites(
                 100,
-                25,
+                50,
                 ref playerScript.speedLvl,
                 "Speed",
                 Resources.Load<Sprite>("Sprites/boots-tier1"),
@@ -720,6 +720,8 @@ namespace Entities
         // Called when shop is destroyed:
         public override void OnDeath()
         {
+            currentHealth = 0;
+            UpdateHPBars();
             isDead = true;
             if (gameObject.name != "Core")
             {
