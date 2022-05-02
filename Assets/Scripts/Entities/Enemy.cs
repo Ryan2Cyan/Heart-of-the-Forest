@@ -139,15 +139,12 @@ namespace Entities
                         switch (buildingTarget)
                         {
                             case 1:
-                                Debug.Log("Alchemist");
                                 enemyNavMesh.SetDestination(alchemist.transform.position);
                                 break;
                             case 2:
-                                Debug.Log("Armoursmith");
                                 enemyNavMesh.SetDestination(armorsmith.transform.position);
                                 break;
                             case 3:
-                                Debug.Log("Blacksmith");
                                 enemyNavMesh.SetDestination(blacksmith.transform.position);
                                 break;
                         }
@@ -316,7 +313,6 @@ namespace Entities
                             Shopkeep shopScript = other.gameObject.GetComponent<Shopkeep>();
                             Entity shopEntityScript = other.gameObject.GetComponent<Entity>();
                             
-                            Debug.Log("Stay");
                             // Deal damage to the shop:
                             Attack(shopEntityScript);
                             shopScript.UpdateHPBars();
@@ -389,7 +385,6 @@ namespace Entities
                 case EnemyType.LargeBat:
                     if (other.gameObject.CompareTag("Building"))
                     {
-                        Debug.Log("Enter");
                         isAttacking = true;
                     }
                     break;
