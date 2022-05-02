@@ -415,7 +415,7 @@ MonoBehaviour:
   isAttacking: 0
   isDead: 0
   isDamaged: 0
-  goldDrop: 30
+  goldDrop: 25
   model: {fileID: 2409288802572773412}
   damageMat: {fileID: 2100000, guid: 63ab3021a3b546f4fbfdd029305eefeb, type: 2}
   deathMat: {fileID: 9184574335478674445, guid: 847f8760276c9104ca88c989fc7d4876,
