@@ -135,6 +135,7 @@ public class MenuLighting : MonoBehaviour
 		isDay = true;
 		timeOfDay = dayLength * 0.25f;
 		moonLight.intensity = 0;
+		ChangeLevelLights(false);
 	}
 
 	public void ToNight()
@@ -143,5 +144,36 @@ public class MenuLighting : MonoBehaviour
 		timeOfDay = dayLength * 0.75f;
 		directionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timeOfDay / dayLength * 360f) - 90f, 170f, 0));
 		moonLight.intensity = 0;
+		ChangeLevelLights(true);
+	}
+
+	//Turn torches on or off
+	private void ChangeLevelLights(bool turnOn)
+	{
+		int i;
+		Light light;
+		ParticleSystem vfx;
+		GameObject[] levelLights = GameObject.FindGameObjectsWithTag("FireLight");
+
+		if (turnOn)
+		{
+			for (i = 0; i < levelLights.Length; i++)
+			{
+				light = levelLights[i].GetComponentInChildren(typeof(Light)) as Light;
+				light.enabled = true;
+				vfx = levelLights[i].GetComponentInChildren(typeof(ParticleSystem)) as ParticleSystem;
+				vfx.Play();
+			}
+		}
+		else
+		{
+			for (i = 0; i < levelLights.Length; i++)
+			{
+				light = levelLights[i].GetComponentInChildren(typeof(Light)) as Light;
+				light.enabled = false;
+				vfx = levelLights[i].GetComponentInChildren(typeof(ParticleSystem)) as ParticleSystem;
+				vfx.Stop();
+			}
+		}
 	}
 }
