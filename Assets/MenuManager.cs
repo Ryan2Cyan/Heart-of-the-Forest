@@ -15,37 +15,34 @@ public class MenuManager : MonoBehaviour
     public GameObject LoadingScreen;
 
     public bool CanPlaySelectedMode;
+    public bool LevelAlreadyLoading;
 
-
-
-    void CheckGameObject()
+    private void Awake()
     {
-        if (EndlessBG.activeSelf)
-        {
-            // do something, if it is  active...
-            CanPlaySelectedMode = true;
-        }
+        CanPlaySelectedMode = false;
+        LevelAlreadyLoading = false;
+    }
 
-        else
-        {
-            // do something, if it is active...
-            CanPlaySelectedMode = false;
-        }
+    public void SetSelectedMode()
+    {
+        CanPlaySelectedMode = true;
+    }
+    public void LoadingLevel()
+    {
+        LevelAlreadyLoading = true;
     }
 
     public void PlayLevel()
     {
-        
         Debug.Log(CanPlaySelectedMode);
         if (CanPlaySelectedMode == true)
-        {
-            LoadingScreen.SetActive(true);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
+            if (LevelAlreadyLoading == true)
+            {
+                LoadingScreen.SetActive(true);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
 
     }
-
-
     public void playClick()
     {
         src.PlayOneShot(uiClick);
