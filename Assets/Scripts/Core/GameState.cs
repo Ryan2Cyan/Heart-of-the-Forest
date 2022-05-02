@@ -64,7 +64,8 @@ public class GameState : MonoBehaviour
         if (isDay)
         {
             dayLimitedTimer += 1 * Time.deltaTime;
-            dayTimerText.transform.GetChild(0).GetComponent<TMP_Text>().text = (maximumDayTime - Mathf.Round(dayLimitedTimer)).ToString() + "s";
+            dayTimerText.transform.GetChild(0).GetComponent<TMP_Text>().text = (maximumDayTime - 
+                Mathf.Round(dayLimitedTimer)).ToString();
         }
 
         if (waveSpawner)
