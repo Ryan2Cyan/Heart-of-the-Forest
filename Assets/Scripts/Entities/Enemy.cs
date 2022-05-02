@@ -139,15 +139,12 @@ namespace Entities
                         switch (buildingTarget)
                         {
                             case 1:
-                                Debug.Log("Alchemist");
                                 enemyNavMesh.SetDestination(alchemist.transform.position);
                                 break;
                             case 2:
-                                Debug.Log("Armoursmith");
                                 enemyNavMesh.SetDestination(armorsmith.transform.position);
                                 break;
                             case 3:
-                                Debug.Log("Blacksmith");
                                 enemyNavMesh.SetDestination(blacksmith.transform.position);
                                 break;
                         }
@@ -236,12 +233,17 @@ namespace Entities
                         {
                             if (!isDead)
                             {
-                                Attack(other.gameObject.GetComponent<Entity>());
-                                other.GetComponent<Shopkeep>().UpdateHPBars();
-                                src.PlayOneShot(hitBuildingSound);
-                                attackTimer = weapon.attackSpeed;
+                                // If black skeleton is close to its target, attack it:
+                                // This avoids the skeleton attacking buildings while walking by.
+                                if (Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= 5 && Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= 5)
+                                {
+                                    Attack(other.gameObject.GetComponent<Entity>());
+                                    other.GetComponent<Shopkeep>().UpdateHPBars();
+                                    src.PlayOneShot(hitBuildingSound);
+                                    attackTimer = weapon.attackSpeed;
+                                }
 
-                                if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                                    if (other.gameObject.GetComponent<Shopkeep>().isDead)
                                 {
                                     // Game over:
                                     gameState.CoreDestroyed();
@@ -316,7 +318,6 @@ namespace Entities
                             Shopkeep shopScript = other.gameObject.GetComponent<Shopkeep>();
                             Entity shopEntityScript = other.gameObject.GetComponent<Entity>();
                             
-                            Debug.Log("Stay");
                             // Deal damage to the shop:
                             Attack(shopEntityScript);
                             shopScript.UpdateHPBars();
@@ -389,7 +390,6 @@ namespace Entities
                 case EnemyType.LargeBat:
                     if (other.gameObject.CompareTag("Building"))
                     {
-                        Debug.Log("Enter");
                         isAttacking = true;
                     }
                     break;
