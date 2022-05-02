@@ -11,7 +11,7 @@ namespace Entities
 {
     public class Player : Entity
     {
-        
+
         [SerializeField] private SettingsMenu settingsMenu;
 
         // GUI:
@@ -20,7 +20,7 @@ namespace Entities
         private TextMeshProUGUI currentGoldUI;
         private Image damageFX;
         [SerializeField] private GameObject deathScreen;
-    
+
         // State variables:
         public float attackDelay;
         private float attackTimer;
@@ -35,11 +35,14 @@ namespace Entities
         public int goldAccumulationLvl;
         private PotionInventory potionsInventory;
         private bool isAlive;
+        private bool FinishedFading;
 
         public AudioSource src;
         public AudioClip takeDamageSound;
         public AudioClip deathSound;
         private bool locked = false;
+        public CanvasGroup playerDeathScreen;
+        public CanvasGroup playerHitIndicator;
 
         private int numb = 1;
 
@@ -58,6 +61,8 @@ namespace Entities
             currentGoldUI = GameObject.Find("Player-Gold").GetComponentInChildren<TextMeshProUGUI>();
             damageFX = GameObject.Find("GetHitIndicator").GetComponent<Image>();
             potionsInventory = GetComponent<PotionInventory>();
+            playerDeathScreen = GameObject.Find("PlayerDeathScreen").GetComponent<CanvasGroup>();
+            playerHitIndicator = GameObject.Find("GetHitIndicator").GetComponent<CanvasGroup>();
 
             // Assign values:
             entityName = "Jargleblarg The Great";
@@ -72,7 +77,8 @@ namespace Entities
             attackDelay = 0.8f;
             settingsMenuState = false;
             isAlive = true;
-            deathScreen.SetActive(false);
+            FinishedFading = false;
+            //deathScreen.SetActive(false);
         }
 
 
@@ -80,8 +86,7 @@ namespace Entities
         {
             if (currentHealth <= 0 && isAlive)
             {
-                OnDeath();
-                isAlive = false;
+                Death();
             }
             else if (isAlive)
             {
@@ -100,14 +105,41 @@ namespace Entities
             }
         }
 
+
+        private void Death()
+        {
+            if (FinishedFading == false)
+            {
+                if (playerDeathScreen.alpha <= 1)
+                {
+                    GetComponent<FirstPersonController>().enabled = false;
+                    playerHitIndicator.alpha -= Time.deltaTime;
+                    playerDeathScreen.alpha += Time.deltaTime;
+                }
+
+                if (playerDeathScreen.alpha == 1)
+                {
+                    Time.timeScale = 0;
+                    GetComponent<FirstPersonController>().enabled = false;
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                    src.PlayOneShot(deathSound);
+                    playerDeathScreen.interactable = true;
+                    playerDeathScreen.blocksRaycasts = true;
+                    isAlive = false;
+                    FinishedFading = true;
+                }
+            }
+        }
+
         // Reduces current HP:
         public override void TakeDamage(int damage)
         {
             base.TakeDamage(damage);
-            if(hpBarSlider.transform.GetChild(0).GetComponent<Image>().color != Color.white)
+            if (hpBarSlider.transform.GetChild(0).GetComponent<Image>().color != Color.white)
                 StartCoroutine(ChangeHpBarColor());
             hpBarSlider.value = currentHealth;
-          
+
             // Play sound when unlocked
             if (!locked)
             {
@@ -119,7 +151,7 @@ namespace Entities
 
             damageFX.color = new Color(1, 0, 0, 0.4f);
         }
-        
+
         // Change color of HP bar when hit:
         private IEnumerator ChangeHpBarColor()
         {
@@ -137,19 +169,19 @@ namespace Entities
             locked = false;
         }
 
-        // Reset the scene:
-        public override void OnDeath() 
-        {
-            deathScreen.SetActive(true);
+        //Reset the scene
+        //public override void OnDeath()
+        //{
+        //deathScreen.SetActive(true);
 
-            Time.timeScale = 0;
-            GetComponent<FirstPersonController>().enabled = false;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+        //GetComponent<FirstPersonController>().enabled = false;
+        //Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
+        //Time.timeScale = 0;
 
-            src.PlayOneShot(deathSound);
-        }
-        
+        //src.PlayOneShot(deathSound);
+        //}
+
 
         // Processes activated when attacking (including collider and animation):
         private IEnumerator AttackCooldown()
@@ -161,7 +193,7 @@ namespace Entities
             weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
 
             yield return new WaitForSeconds(weapon.attackSpeed);
-        
+
             weaponAnimator.SetBool(AttackWithSword0, false);
             weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, false);
 
@@ -170,22 +202,22 @@ namespace Entities
         // Check if the player has fallen off the world:
         private void FallCheck()
         {
-            if(transform.position.y <= -100.0f) OnDeath();
+            if (transform.position.y <= -100.0f) OnDeath();
         }
 
         // Process all player input relating to the player:
         private void ProcessInput()
         {
             // Toggle settings menu:
-            if(Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if(settingsMenuState == false && shopMenuState == false)
+                if (settingsMenuState == false && shopMenuState == false)
                 {
                     // Unlock cursor:
                     GetComponent<FirstPersonController>().enabled = false;
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
-                
+
                     // Open settings menu and pause game
                     settingsMenu.SwitchSetting(0);
                     settingsMenuState = true;
@@ -197,13 +229,13 @@ namespace Entities
                     settingsMenu.SwitchSetting(2);
                     settingsMenuState = false;
                     Time.timeScale = 1;
-                
+
                     // Give cursor control back to FPS controller:
                     GetComponent<FirstPersonController>().enabled = true;
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
                 }
-           
+
             }
 
             // Using potions:
@@ -234,8 +266,8 @@ namespace Entities
                     attackTimer = attackDelay;
                 }
             }
-            
-            
+
+
         }
 
         // Displays (to UI) the players gold:
@@ -246,7 +278,7 @@ namespace Entities
 
         private void UsePotion(int potionSlot)
         {
-            if (GameObject.Find("Slot-" + potionSlot).GetComponent<Image>().isActiveAndEnabled && 
+            if (GameObject.Find("Slot-" + potionSlot).GetComponent<Image>().isActiveAndEnabled &&
                 !potionsInventory.isPotionActive)
             {
                 potionsInventory.UsePotion(potionsInventory.potions[potionSlot]);
