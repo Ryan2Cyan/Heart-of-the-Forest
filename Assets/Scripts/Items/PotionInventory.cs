@@ -44,9 +44,9 @@ namespace Items
             damageSprite = Resources.Load<Sprite>("Sprites/damage-potion");
             
             // Assign prices:
-            healthPrice = 150;
-            speedPrice = 100;
-            damagePrice = 200;
+            healthPrice = 200;
+            speedPrice = 125;
+            damagePrice = 150;
             healthPriceGUI.text = healthPrice.ToString();
             speedPriceGUI.text = speedPrice.ToString();
             damagePriceGUI.text = damagePrice.ToString();

@@ -312,13 +312,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
+  maxHealth: 0
   weapon: {fileID: 6346224260226283443}
   enemyType: 3
   enemyNavMesh: {fileID: 7416612453443439326}
   isAttacking: 0
   isDead: 0
   isDamaged: 0
-  goldDrop: 5
+  goldDrop: 15
   model: {fileID: 845764426312504428}
   damageMat: {fileID: 2100000, guid: 63ab3021a3b546f4fbfdd029305eefeb, type: 2}
   deathMat: {fileID: 9184574335478674445, guid: 847f8760276c9104ca88c989fc7d4876,
@@ -505,6 +506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walk: {fileID: 8300000, guid: eb49f72bb0b906a4fa63686a9223bb8b, type: 3}
+  WalkVFX: {fileID: 0}
 --- !u!1001 &9089956757193932092
 PrefabInstance:
   m_ObjectHideFlags: 0

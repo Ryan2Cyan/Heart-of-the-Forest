@@ -25,9 +25,8 @@ namespace Entities
         private const float damageTime = 0.15f;
         private float damageCounter;
         [SerializeField] private int goldDrop;
-        private const int goldMod = 5;
-        private float blackSkellySearchRange = 40;
-        private float yellowSkellySearchRange = 3;
+        private const int goldMod = 10;
+        private float searchRange;
         // Materials:
         public SkinnedMeshRenderer model;
         private Material defaultMat;
@@ -63,12 +62,14 @@ namespace Entities
             {
                 case EnemyType.BlackSkeleton:
                     maxHealth = 50 + 20 * CalcHpMod();
+                    searchRange = 30f;
                     break;
                 case EnemyType.LargeSkeleton:
                     maxHealth = 250 + 50 * CalcHpMod();
                     break;
                 case EnemyType.YellowSkeleton:
                     maxHealth = 40 + 20 * CalcHpMod();
+                    searchRange = 4f;
                     break;
                 case EnemyType.Bat:
                     maxHealth = 20 + 20 * CalcHpMod();
@@ -96,7 +97,7 @@ namespace Entities
                 switch (enemyType)
                 {
                     case EnemyType.BlackSkeleton: // Attacks player if in range, else core
-                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= blackSkellySearchRange && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= blackSkellySearchRange)
+                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= searchRange && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= searchRange)
                         {
                             enemyNavMesh.SetDestination(player.transform.position);
                         }
@@ -107,7 +108,7 @@ namespace Entities
                         }
                         break;
                     case EnemyType.YellowSkeleton: // Attacks 1 of 3 buildings
-                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= yellowSkellySearchRange && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= yellowSkellySearchRange)
+                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= searchRange && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= searchRange)
                         {
                             enemyNavMesh.SetDestination(player.transform.position);
                         }
@@ -195,7 +196,7 @@ namespace Entities
 
         private void DropGold()
         {
-            playerScript.currentGold += goldDrop + goldMod * playerScript.goldAccumulationLvl;
+            playerScript.currentGold += Random.Range(Mathf.RoundToInt(goldDrop/2), Mathf.RoundToInt((goldDrop * 3) /2)) + (goldMod * playerScript.goldAccumulationLvl);
         }
 
         // Calculates how much extra HP the enemy gets (on spawn):
@@ -264,7 +265,7 @@ namespace Entities
                             {
                                 // If yellow skeleton is close to its target, attack it:
                                 // This avoids the skeleton attacking buildings while walking by.
-                                if(Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= yellowSkellySearchRange && Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= yellowSkellySearchRange)
+                                if(Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= searchRange && Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= searchRange)
                                 {
                                     Attack(other.gameObject.GetComponent<Entity>());
                                     other.GetComponent<Shopkeep>().UpdateHPBars();
@@ -369,7 +370,7 @@ namespace Entities
                 case EnemyType.YellowSkeleton:
                     if (other.gameObject.CompareTag("Building"))
                     {
-                        if (Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= yellowSkellySearchRange && Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= yellowSkellySearchRange)
+                        if (Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= searchRange && Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= searchRange)
                         {
                             isAttacking = true;
                         }

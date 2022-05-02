@@ -439,8 +439,8 @@ namespace Entities
         public void UpgradePotionSlot()
         {
             UpgradeIncSprites(
-                250,
-                100,
+                125,
+                125,
                 ref potionInventory.maxSlots,
                 "PotionSlot",
                 Resources.Load<Sprite>("Sprites/leggings-tier1"),

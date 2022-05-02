@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
+  maxHealth: 0
   weapon: {fileID: 6346224260226283443}
   enemyType: 1
   enemyNavMesh: {fileID: 7416612453443439326}
@@ -601,6 +602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walk: {fileID: 8300000, guid: 0f6178cfdd70ab24ebdccbba453126f9, type: 3}
+  WalkVFX: {fileID: 0}
 --- !u!1 &8665475196082477204
 GameObject:
   m_ObjectHideFlags: 0
