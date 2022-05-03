@@ -1,6 +1,6 @@
 using System.Collections;
+using Core;
 using Items;
-using TDG.Entity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,177 +10,127 @@ namespace Entities
 {
     public class Player : Entity
     {
-
-        [SerializeField] private SettingsMenu settingsMenu;
+        // Other:
+        private FirstPersonController firstPersonController;
 
         // GUI:
-        [SerializeField] private TextMeshProUGUI hpText;
         private Slider hpBarSlider;
-        private TextMeshProUGUI currentGoldUI;
+        private Image hpBarFill;
+        private TextMeshProUGUI hpText;
+        private TextMeshProUGUI currentGoldText;
         private Image damageFX;
-        [SerializeField] private GameObject deathScreen;
+        [SerializeField] private SettingsMenu settingsMenu;
+        private CanvasGroup playerDeathScreen;
+        private bool FinishedFading;
 
         // State variables:
-        public float attackDelay;
+        public float attackDelay { get; set; }
+        public int currentGold { get; set; }
+        public int globalGold { get; set; }
+        public bool shopMenuState { get; set; }
         private float attackTimer;
         private bool useAttack0;
-        public int currentGold;
         private bool settingsMenuState;
-        public bool shopMenuState;
         private Animator weaponAnimator;
-        private BoxCollider weaponBoxCollider;
         public int speedLvl;
         public int resistanceLvl;
         public int goldAccumulationLvl;
         private PotionInventory potionsInventory;
-        private bool isAlive;
-        private bool FinishedFading;
 
-        public AudioSource src;
-        public AudioClip takeDamageSound;
-        public AudioClip deathSound;
-        private bool locked = false;
-        public CanvasGroup playerDeathScreen;
-        public CanvasGroup playerHitIndicator;
+        // Audio:
+        public AudioSource src { get; private set; }
+        private AudioClip takeDamageSound;
+        private AudioClip deathSound;
+        private bool locked;
 
-        private int numb = 1;
-
-        // Indexes:
+        // Animator indexes:
         private static readonly int AttackWithSword = Animator.StringToHash("AttackWithSword");
         private static readonly int AttackWithSword0 = Animator.StringToHash("AttackWithSword0");
-
-        // Start is called before the first frame update
+        
         private void Start()
         {
             // Fetch components:
             weapon = transform.GetChild(0).transform.GetChild(0).GetComponent<Weapon>();
             weaponAnimator = weapon.gameObject.GetComponent<Animator>();
-            weaponBoxCollider = weapon.gameObject.GetComponent<BoxCollider>();
-            hpBarSlider = GameObject.Find("Health bar").GetComponent<Slider>();
-            currentGoldUI = GameObject.Find("Player-Gold").GetComponentInChildren<TextMeshProUGUI>();
+            hpBarSlider = GameObject.Find("HealthBar").GetComponent<Slider>();
+            hpBarFill = hpBarSlider.transform.GetChild(0).GetComponent<Image>();
+            hpText = GameObject.Find("HPText").GetComponent<TextMeshProUGUI>();
+            currentGoldText = GameObject.Find("Player-Gold").GetComponentInChildren<TextMeshProUGUI>();
             damageFX = GameObject.Find("GetHitIndicator").GetComponent<Image>();
             potionsInventory = GetComponent<PotionInventory>();
             playerDeathScreen = GameObject.Find("PlayerDeathScreen").GetComponent<CanvasGroup>();
-            playerHitIndicator = GameObject.Find("GetHitIndicator").GetComponent<CanvasGroup>();
+            firstPersonController = GetComponent<FirstPersonController>();
+            src = GetComponent<AudioSource>();
+            takeDamageSound = Resources.Load<AudioClip>("Sounds/SFX/AlexSFX/player-getting-hit");
+            deathSound = Resources.Load<AudioClip>("Sounds/SFX/AlexSFX/player-die");
 
             // Assign values:
-            entityName = "Jargleblarg The Great";
             maxHealth = 50;
-            currentHealth = maxHealth;
+            currentHealth = 1;
             hpBarSlider.maxValue = maxHealth;
             hpBarSlider.value = currentHealth;
             currentGold = 0;
+            globalGold = 0;
             weapon.attackSpeed = 0.2f;
             attackTimer = attackDelay;
-            weaponBoxCollider.enabled = false;
             attackDelay = 0.8f;
             settingsMenuState = false;
-            isAlive = true;
             FinishedFading = false;
-            //deathScreen.SetActive(false);
+            damageFX.gameObject.SetActive(false);
         }
-
-
+        
         private void Update()
         {
-            if (currentHealth <= 0 && isAlive)
-            {
+            if (currentHealth <= 0)
                 Death();
-            }
-            else if (isAlive)
+            else
             {
                 FallCheck();
                 ProcessInput();
-                AssignGold();
-                hpBarSlider.value = currentHealth;
-                hpText.text = Mathf.Floor(currentHealth) + " / " + maxHealth;
-
-                if (currentHealth > maxHealth)
-                {
-                    currentHealth = maxHealth;
-                }
-
-                damageFX.color = Color.Lerp(damageFX.color, new Color(1, 0, 0, 0), 2 * Time.deltaTime);
+                AssignGold(ref currentGoldText, currentGold);
+                UpdateHPBar(ref hpBarSlider, ref hpText, ref currentHealth, maxHealth);
+                FadeOutDamageVFX(ref damageFX);
             }
         }
-
-
+        
         private void Death()
         {
-            if (FinishedFading == false)
+            // Display how many waves the player survived:
+            playerDeathScreen.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                "Waves Survived:    " + GameObject.Find("GameState").GetComponent<GameState>().currentWave;
+            playerDeathScreen.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                "Total Gold:    " + globalGold;
+            
+            if (!FinishedFading)
             {
                 if (playerDeathScreen.alpha <= 1)
                 {
-                    GetComponent<FirstPersonController>().enabled = false;
-                    playerHitIndicator.alpha -= Time.deltaTime;
-                    playerDeathScreen.alpha += Time.deltaTime;
-                }
-
-                if (playerDeathScreen.alpha == 1)
-                {
-                    Time.timeScale = 0;
-                    GetComponent<FirstPersonController>().enabled = false;
+                    firstPersonController.enabled = false;
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
+                    playerDeathScreen.alpha += Time.deltaTime;
+                    damageFX.gameObject.SetActive(false);
+                }
+
+                if (playerDeathScreen.alpha >= 1)
+                {
+                    Time.timeScale = 0;
                     src.PlayOneShot(deathSound);
                     playerDeathScreen.interactable = true;
                     playerDeathScreen.blocksRaycasts = true;
-                    isAlive = false;
                     FinishedFading = true;
                 }
             }
         }
 
-        // Reduces current HP:
-        public override void TakeDamage(int damage)
-        {
-            base.TakeDamage(damage);
-            if (hpBarSlider.transform.GetChild(0).GetComponent<Image>().color != Color.white)
-                StartCoroutine(ChangeHpBarColor());
-            hpBarSlider.value = currentHealth;
-
-            // Play sound when unlocked
-            if (!locked)
-            {
-                src.PlayOneShot(takeDamageSound);
-                // Locked for time in Invoke
-                locked = true;
-                StartCoroutine(SetBoolBack());
-            }
-
-            damageFX.color = new Color(1, 0, 0, 0.4f);
-        }
-
         // Change color of HP bar when hit:
         private IEnumerator ChangeHpBarColor()
         {
-            var fill = hpBarSlider.transform.GetChild(0).GetComponent<Image>();
-            var originalColor = fill.color;
-            fill.color = Color.white;
+            var originalColor = hpBarFill.color;
+            hpBarFill.color = Color.white;
             yield return new WaitForSeconds(0.05f);
-            fill.color = originalColor;
+            hpBarFill.color = originalColor;
         }
-
-        // Set the bool back to play taking hit sounds
-        IEnumerator SetBoolBack()
-        {
-            yield return new WaitForSeconds(0.5f);
-            locked = false;
-        }
-
-        //Reset the scene
-        //public override void OnDeath()
-        //{
-        //deathScreen.SetActive(true);
-
-        //GetComponent<FirstPersonController>().enabled = false;
-        //Cursor.lockState = CursorLockMode.None;
-        //Cursor.visible = true;
-        //Time.timeScale = 0;
-
-        //src.PlayOneShot(deathSound);
-        //}
-
 
         // Processes activated when attacking (including collider and animation):
         private IEnumerator AttackCooldown()
@@ -188,14 +138,10 @@ namespace Entities
             useAttack0 = !useAttack0;
             // Animator speed is inverse of whatever weapon's attack speed is
             weaponAnimator.speed = Mathf.Abs(weapon.attackSpeed - 1);
-
             weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, true);
-
             yield return new WaitForSeconds(weapon.attackSpeed);
-
             weaponAnimator.SetBool(AttackWithSword0, false);
             weaponAnimator.SetBool(!useAttack0 ? AttackWithSword0 : AttackWithSword, false);
-
         }
 
         // Check if the player has fallen off the world:
@@ -213,7 +159,7 @@ namespace Entities
                 if (settingsMenuState == false && shopMenuState == false)
                 {
                     // Unlock cursor:
-                    GetComponent<FirstPersonController>().enabled = false;
+                    firstPersonController.enabled = false;
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
 
@@ -230,7 +176,7 @@ namespace Entities
                     Time.timeScale = 1;
 
                     // Give cursor control back to FPS controller:
-                    GetComponent<FirstPersonController>().enabled = true;
+                    firstPersonController.enabled = true;
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
                 }
@@ -269,12 +215,7 @@ namespace Entities
 
         }
 
-        // Displays (to UI) the players gold:
-        private void AssignGold()
-        {
-            currentGoldUI.text = currentGold.ToString();
-        }
-
+        // Activate potion in specified potion slot:
         private void UsePotion(int potionSlot)
         {
             if (GameObject.Find("Slot-" + potionSlot).GetComponent<Image>().isActiveAndEnabled &&
@@ -284,10 +225,47 @@ namespace Entities
                 potionsInventory.SetPotionIcons();
             }
         }
-
-        private enum PlayerClass
+        
+        // Reduce alpha of damage VFX and deactivate once non-visible:
+        private void FadeOutDamageVFX(ref Image damageVfxArg)
         {
-            Warrior
+            // Once active, reduce the alpha:
+            if(damageVfxArg.color.a > 0f && damageVfxArg.gameObject.activeInHierarchy)
+                damageFX.color = Color.Lerp(damageFX.color, new Color(1, 0, 0, 0), 2 * Time.deltaTime);
+            
+            // Once alpha is 0.001 or less, deactivate:
+            if(damageVfxArg.color.a <= 0.001f)
+                damageFX.gameObject.SetActive(false);
+        }
+        
+        // Displays (to UI) the players gold:
+        private static void AssignGold(ref TextMeshProUGUI goldText, int gold)
+        {
+            goldText.text = gold.ToString();
+        }
+        
+        // Updates the player's HP bar with their current HP:
+        private static void UpdateHPBar(ref Slider hpBarArg, ref TextMeshProUGUI hpTextArg, ref float currentHP, 
+            float maxHP)
+        {
+            hpBarArg.value = currentHP;
+            hpTextArg.text = Mathf.Floor(currentHP) + " / " + maxHP;
+            if (currentHP > maxHP)
+            {
+                currentHP = maxHP;
+            }
+        }
+
+        // Reduces current HP:
+        public override void TakeDamage(int damage)
+        {
+            base.TakeDamage(damage);
+            if (hpBarFill.color != Color.white)
+                StartCoroutine(ChangeHpBarColor());
+            hpBarSlider.value = currentHealth;
+            src.PlayOneShot(takeDamageSound);
+            damageFX.gameObject.SetActive(true);
+            damageFX.color = new Color(1, 0, 0, 0.4f);
         }
 
     }

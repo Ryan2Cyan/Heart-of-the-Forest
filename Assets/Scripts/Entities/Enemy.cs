@@ -1,6 +1,5 @@
 ﻿using System;
 using Core;
-using TDG.Entity;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -192,7 +191,11 @@ namespace Entities
 
         private void DropGold()
         {
-            playerScript.currentGold += Random.Range(Mathf.RoundToInt(goldDrop/2), Mathf.RoundToInt((goldDrop * 3) /2)) + (goldMod * playerScript.goldAccumulationLvl);
+            var gold = Random.Range(
+                Mathf.RoundToInt(goldDrop - 5), 
+                Mathf.RoundToInt(goldDrop + 10)) + goldMod * playerScript.goldAccumulationLvl;
+            playerScript.currentGold += gold;
+            playerScript.globalGold += gold;
         }
 
         // Calculates how much extra HP the enemy gets (on spawn):

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Core;
 using Items;
-using TDG.Entity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -144,7 +143,7 @@ namespace Entities
                 menu.SetActive(true);
                 interactButton.SetActive(false);
                 menuOpen = true;
-                player.GetComponent<Player>().shopMenuState = true;
+                playerScript.shopMenuState = true;
 
             }
             else if (Input.GetKeyDown(KeyCode.E) && menuOpen ||
@@ -156,7 +155,7 @@ namespace Entities
                 menu.SetActive(false);
                 menuOpen = false;
                 interactButton.SetActive(true);
-                player.GetComponent<Player>().shopMenuState = false;
+                playerScript.shopMenuState = false;
             }
 
             // Display night HP bars only at night:

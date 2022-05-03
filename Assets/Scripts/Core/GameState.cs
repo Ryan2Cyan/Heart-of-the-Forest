@@ -10,7 +10,6 @@ namespace Core
 {
     public class GameState : MonoBehaviour
     {
-
         // General
         private WaveSpawner waveSpawner;
         public bool isDay { get; private set; }
@@ -111,7 +110,7 @@ namespace Core
         }
 
         // True: Increment alpha to 1 at specified speed,
-        // False: Set objects alpha to 0.
+        // False: Set objects alpha to 0:
         private static void FadeText(ref TMP_Text textArg, ref bool arg, float fadeSpeed)
         {
             textArg.color = arg switch
@@ -123,6 +122,7 @@ namespace Core
             };
         }
         
+        // Switch from daytime, to nighttime:
         public void ToggleDay()
         {
             // Change to day

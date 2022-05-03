@@ -1,20 +1,15 @@
 using Items;
 using UnityEngine;
 
-namespace TDG.Entity
+namespace Entities
 {
     public abstract class Entity : MonoBehaviour
     {
-        protected string entityName;
         public float currentHealth;
         public float maxHealth;
-        protected int level;
         [SerializeField] public Weapon weapon;
 
-        public virtual void OnDeath()
-        {
-            //Destroy(gameObject);
-        }
+        public virtual void OnDeath() {}
 
         public virtual void TakeDamage(int damage)
         {
