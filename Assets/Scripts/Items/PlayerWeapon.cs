@@ -6,7 +6,6 @@ namespace Items
 {
     public class PlayerWeapon : MonoBehaviour
     {
-        private Player playerScript;
         [SerializeField] private Material bladeMat0;
         [SerializeField] private Material bladeMat1;
         [SerializeField] private Material bladeMat2;
@@ -19,7 +18,6 @@ namespace Items
         private void Start()
         {
             // Get components:
-            playerScript = GameObject.FindWithTag("Player").GetComponent<Player>();
             bladeRenderer = transform.GetChild(0).GetChild(1).GetComponent<Renderer>();
             
             // Set values:

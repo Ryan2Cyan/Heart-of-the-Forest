@@ -28,7 +28,6 @@ namespace Entities
             animator = transform.GetComponent<Animator>();
             parentScript = transform.parent.gameObject.GetComponent<Enemy>();
             src = gameObject.GetComponentInParent<AudioSource>();
-            //WalkVFX = FindObjectOfType<ParticleSystem>();
         }
 
         

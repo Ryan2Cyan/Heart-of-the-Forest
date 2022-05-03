@@ -3,7 +3,6 @@ using Core;
 using TDG.Entity;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace Entities

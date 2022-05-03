@@ -12,7 +12,6 @@ namespace Items
     {
         private GameObject player;
         private Player playerScript;
-        private FirstPersonController playerFpsController;
         private Sprite healthSprite;
         private Sprite speedSprite;
         private Sprite damageSprite;
@@ -36,7 +35,6 @@ namespace Items
         {
             player = GameObject.FindWithTag("Player");
             playerScript = player.GetComponent<Player>();
-            playerFpsController = player.GetComponent<FirstPersonController>();
             
             // Assign sprites:
             healthSprite = Resources.Load<Sprite>("Sprites/health-potion");

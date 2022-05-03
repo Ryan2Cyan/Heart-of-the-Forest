@@ -3,7 +3,6 @@ using Items;
 using TDG.Entity;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
 
