@@ -22,7 +22,6 @@ namespace Items
                 enemyScript.TakeDamage(weapon.damage);
                 enemyScript.isDamaged = true;
 
-                //Instantiate(hitVFX, transform.position, Quaternion.identity);
                 hitVFX.Play();
 
                 // play hit sound, don't play multiple sounds in the same swing 
@@ -32,10 +31,6 @@ namespace Items
                     locked = true;
                     StartCoroutine(SetBoolBack());                  
                 }
-                            
-                // // Calculate the direction between the player and enemy, then knock enemy back:
-                // var hitDir = -(player.transform.position = other.transform.position).normalized;
-                // other.GetComponent<Enemy>().Knockback(hitDir);
             }
         }
 

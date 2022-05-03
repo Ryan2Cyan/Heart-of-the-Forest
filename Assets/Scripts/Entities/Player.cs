@@ -66,7 +66,7 @@ namespace Entities
 
             // Assign values:
             maxHealth = 50;
-            currentHealth = 1;
+            currentHealth = maxHealth;
             hpBarSlider.maxValue = maxHealth;
             hpBarSlider.value = currentHealth;
             currentGold = 0;

@@ -10,33 +10,39 @@ namespace Entities
     {
         private GameObject player;
         private Player playerScript;
+        private GameState gameState;
         
         
         // States
         public EnemyType enemyType;
         public NavMeshAgent enemyNavMesh;
-        private WaveSpawner waveSpawner;
         public bool isAttacking;
         public bool isDead;
         public bool isDamaged;
+        private WaveSpawner waveSpawner;
         private float attackTimer;
         private const float damageTime = 0.15f;
         private float damageCounter;
         [SerializeField] private int goldDrop;
         private const int goldMod = 10;
         private float searchRange;
+        private float baseHP;
+        private float hpIncrement;
+        
         // Materials:
         public SkinnedMeshRenderer model;
         private Material defaultMat;
         [SerializeField] private Material damageMat;
         [SerializeField] private Material deathMat;
+        
         // Buildings:
         private GameObject armorsmith;
         private GameObject alchemist;
         private GameObject blacksmith;
         private int buildingTarget;
         private GameObject core;
-        private GameState gameState;
+
+        // Audio:
         private AudioSource src;
         public AudioClip deadSound;
         public AudioClip hitBuildingSound;
@@ -59,21 +65,31 @@ namespace Entities
             switch (enemyType)
             {
                 case EnemyType.BlackSkeleton:
-                    maxHealth = 50 + 20 * CalcHpMod();
+                    baseHP = 50f;
+                    hpIncrement = 20f;
+                    maxHealth = CalcHpMod(5f, baseHP, hpIncrement);
                     searchRange = 30f;
                     break;
                 case EnemyType.LargeSkeleton:
-                    maxHealth = 250 + 50 * CalcHpMod();
+                    baseHP = 250f;
+                    hpIncrement = 50f;
+                    maxHealth = CalcHpMod(5f, baseHP, hpIncrement);
                     break;
                 case EnemyType.YellowSkeleton:
-                    maxHealth = 40 + 20 * CalcHpMod();
+                    baseHP = 40f;
+                    hpIncrement = 20f;
+                    maxHealth = CalcHpMod(5f, baseHP, hpIncrement);
                     searchRange = 4f;
                     break;
                 case EnemyType.Bat:
-                    maxHealth = 20 + 20 * CalcHpMod();
+                    baseHP = 20f;
+                    hpIncrement = 20f;
+                    maxHealth = CalcHpMod(5f, baseHP, hpIncrement);
                     break;
                 case EnemyType.LargeBat:
-                    maxHealth = 150 + 30 * CalcHpMod();
+                    baseHP = 150f;
+                    hpIncrement = 50f;
+                    maxHealth = CalcHpMod(5f, baseHP, hpIncrement);
                     break;
                 case EnemyType.None:
                     break;
@@ -92,24 +108,33 @@ namespace Entities
         {
             if (!isDead) // If alive:
             {
-                switch (enemyType)
+                SetTarget(enemyType);
+                MatDamage();
+                if (currentHealth <= 0) // If dead:
                 {
-                    case EnemyType.BlackSkeleton: // Attacks player if in range, else core
-                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= searchRange && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= searchRange)
-                        {
-                            enemyNavMesh.SetDestination(player.transform.position);
-                        }
+                    OnDeath();
+                    DropGold();
+                    gameState.transform.GetChild(0).GetComponent<WaveSpawner>().aliveEnemies.Remove(gameObject);
+                }
+            }
+        }
 
-                        else
-                        {
-                            enemyNavMesh.SetDestination(core.transform.position);
-                        }
-                        break;
-                    case EnemyType.YellowSkeleton: // Attacks 1 of 3 buildings
-                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= searchRange && Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= searchRange)
-                        {
+        // Sets the target for the enemy depending on the type:
+        private void SetTarget(EnemyType arg)
+        {
+            switch (arg)
+                {
+                    case EnemyType.BlackSkeleton: // Attacks player if in range, else core:
+                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= searchRange && 
+                            Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= searchRange)
                             enemyNavMesh.SetDestination(player.transform.position);
-                        }
+                        else
+                            enemyNavMesh.SetDestination(core.transform.position);
+                        break;
+                    case EnemyType.YellowSkeleton: // Attacks 1 of 3 buildings (randomly selected):
+                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= searchRange && 
+                            Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= searchRange)
+                            enemyNavMesh.SetDestination(player.transform.position);
                         else
                         {
                             switch (buildingTarget)
@@ -127,13 +152,13 @@ namespace Entities
                             }
                         }
                         break;
-                    case EnemyType.Bat: // Attacks player
+                    case EnemyType.Bat: // Attacks player:
                         enemyNavMesh.SetDestination(player.transform.position);
                         break;
-                    case EnemyType.LargeSkeleton: // Attacks core
+                    case EnemyType.LargeSkeleton: // Attacks core:
                         enemyNavMesh.SetDestination(core.transform.position);
                         break;
-                    case EnemyType.LargeBat: // Attacks 1 of 3 buildings
+                    case EnemyType.LargeBat: // Attacks 1 of 3 buildings (randomly selected):
                         switch (buildingTarget)
                         {
                             case 1:
@@ -147,21 +172,13 @@ namespace Entities
                                 break;
                         }
                         break;
-                    
+                    case EnemyType.None:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(arg), arg, null);
                 }
-                if (isDamaged) // If damaged
-                {
-                    TakeDamage();
-                }
-                if (currentHealth <= 0) // If dead
-                {
-                    OnDeath();
-                    DropGold();
-                    gameState.transform.GetChild(0).GetComponent<WaveSpawner>().aliveEnemies.Remove(gameObject);
-                }
-            }
         }
-
+        
         // Enemy deals damage to the player:
         private void Attack(Entity target)
         {
@@ -173,22 +190,7 @@ namespace Entities
             }
         }
 
-        // Activate on death:
-        public override void OnDeath()
-        {
-            waveSpawner.aliveEnemies.Remove(gameObject);
-            isDead = true;
-            if (enemyType == EnemyType.Bat || enemyType == EnemyType.LargeBat)
-            {
-                enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.  
-            }
-            src.PlayOneShot(deadSound);
-            enemyNavMesh.enabled = false;
-            model.material = deathMat;
-            gameObject.GetComponent<Enemy>().enabled = false;
-            gameObject.GetComponent<SphereCollider>().enabled = false;
-        }
-
+        // Give player specified amount of gold:
         private void DropGold()
         {
             var gold = Random.Range(
@@ -199,21 +201,24 @@ namespace Entities
         }
 
         // Calculates how much extra HP the enemy gets (on spawn):
-        private float CalcHpMod()
+        private float CalcHpMod(float waveToIncrement, float baseHp, float increment)
         {
-            return Mathf.Floor(gameState.currentWave / 5f);
+            return baseHp + increment * Mathf.Floor(gameState.currentWave / waveToIncrement);
         }
         
         // Change material for brief time when hit:
-        private void TakeDamage()
+        private void MatDamage()
         {
-            damageCounter -= Time.deltaTime;
-            model.material = damageMat;
-            if (damageCounter <= 0.0f)
+            if (isDamaged)
             {
-                model.material = defaultMat;
-                damageCounter = damageTime;
-                isDamaged = false;
+                damageCounter -= Time.deltaTime;
+                model.material = damageMat;
+                if (damageCounter <= 0.0f)
+                {
+                    model.material = defaultMat;
+                    damageCounter = damageTime;
+                    isDamaged = false;
+                }
             }
         }
         
@@ -236,8 +241,9 @@ namespace Entities
                             if (!isDead)
                             {
                                 // If black skeleton is close to its target, attack it:
-                                // This avoids the skeleton attacking buildings while walking by.
-                                if (Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= 5 && Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= 5)
+                                // NOTE: This avoids the skeleton attacking buildings while walking by:
+                                if (Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= 5 && 
+                                    Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= 5)
                                 {
                                     Attack(other.gameObject.GetComponent<Entity>());
                                     other.GetComponent<Shopkeep>().UpdateHPBars();
@@ -245,7 +251,7 @@ namespace Entities
                                     attackTimer = weapon.attackSpeed;
                                 }
 
-                                    if (other.gameObject.GetComponent<Shopkeep>().isDead)
+                                if (other.gameObject.GetComponent<Shopkeep>().isDead)
                                 {
                                     // Game over:
                                     gameState.CoreDestroyed();
@@ -253,7 +259,6 @@ namespace Entities
                             }
                         }
                         break;
-                    
                     case EnemyType.Bat:
                         if (other.gameObject.CompareTag("Player") && attackTimer <= 0.0f)
                         {
@@ -261,7 +266,6 @@ namespace Entities
                             attackTimer = weapon.attackSpeed;
                         }
                         break;
-                    
                     case EnemyType.YellowSkeleton:
                         if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
                         {
@@ -296,7 +300,6 @@ namespace Entities
                             attackTimer = weapon.attackSpeed;
                         }
                         break;
-                    
                     case EnemyType.LargeSkeleton:
                         if (other.gameObject.CompareTag("Core") && attackTimer <= 0.0f)
                         {
@@ -312,7 +315,6 @@ namespace Entities
                             }
                         }
                         break;
-                    
                     case EnemyType.LargeBat:
                         if (other.gameObject.CompareTag("Building") && attackTimer <= 0.0f)
                         {
@@ -382,7 +384,7 @@ namespace Entities
                     {
                         isAttacking = true;
                     }
-                        break;
+                    break;
                 case EnemyType.LargeSkeleton:
                     if (other.gameObject.CompareTag("Core"))
                     {
@@ -395,6 +397,10 @@ namespace Entities
                         isAttacking = true;
                     }
                     break;
+                case EnemyType.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         } 
         
@@ -422,7 +428,27 @@ namespace Entities
                         isAttacking = false;
                     }
                     break;
+                case EnemyType.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+        }
+        
+        // Activate on death:
+        public override void OnDeath()
+        {
+            waveSpawner.aliveEnemies.Remove(gameObject);
+            isDead = true;
+            if (enemyType == EnemyType.Bat || enemyType == EnemyType.LargeBat)
+            {
+                enemyNavMesh.baseOffset = 0.2f; // Move enemy to ground if bat.  
+            }
+            src.PlayOneShot(deadSound);
+            enemyNavMesh.enabled = false;
+            model.material = deathMat;
+            gameObject.GetComponent<Enemy>().enabled = false;
+            gameObject.GetComponent<SphereCollider>().enabled = false;
         }
     }
 
