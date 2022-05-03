@@ -20,14 +20,14 @@ namespace Core
         private TMP_Text waveCountUI;
         private TMP_Text waveCompleteText;
         private Image waveIcon;
+        [SerializeField] private GameObject coreGameOverScreen;
+        [SerializeField] private GameObject waveCompleteScreen;
+        [SerializeField] private GameObject lightingManager;
         private bool waitingForDay;
         private float dayLimitedTimer;
         public float maximumDayTime { get; private set; }
-    
-        [SerializeField] private GameObject coreGameOverScreen;
-        [SerializeField] private GameObject waveCompleteScreen;
-        [SerializeField] private TMP_Text dayTimerText;
-        [SerializeField] private GameObject lightingManager;
+        public GameObject dayTimerIcon { get; private set; }
+        private TMP_Text dayTimerText;
 
         // Audio:
         private AudioSource src;
@@ -47,6 +47,8 @@ namespace Core
             daySrc = GameObject.Find("MusicPlayer").transform.GetChild(0).GetComponent<AudioSource>();
             nightSrc = GameObject.Find("MusicPlayer").transform.GetChild(1).GetComponent<AudioSource>();
             waveCompleteText = waveCompleteScreen.GetComponent<TMP_Text>();
+            dayTimerIcon = GameObject.Find("DayTimerIcon");
+            dayTimerText = GameObject.Find("DayTimer").GetComponent<TextMeshProUGUI>();
 
             // Set values:
             nightTransitionSound = Resources.Load<AudioClip>("Sounds/SFX/AlexSFX/night-transition");
@@ -62,45 +64,49 @@ namespace Core
     
         private void Update()
         {
-            // Increment daytime counter (during day):
-            if (isDay)
-            {
-                dayLimitedTimer += 1 * Time.deltaTime;
-                dayTimerText.transform.GetChild(0).GetComponent<TMP_Text>().text = (maximumDayTime - 
-                    Mathf.Round(dayLimitedTimer)).ToString(CultureInfo.InvariantCulture);
-            }
+            CheckCurrentWave();
+            CheckDayTimer(ref dayLimitedTimer, ref dayTimerText, isDay, maximumDayTime);
+            FadeText(ref waveCompleteText, ref waitingForDay, 2f);
+        }
 
+        // Check if the current wave has ended:
+        private void CheckCurrentWave()
+        {
             // If there are no enemies left, end the wave:
-            if (waveSpawner && 
-                Application.isPlaying && 
-                waveSpawner.aliveEnemies.Count <= 0 &&
+            if (waveSpawner.aliveEnemies.Count <= 0 &&
                 !isDay &&
                 !waitingForDay)
             {
                 StartCoroutine(FinishWave());
                 waitingForDay = true;
             }
-            
-            FadeText(ref waveCompleteText, ref waitingForDay, 2f);
-            CheckDayTimer(ref dayLimitedTimer, maximumDayTime);
         }
 
+        // Execute at the end of a wave:
         private IEnumerator FinishWave()
         {
             waveCompleteScreen.SetActive(true);
             yield return new WaitForSeconds(2f);
+            dayTimerIcon.SetActive(true);
             waveCompleteScreen.SetActive(false);
             ToggleDay();
             waitingForDay = false;
-            dayLimitedTimer = 0f;
+            dayLimitedTimer = 0;
         }
 
         // If timer reaches the max threshold, automatically transition to next wave:
-        private static void CheckDayTimer(ref float dayTimer, float maxVal)
+        private void CheckDayTimer(ref float dayTimer, ref TMP_Text timerTxt, bool isDayArg, float maxVal)
         {
             if (dayTimer >= maxVal)
             {
                 GameObject.Find("Core").GetComponent<Shopkeep>().StartNextWave();
+            }
+            
+            // Increment and display timer during day:
+            if (isDayArg)
+            {
+                dayTimer += 1 * Time.deltaTime;   
+                timerTxt.text = (maxVal - Mathf.Round(dayTimer)).ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -116,7 +122,7 @@ namespace Core
                 _ => textArg.color
             };
         }
-
+        
         public void ToggleDay()
         {
             // Change to day

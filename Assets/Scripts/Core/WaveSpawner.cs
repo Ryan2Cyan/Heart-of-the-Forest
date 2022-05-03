@@ -34,7 +34,8 @@ namespace Core
             // Check if the time of day is night
             if (!gameStateScript.isDay)
             {
-                enemiesToSpawn = gameStateScript.currentWave + 2;
+                // enemiesToSpawn = gameStateScript.currentWave + 2;
+                enemiesToSpawn = 1;
 
                 if (!spawned)
                 {
