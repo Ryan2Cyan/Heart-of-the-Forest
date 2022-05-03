@@ -31,7 +31,6 @@ public class MenuManager : MonoBehaviour
 
     public void PlayLevel()
     {
-        Debug.Log(CanPlaySelectedMode);
         if (CanPlaySelectedMode == true)
             if (LevelAlreadyLoading == true)
             {
