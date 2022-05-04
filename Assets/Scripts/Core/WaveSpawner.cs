@@ -42,7 +42,7 @@ namespace Core
                     for (var i = 0; i < amount; i++)
                     {
                         var position = centreOfSpawn.transform.position;
-                        var pos = RandomCircle(position, Random.Range(50f, 80f));
+                        var pos = RandomCircle(position, Random.Range(50f, 70f));
                         var rot = Quaternion.FromToRotation(Vector3.forward, position - pos);
                     
                         var randVal = Random.value;
