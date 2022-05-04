@@ -17,6 +17,7 @@ namespace Menu
         private void Awake()
         {
             afkTimer = 30f;
+            videoPlayer.color = new Color(1f, 1f, 1f, 0f);
             videoPlayer.gameObject.SetActive(false);
         }
 
@@ -32,8 +33,11 @@ namespace Menu
             // If player is afk for too long, start playing video:
             if(afkTimer <= 0)
             {
+                if(!videoPlayer.gameObject.activeInHierarchy)
+                    videoPlayer.gameObject.SetActive(true);
+                if(videoPlayer.color.a <= 1f)
+                    videoPlayer.color = Color.Lerp(videoPlayer.color, new Color(1, 1, 1, 1), 2 * Time.deltaTime);
                 menuSrc.volume = 0;
-                videoPlayer.gameObject.SetActive(true);
                 transform.GetComponent<VideoPlayer>().Play();
                 videoPlayer.gameObject.SetActive(true);
             }
@@ -41,18 +45,23 @@ namespace Menu
             // If player inputs any key or clicks, change to menu:
             if (Input.anyKey)
             {
-                videoPlayer.gameObject.SetActive(false);
-                afkTimer = 10f;
+                transform.GetComponent<VideoPlayer>().frame = 0;
+                if(videoPlayer.gameObject.activeInHierarchy)
+                    videoPlayer.gameObject.SetActive(false);
+                if(videoPlayer.color.a > 0.001f)
+                    videoPlayer.color = new Color(1f, 1f, 1f, 0f);
+                afkTimer = 25f;
                 menuSrc.volume = 1;
             }
 
             // Check if player is not afk via mouse movement and key input:
             if(afkTimer >= 0)
             {
-                if(Input.GetAxis("Mouse X") < 0 || Input.GetAxis("Mouse X") > 0 || Input.GetAxis("Mouse Y") > 0 || Input.GetAxis("Mouse Y") < 0 || Input.anyKey)
+                Debug.Log("Call");
+                if(Input.GetMouseButtonDown(0) || Input.anyKey)
                 {
                     videoPlayer.gameObject.SetActive(false);
-                    afkTimer = 10f;
+                    afkTimer = 25f;
                 }
             }
             
