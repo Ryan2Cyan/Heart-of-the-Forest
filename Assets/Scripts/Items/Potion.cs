@@ -12,8 +12,8 @@ namespace Items
             duration = type switch
             {
                 PotionType.Health => 0.5f,
-                PotionType.Speed => 5f,
-                PotionType.Damage => 10f,
+                PotionType.Speed => 20f,
+                PotionType.Damage => 15f,
                 _ => duration
             };
         }

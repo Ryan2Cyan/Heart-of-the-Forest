@@ -153,7 +153,6 @@ namespace Items
             }
         }
 
-
         // Changes the GUI to display what potions the player contains in their inventory:
         public void SetPotionIcons()
         {
