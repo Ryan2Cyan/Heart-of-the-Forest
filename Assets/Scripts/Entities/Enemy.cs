@@ -424,7 +424,6 @@ namespace Entities
                 case EnemyType.LargeBat:
                     if (other.gameObject.CompareTag("Building"))
                     {
-                        Debug.Log("Exit");
                         isAttacking = false;
                     }
                     break;
