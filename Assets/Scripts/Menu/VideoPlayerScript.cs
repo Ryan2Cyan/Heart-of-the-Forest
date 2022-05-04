@@ -7,22 +7,25 @@ namespace Menu
 {
     public class VideoPlayerScript : MonoBehaviour
     {
-        [SerializeField] private RawImage videoPlayer;
+        [SerializeField] private RawImage rawVideo;
         [SerializeField] private AudioSource menuSrc;
         [SerializeField] private TextMeshProUGUI inputText;
+        private VideoPlayer videoPlayer;
         private bool isTransparent;
         private float afkTimer;
 
         // Start is called before the first frame update
         private void Awake()
         {
+            videoPlayer = GetComponent<VideoPlayer>();
             afkTimer = 30f;
-            videoPlayer.color = new Color(1f, 1f, 1f, 0f);
-            videoPlayer.gameObject.SetActive(false);
+            rawVideo.color = new Color(1f, 1f, 1f, 0f);
+            rawVideo.gameObject.SetActive(false);
+            videoPlayer.SetDirectAudioVolume(0, 0);
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             // Increment timer:
             if(afkTimer >= 0)
@@ -33,23 +36,25 @@ namespace Menu
             // If player is afk for too long, start playing video:
             if(afkTimer <= 0)
             {
-                if(!videoPlayer.gameObject.activeInHierarchy)
-                    videoPlayer.gameObject.SetActive(true);
-                if(videoPlayer.color.a <= 1f)
-                    videoPlayer.color = Color.Lerp(videoPlayer.color, new Color(1, 1, 1, 1), 2 * Time.deltaTime);
+                if(!rawVideo.gameObject.activeInHierarchy)
+                    rawVideo.gameObject.SetActive(true);
+                if(rawVideo.color.a <= 1f)
+                    rawVideo.color = Color.Lerp(rawVideo.color, new Color(1, 1, 1, 1), 2 * Time.deltaTime);
                 menuSrc.volume = 0;
-                transform.GetComponent<VideoPlayer>().Play();
-                videoPlayer.gameObject.SetActive(true);
+                videoPlayer.Play();
+                videoPlayer.SetDirectAudioVolume(0, 1);
+                rawVideo.gameObject.SetActive(true);
             }
 
             // If player inputs any key or clicks, change to menu:
             if (Input.anyKey)
             {
-                transform.GetComponent<VideoPlayer>().frame = 0;
-                if(videoPlayer.gameObject.activeInHierarchy)
-                    videoPlayer.gameObject.SetActive(false);
-                if(videoPlayer.color.a > 0.001f)
-                    videoPlayer.color = new Color(1f, 1f, 1f, 0f);
+                videoPlayer.frame = 0;
+                videoPlayer.SetDirectAudioVolume(0, 0);
+                if(rawVideo.gameObject.activeInHierarchy)
+                    rawVideo.gameObject.SetActive(false);
+                if(rawVideo.color.a > 0.001f)
+                    rawVideo.color = new Color(1f, 1f, 1f, 0f);
                 afkTimer = 25f;
                 menuSrc.volume = 1;
             }
@@ -57,10 +62,11 @@ namespace Menu
             // Check if player is not afk via mouse movement and key input:
             if(afkTimer >= 0)
             {
-                Debug.Log("Call");
                 if(Input.GetMouseButtonDown(0) || Input.anyKey)
                 {
-                    videoPlayer.gameObject.SetActive(false);
+                    videoPlayer.SetDirectAudioVolume(0, 0);
+                    videoPlayer.Stop();
+                    rawVideo.gameObject.SetActive(false);
                     afkTimer = 25f;
                 }
             }
