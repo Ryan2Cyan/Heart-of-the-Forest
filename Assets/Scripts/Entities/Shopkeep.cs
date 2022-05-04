@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using Core;
 using Items;
 using TMPro;
@@ -11,6 +12,11 @@ namespace Entities
 {
     public class Shopkeep : Entity
     {
+        // Other:
+        [SerializeField] private ShopType shopType;
+        [SerializeField] private GameObject healthPotion;
+        [SerializeField] private GameObject speedPotion;
+        [SerializeField] private GameObject damagePotion;
         private bool playerCollision;
         private bool menuOpen;
         private GameObject lvl1Model;
@@ -22,33 +28,30 @@ namespace Entities
         private PlayerWeapon playerWeaponScript;
         private PotionInventory potionInventory;
         private GameState gameState;
-        private double corePassiveRegenDelay;
-        private double corePassiveRegenTimer;
+        private float corePassiveRegenDelay;
+        private float corePassiveRegenTimer;
         public bool isDead;
     
+        // UI:
         [SerializeField] private Slider hpBarSlider;
         [SerializeField] private Slider nightHpBarSlider;
         [SerializeField] private TextMeshProUGUI upgradePrice;
+        [SerializeField] private GameObject menu;
+        [SerializeField] private GameObject sign;
+        [SerializeField] private GameObject interactButton;
+        
+        // Audio:
+        [SerializeField] private AudioSource src;
         [SerializeField] private AudioClip repairSfx;
         [SerializeField] private AudioClip destroySfx;
         [SerializeField] private AudioClip nullSfx;
         [SerializeField] private AudioClip purchaseSfx;
         [SerializeField] private AudioClip UpgradeBuildingSfx;
         [SerializeField] private AudioClip buyPotionSfx;
-        [SerializeField] private AudioSource src;
-        [SerializeField] private ShopType shopType;
-        [SerializeField] private GameObject interactButton;
-        [SerializeField] private GameObject menu;
-        [SerializeField] private GameObject sign;
         [SerializeField] private ParticleSystem damagePfx;
-        [SerializeField] private GameObject healthPotion;
-        [SerializeField] private GameObject speedPotion;
-        [SerializeField] private GameObject damagePotion;
-    
 
-    
-    
 
+        
         private void Start()
         {   
             // Get components:
@@ -77,61 +80,78 @@ namespace Entities
             {
                 hpBarSlider.maxValue = maxHealth;
                 hpBarSlider.value = maxHealth;
-                hpBarSlider.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = currentHealth.ToString();
+                hpBarSlider.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 
+                    currentHealth.ToString(CultureInfo.InvariantCulture);
             }
         }
 
         private void Update()
         {
-            // Core Passive Health Regen:
-            if(shopType == ShopType.Core)
-            {
-                if(currentHealth < maxHealth)
-                {
-                    if (!gameState.isDay)
-                    {
-                        corePassiveRegenTimer -= 1 * Time.deltaTime;
-                        if(corePassiveRegenTimer <= 0)
-                        {
-                            currentHealth += 1;
-                            corePassiveRegenTimer = corePassiveRegenDelay;
-                            UpdateHPBars();
-                        } 
-                    }
-                }
-            }
+            if (shopType == ShopType.Core)
+                if (!gameState.isDay)
+                    PassiveHpRegen(ref currentHealth, ref corePassiveRegenTimer, corePassiveRegenDelay, 1f);
 
-            // Display potions depending on shop level:
             if (shopType == ShopType.Alchemist)
+                UpdateAlchemistPotions();
+            
+            Interaction();
+
+            // Display night HP bars only at night:
+            if(nightHpBarSlider != null)
+                nightHpBarSlider.gameObject.SetActive(!gameState.isDay);
+
+            if (currentHealth <= 0 && !isDead)
             {
-                if (lvl1Model.activeInHierarchy)
-                {
-                    healthPotion.SetActive(true);
-                    speedPotion.SetActive(false);
-                    damagePotion.SetActive(false);
-                }
-                else if (lvl2Model.activeInHierarchy)
-                {
-                    healthPotion.SetActive(true);
-                    speedPotion.SetActive(true);
-                    damagePotion.SetActive(false);
-                
-                }
-                else if (lvl3Model.activeInHierarchy)
-                {
-                    healthPotion.SetActive(true);
-                    speedPotion.SetActive(true);
-                    damagePotion.SetActive(true);
-                    maxHealth = 1000;
-                }
-                else
-                {
-                    healthPotion.SetActive(false);
-                    speedPotion.SetActive(false);
-                    damagePotion.SetActive(false);
-                }
+                OnDeath();
             }
+        }
+
+        // Regenerate HP over time (only applicable to the core):
+        private void PassiveHpRegen(ref float hp, ref float timer, float delay, float increment)
+        {
+            timer -= 1 * Time.deltaTime;
+            if(timer <= 0 && currentHealth < maxHealth)
+            {
+                hp += increment;
+                timer = delay;
+                UpdateHPBars();
+            }
+        }
         
+        // Updates what potions are displaying in the potion shop:
+        private void UpdateAlchemistPotions()
+        {
+            if (lvl1Model.activeInHierarchy)
+            {
+                healthPotion.SetActive(true);
+                speedPotion.SetActive(false);
+                damagePotion.SetActive(false);
+            }
+            else if (lvl2Model.activeInHierarchy)
+            {
+                healthPotion.SetActive(true);
+                speedPotion.SetActive(true);
+                damagePotion.SetActive(false);
+                
+            }
+            else if (lvl3Model.activeInHierarchy)
+            {
+                healthPotion.SetActive(true);
+                speedPotion.SetActive(true);
+                damagePotion.SetActive(true);
+                maxHealth = 1000;
+            }
+            else
+            {
+                healthPotion.SetActive(false);
+                speedPotion.SetActive(false);
+                damagePotion.SetActive(false);
+            }
+        }
+
+        // Process user input to interact with the
+        private void Interaction()
+        {
             // It's daytime - menu interaction is active:
             // Check if the player is in range of the shop. Toggle menu by pressing "E":
             if (Input.GetKeyDown(KeyCode.E) && playerCollision && !menuOpen) // Open menu
@@ -157,30 +177,24 @@ namespace Entities
                 interactButton.SetActive(true);
                 playerScript.shopMenuState = false;
             }
-
-            // Display night HP bars only at night:
-            if(nightHpBarSlider != null)
-                nightHpBarSlider.gameObject.SetActive(!gameState.isDay);
-
-            if (currentHealth <= 0 && !isDead)
-            {
-                OnDeath();
-            }
         }
-
+        
         // Updates buildings HP bars:
         public void UpdateHPBars()
         {
-            if (currentHealth >= 0)
+            switch (currentHealth >= 0)
             {
-                // Core sliders:
-                hpBarSlider.maxValue = maxHealth;
-                hpBarSlider.value = currentHealth;
-                hpBarSlider.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = currentHealth.ToString();
+                case true:
+                    // Core sliders:
+                    hpBarSlider.maxValue = maxHealth;
+                    hpBarSlider.value = currentHealth;
+                    hpBarSlider.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 
+                        currentHealth.ToString(CultureInfo.CurrentCulture);
                 
-                // Night sliders:
-                nightHpBarSlider.maxValue = maxHealth;
-                nightHpBarSlider.value = currentHealth;
+                    // Night sliders:
+                    nightHpBarSlider.maxValue = maxHealth;
+                    nightHpBarSlider.value = currentHealth;
+                    break;
             }
         }
     
@@ -681,7 +695,7 @@ namespace Entities
         }
     
         // Quick method to calculate the rise in cost of an upgrade:
-        private int CalcCost(int startVal, int increment, int lvl)
+        private static int CalcCost(int startVal, int increment, int lvl)
         {
             var result = startVal;
             switch (lvl)
