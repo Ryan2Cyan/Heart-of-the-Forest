@@ -68,7 +68,7 @@ namespace Entities
                     baseHP = 50f;
                     hpIncrement = 20f;
                     maxHealth = CalcHpMod(5f, baseHP, hpIncrement);
-                    searchRange = 30f;
+                    searchRange = 40f;
                     break;
                 case EnemyType.LargeSkeleton:
                     baseHP = 250f;
@@ -125,16 +125,20 @@ namespace Entities
             switch (arg)
                 {
                     case EnemyType.BlackSkeleton: // Attacks player if in range, else core:
-                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= searchRange && 
-                            Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= searchRange)
-                            enemyNavMesh.SetDestination(player.transform.position);
-                        else
-                            enemyNavMesh.SetDestination(core.transform.position);
+                    if (Vector3.Distance(transform.position, player.transform.position) <= searchRange)
+                    {
+                        enemyNavMesh.SetDestination(player.transform.position);
+                    }
+                    else
+                    {
+                        enemyNavMesh.SetDestination(core.transform.position);
+                    }
                         break;
                     case EnemyType.YellowSkeleton: // Attacks 1 of 3 buildings (randomly selected):
-                        if (Math.Abs(Math.Abs(transform.position.x) - Math.Abs(player.transform.position.x)) <= searchRange && 
-                            Math.Abs(Math.Abs(transform.position.z) - Math.Abs(player.transform.position.z)) <= searchRange)
-                            enemyNavMesh.SetDestination(player.transform.position);
+                    if (Vector3.Distance(transform.position, player.transform.position) <= searchRange)
+                    {
+                        enemyNavMesh.SetDestination(player.transform.position);
+                    }
                         else
                         {
                             switch (buildingTarget)
@@ -242,8 +246,7 @@ namespace Entities
                             {
                                 // If black skeleton is close to its target, attack it:
                                 // NOTE: This avoids the skeleton attacking buildings while walking by:
-                                if (Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= 5 && 
-                                    Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= 5)
+                                if(Vector3.Distance(other.gameObject.transform.position, enemyNavMesh.destination) <= 5)    
                                 {
                                     Attack(other.gameObject.GetComponent<Entity>());
                                     other.GetComponent<Shopkeep>().UpdateHPBars();
@@ -273,7 +276,7 @@ namespace Entities
                             {
                                 // If yellow skeleton is close to its target, attack it:
                                 // This avoids the skeleton attacking buildings while walking by.
-                                if(Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= searchRange && Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= searchRange)
+                                if (Vector3.Distance(other.gameObject.transform.position, enemyNavMesh.destination) <= searchRange)
                                 {
                                     Attack(other.gameObject.GetComponent<Entity>());
                                     other.GetComponent<Shopkeep>().UpdateHPBars();
@@ -375,7 +378,7 @@ namespace Entities
                 case EnemyType.YellowSkeleton:
                     if (other.gameObject.CompareTag("Building"))
                     {
-                        if (Math.Abs(Math.Abs(other.gameObject.transform.position.x) - Math.Abs(enemyNavMesh.destination.x)) <= searchRange && Math.Abs(Math.Abs(other.gameObject.transform.position.z) - Math.Abs(enemyNavMesh.destination.z)) <= searchRange)
+                        if (Vector3.Distance(other.gameObject.transform.position, enemyNavMesh.destination) <= searchRange)
                         {
                             isAttacking = true;
                         }
