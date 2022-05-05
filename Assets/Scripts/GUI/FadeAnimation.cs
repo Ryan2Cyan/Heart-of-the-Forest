@@ -1,27 +1,15 @@
 using UnityEngine;
 
-public class FadeAnimation : MonoBehaviour
-{
-    [SerializeField] private CanvasGroup m_CanvasGroup;
-    [SerializeField] private bool CanFade;
-
-    public void Start()
+    public class FadeAnimation : MonoBehaviour
     {
-        CanFade = true;
-    }
+        [SerializeField] private CanvasGroup m_CanvasGroup;
 
-    public void Update()
-    {
-        if (CanFade == true)
+        private void Update()
         {
             if (m_CanvasGroup.alpha >= 0)
-            {
                 m_CanvasGroup.alpha -= Time.deltaTime;
-            }
+            
             if (m_CanvasGroup.alpha == 0)
-            {
-                CanFade = false;
-            }
+                enabled = false;
         }
     }
-}

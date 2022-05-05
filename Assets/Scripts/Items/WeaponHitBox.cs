@@ -11,7 +11,7 @@ namespace Items
         public AudioSource src;
         public AudioClip sfx;
         [SerializeField] private ParticleSystem hitVFX;
-        private bool locked = false;
+        private bool locked;
 
 
         private void OnTriggerEnter(Collider other)

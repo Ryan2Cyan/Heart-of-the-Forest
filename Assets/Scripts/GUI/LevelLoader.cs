@@ -31,7 +31,7 @@ public class LevelLoader : MonoBehaviour
         StartCoroutine(LoadAsynchronously(sceneNumber));
     }
 
-    IEnumerator LoadAsynchronously(int sceneNumber)
+    private IEnumerator LoadAsynchronously(int sceneNumber)
 	{
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneNumber, LoadSceneMode.Single);
 
