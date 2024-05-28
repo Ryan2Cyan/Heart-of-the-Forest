@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Selectable
+  - Canvas
+  - Enemy
+  - Building
+  - Core
+  - Music
+  - FireLight
   layers:
   - Default
   - TransparentFX
