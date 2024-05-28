@@ -23,3 +23,11 @@ You can try Heart of the Forest out for yourself - [here.](https://cyanryan50.it
 
 # Current Video Demonstration
 [Heart of the Forest: Project Submission Video Demo](https://drive.google.com/file/d/1cS5PLPmu78GSvz7v1XxaalXC_OpLmfPT/view?usp=drive_link) </br>
+
+# Contributions:
+Special thanks to the fellow students who worked with me and made this game possible:
+
+[<b>Ross Bates</b> - Programmer](https://github.com/Siohfox)</br>
+[<b>Deniss Kirillovs</b> - Game Designer](https://github.com/DenissKirillovs) </br>
+[<b>Alex Wilson</b> - Game Designer](https://github.com/AlexDoubleU)</br>
+<b>Toby Payne</b> - Producer</br>
